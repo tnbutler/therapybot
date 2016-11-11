@@ -18,7 +18,10 @@ class ChatFlow
     public function processUserAnswer($message)
     {
         $chatNode = $this->_getNextChatNode($message);
+
+        // Save the question
         $this->_logChatRecord($chatNode, true);
+
         return $chatNode;
     }
 

@@ -7,7 +7,6 @@ use App\Models\BotUser;
 use App\Models\NodeFlowRule;
 use Mockery\CountValidator\Exception;
 
-
 class NodeRulesProcessor
 {
     private $botUser;
@@ -27,7 +26,7 @@ class NodeRulesProcessor
         $nodeFlowRules = NodeFlowRule::where('parent_node_id', $this->chatNode->id)->get();
 
         if ($nodeFlowRules->isEmpty()) {
-            throw new Exception('No rules found for the question.');
+            throw new Exception(trans('exceptions.no_rules_found_for_node'));
         }
 
         // Process all the rules in cycle
@@ -38,11 +37,12 @@ class NodeRulesProcessor
             }
         }
 
-        throw new Exception('No rules applied to the answer.');
+        throw new Exception(trans('exceptions.no_rules_applied_to_answer'));
     }
 
     private function _processNodeRule(NodeFlowRule $nodeFlowRule)
     {
+        // TODO: Process rule instructions here
         return null;
     }
 }
