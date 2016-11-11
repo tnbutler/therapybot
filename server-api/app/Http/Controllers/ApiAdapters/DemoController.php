@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\ApiAdapters;
 
 use App\Http\Controllers\Controller;
+use App\Modules\Api\ApiRequestProcessor;
 
 class DemoController extends Controller
 {
     public function processWebHookCall()
     {
-        return 123;
+        $user = "5555";
+        $message = "Test Message";
+        $apiRequestProcessor = new ApiRequestProcessor();
+        return $apiRequestProcessor->processRequest($user, $message);
     }
 }
