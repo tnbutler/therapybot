@@ -42,8 +42,8 @@ class ChatFlow
         // Process user's reply to the question
         if (!$lastChatLogRecord->isEmpty()) {
             $chatNode = ChatNode::find($lastChatLogRecord->first()->chat_nodes_id);
-            $answerProcessor = new AnswerProcessor($this->botUser);
-            return $answerProcessor->process($message, $chatNode);
+            $answerProcessor = new AnswerProcessor($this->botUser, $message, $chatNode);
+            return $answerProcessor->process();
         }
 
         // Ask the start question

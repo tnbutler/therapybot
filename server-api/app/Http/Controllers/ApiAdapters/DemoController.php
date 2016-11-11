@@ -16,7 +16,7 @@ class DemoController extends Controller
 
         $botUserProcessing = new BotUserProcessing();
         $user = $botUserProcessing->getOrCreate($userId);
-        
+
         $apiRequestProcessor = new ApiRequestProcessor($user);
 
         $response = $apiRequestProcessor->processRequest($message);
