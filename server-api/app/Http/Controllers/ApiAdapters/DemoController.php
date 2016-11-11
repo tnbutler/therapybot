@@ -11,11 +11,13 @@ class DemoController extends Controller
 {
     public function processWebHookCall(Request $request)
     {
-        $user = $request->input('user');
+        $userId = $request->input('user');
         $message = $request->input('message');
 
-        $userId = $this->_getUserId($user);
-        $apiRequestProcessor = new ApiRequestProcessor($userId);
+        $botUserProcessing = new BotUserProcessing();
+        $user = $botUserProcessing->getOrCreate($userId);
+        
+        $apiRequestProcessor = new ApiRequestProcessor($user);
 
         $response = $apiRequestProcessor->processRequest($message);
 
@@ -26,17 +28,6 @@ class DemoController extends Controller
         $this->_emulateTypingDelay();
 
         return json_encode($formattedResponse);
-    }
-
-    private function _getUserId($userId)
-    {
-        $botUserProcessing = new BotUserProcessing();
-
-        if (isset($userId) && $botUserProcessing->exists($userId)) {
-            return $userId;
-        }
-
-        return $botUserProcessing->createNew();
     }
 
     private function _emulateTypingDelay()

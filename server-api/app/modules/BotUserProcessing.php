@@ -2,21 +2,21 @@
 
 namespace App\Modules;
 
-use App\BotUser;
-
+use App\Models\BotUser;
 
 class BotUserProcessing
 {
-    public function exists($userId)
+    public function getOrCreate($userId)
     {
-        $users = BotUser::find($userId);
-        return sizeof($users) > 0;
-    }
+        // Try to find
+        $user = BotUser::find($userId);
+        if ($user) {
+            return $user;
+        }
 
-    public function createNew()
-    {
+        // Or create new
         $botUser = new BotUser;
         $botUser->save();
-        return $botUser->id;
+        return $botUser;
     }
 }

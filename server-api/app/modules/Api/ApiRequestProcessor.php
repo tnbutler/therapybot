@@ -2,18 +2,23 @@
 
 namespace App\Modules\Api;
 
+use App\Modules\LogicCore\ChatFlow;
+use App\Models\BotUser;
+
 class ApiRequestProcessor
 {
-    private $userId;
+    private $botUser;
 
-    function __construct($userId)
+    function __construct(BotUser $botUser)
     {
-        $this->userId = $userId;
+        $this->botUser = $botUser;
     }
 
     public function processRequest($message)
     {
-        $responseMessage = "Sample Response text, RE: " . $message;
-        return new ApiResponse($this->userId, $responseMessage);
+        $chatFlow = new ChatFlow($this->botUser);
+        $nextChatNode = $chatFlow->getNextChatNode();
+        $responseMessage = "RE: " . $message . ". " . $nextChatNode->question_text;
+        return new ApiResponse($this->botUser->id, $responseMessage);
     }
 }

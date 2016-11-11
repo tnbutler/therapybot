@@ -2,28 +2,41 @@
 
 namespace App\Modules\LogicCore;
 
+use App\Models\ChatLogRecord;
+use App\Models\ChatNode;
+use App\Models\BotUser;
+
 class ChatFlow
 {
-    private $userId;
+    private $botUser;
 
-    function __construct($userId)
+    function __construct(BotUser $botUser)
     {
-        $this->userId = $userId;
+        $this->botUser = $botUser;
     }
 
-    public function getNextQuestion()
+    public function getNextChatNode()
     {
-        // If there are no last nodes, then start with the first node
-        if ($this->_getLastNode() === false) {
+        $lastChatLogRecord = $this->_getLastChatLogRecord();
+        if (sizeof($lastChatLogRecord) > 0) {
             // TODO: Select one with the is_start_node = 1
+            echo "AAAA!";
+            return null;
         }
 
+        return $this->_getStartChatNode();
     }
 
-    private function _getLastNode()
+    private function _getStartChatNode()
     {
-        // TODO: select last node for this user ID
+        return ChatNode::where('is_start_node', 1)->first();
+    }
 
-        return false;
+    private function _getLastChatLogRecord()
+    {
+        return ChatLogRecord::where('bot_users_id', $this->botUser->id)
+            ->orderBy('created_at', 'desc')
+            ->take(1)
+            ->get();
     }
 }
