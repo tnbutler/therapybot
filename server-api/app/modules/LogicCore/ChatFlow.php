@@ -15,12 +15,10 @@ class ChatFlow
         $this->botUser = $botUser;
     }
 
-    public function getNextChatNode()
+    public function processUserAnswer($message)
     {
-        $chatNode = $this->_getNextChatNode();
-
+        $chatNode = $this->_getNextChatNode($message);
         $this->_logAskedQuestion($chatNode);
-
         return $chatNode;
     }
 
@@ -33,19 +31,22 @@ class ChatFlow
         $chatLogRecord->save();
     }
 
-    private function _getNextChatNode()
+    private function _getNextChatNode($message)
     {
+        // Find the lst asked question, if any
         $lastChatLogRecord = ChatLogRecord::where('bot_users_id', $this->botUser->id)
             ->orderBy('created_at', 'desc')
             ->take(1)
             ->get();
 
-        if (sizeof($lastChatLogRecord) > 0) {
-            // TODO: process answer somehow
-            echo "AAAA!";
-            return null;
+        // Process user's reply to the question
+        if (!$lastChatLogRecord->isEmpty()) {
+            $chatNode = ChatNode::find($lastChatLogRecord->first()->chat_nodes_id);
+            $answerProcessor = new AnswerProcessor;
+            return $answerProcessor->process($message, $chatNode);
         }
 
+        // Ask the start question
         return ChatNode::where('is_start_node', 1)->first();
     }
 }
