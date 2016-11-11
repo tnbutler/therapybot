@@ -17,26 +17,35 @@ class ChatFlow
 
     public function getNextChatNode()
     {
-        $lastChatLogRecord = $this->_getLastChatLogRecord();
+        $chatNode = $this->_getNextChatNode();
+
+        $this->_logAskedQuestion($chatNode);
+
+        return $chatNode;
+    }
+
+    private function _logAskedQuestion(ChatNode $chatNode)
+    {
+        $chatLogRecord = new ChatLogRecord;
+        $chatLogRecord->bot_users_id = $this->botUser->id;
+        $chatLogRecord->is_bot_question = true;
+        $chatLogRecord->chat_nodes_id = $chatNode->id;
+        $chatLogRecord->save();
+    }
+
+    private function _getNextChatNode()
+    {
+        $lastChatLogRecord = ChatLogRecord::where('bot_users_id', $this->botUser->id)
+            ->orderBy('created_at', 'desc')
+            ->take(1)
+            ->get();
+
         if (sizeof($lastChatLogRecord) > 0) {
-            // TODO: Select one with the is_start_node = 1
+            // TODO: process answer somehow
             echo "AAAA!";
             return null;
         }
 
-        return $this->_getStartChatNode();
-    }
-
-    private function _getStartChatNode()
-    {
         return ChatNode::where('is_start_node', 1)->first();
-    }
-
-    private function _getLastChatLogRecord()
-    {
-        return ChatLogRecord::where('bot_users_id', $this->botUser->id)
-            ->orderBy('created_at', 'desc')
-            ->take(1)
-            ->get();
     }
 }
