@@ -5,6 +5,8 @@ namespace App\Modules\LogicCore;
 use App\Models\ChatNode;
 use App\Models\BotUser;
 use App\Models\ChatLogRecord;
+use App\Models\NodeFlowRule;
+use Mockery\CountValidator\Exception;
 
 class AnswerProcessor
 {
@@ -28,7 +30,27 @@ class AnswerProcessor
 
     private function getNextChatNode()
     {
-        // TODO: Load list of rules, and process them!!!
+        // Get all rules applied to this question
+        $nodeFlowRules = NodeFlowRule::where('parent_node_id', $this->chatNode->id)->get();
+
+        if ($nodeFlowRules->isEmpty()) {
+            throw new Exception('No rules found for the question.');
+        }
+
+        // Process all the rules in cycle
+        foreach ($nodeFlowRules as $nodeFlowRule) {
+            $nextChatNode = $this->_processNodeRule($nodeFlowRule);
+            if ($nextChatNode != null) {
+                return $nextChatNode;
+            }
+        }
+
+        throw new Exception('No rules applied to the answer.');
+    }
+
+    private function _processNodeRule(NodeFlowRule $nodeFlowRule)
+    {
+        return null;
     }
 
     private function _setSystemVariable()
