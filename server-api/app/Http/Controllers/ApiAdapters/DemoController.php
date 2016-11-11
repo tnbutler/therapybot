@@ -17,7 +17,13 @@ class DemoController extends Controller
         $userId = $this->_getUserId($user);
         $apiRequestProcessor = new ApiRequestProcessor($userId);
 
-        return $apiRequestProcessor->processRequest($message);
+        $response = $apiRequestProcessor->processRequest($message);
+
+        $formattedResponse = array(
+            'user' => $response->getUser(),
+            'message' => $response->getMessage());
+
+        return json_encode($formattedResponse);
     }
 
     private function _getUserId($userId)
