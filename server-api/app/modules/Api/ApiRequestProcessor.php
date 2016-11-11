@@ -13,7 +13,7 @@ class ApiRequestProcessor
 
     public function processRequest($message)
     {
-        // TODO: Start here!
-        return 555;
+        $res = "userId = ".$this->userId.", message = ".$message;
+        return $res;
     }
 }

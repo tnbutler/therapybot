@@ -4,16 +4,19 @@ namespace App\Http\Controllers\ApiAdapters;
 
 use App\Http\Controllers\Controller;
 use App\Modules\Api\ApiRequestProcessor;
+use Illuminate\Http\Request;
 use App\Modules\BotUser;
 
 class DemoController extends Controller
 {
-    public function processWebHookCall()
+    public function processWebHookCall(Request $request)
     {
-        $user = "333";
+        $user = $request->input('user');
+        $message = $request->input('message');
+
         $userId = $this->_getUserId($user);
-        $message = "Test Message";
         $apiRequestProcessor = new ApiRequestProcessor($userId);
+
         return $apiRequestProcessor->processRequest($message);
     }
 
