@@ -30,19 +30,21 @@ class ChatFlow
         // Find the last asked question, if any
         $lastChatLogRecord = ChatLogRecord::where('bot_users_id', $this->botUser->id)
             ->orderBy('created_at', 'desc')
-            ->take(1)
-            ->get();
+            ->first();
 
         // Process user's reply to the question
-        if (!$lastChatLogRecord->isEmpty()) {
-            $chatNode = ChatNode::find($lastChatLogRecord->first()->chat_nodes_id);
+        if ($lastChatLogRecord) {
+            $chatNode = ChatNode::find($lastChatLogRecord->chat_nodes_id)->first();
 
             // Save the answer
             $this->_logChatRecord($chatNode, false, $messageText);
 
-            // Set system variables
-            $systemVariables = new SystemVariables($this->botUser, $messageText, $chatNode);
-            $systemVariables->set();
+            // Set user variables
+            $userVariableName = $chatNode->user_variable_name;
+            if (isset($userVariableName)) {
+                $userVariables = new UserVariables($this->botUser);
+                $userVariables->set($userVariableName, $messageText);
+            }
 
             // Get the next node, by processing the rules
             $nodeRulesProcessor = new NodeRulesProcessor($this->botUser, $messageText, $chatNode);
@@ -59,9 +61,7 @@ class ChatFlow
         $chatLogRecord->bot_users_id = $this->botUser->id;
         $chatLogRecord->chat_nodes_id = $chatNode->id;
         $chatLogRecord->is_bot_question = $is_bot_question;
-        if ($is_bot_question) {
-            $chatLogRecord->message_text = $messageText;
-        }
+        $chatLogRecord->message_text = $is_bot_question ? null : $messageText;
         $chatLogRecord->save();
     }
 }
