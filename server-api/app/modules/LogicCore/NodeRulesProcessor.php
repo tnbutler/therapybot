@@ -12,6 +12,7 @@ class NodeRulesProcessor
     private $botUser;
     private $messageText;
     private $chatNode;
+    const RULE_CONDITION_GOTO = 'GOTO';
 
     function __construct(BotUser $botUser, $messageText, ChatNode $chatNode)
     {
@@ -42,7 +43,11 @@ class NodeRulesProcessor
 
     private function _processNodeRule(NodeFlowRule $nodeFlowRule)
     {
-        // TODO: Process rule instructions here
+        // Rule with none-conditional instruction
+        if ($nodeFlowRule->condition_statement == self::RULE_CONDITION_GOTO) {
+            return ChatNode::find($nodeFlowRule->child_node_id);
+        }
+
         return null;
     }
 }
