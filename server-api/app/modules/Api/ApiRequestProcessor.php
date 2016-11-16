@@ -18,7 +18,15 @@ class ApiRequestProcessor
     {
         $chatFlow = new ChatFlow($this->botUser);
         $nextChatNode = $chatFlow->processUserAnswer($message);
-        $responseMessage = "RE: " . $message . ". " . $nextChatNode->getFormattedQuestionText($this->botUser);
+
+        $responseMessage = $nextChatNode->getFormattedQuestionText($this->botUser);
+
+        // TODO: Work on Answers Buttons!
+        $answerButtons = $nextChatNode->answerButtons();
+        foreach ($answerButtons as $answerButton) {
+            echo $answerButton->text;
+        }
+
         return new ApiResponse($this->botUser->id, $responseMessage);
     }
 }

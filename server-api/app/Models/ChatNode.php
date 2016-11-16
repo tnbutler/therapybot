@@ -8,6 +8,11 @@ class ChatNode extends Model
 {
     public $timestamps = false;
 
+    public function answerButtons()
+    {
+        return $this->hasMany('App\Models\AnswerButton');
+    }
+
     public function getFormattedQuestionText(BotUser $botUser)
     {
         $result = $this->question_text;
