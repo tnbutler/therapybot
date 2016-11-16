@@ -8,15 +8,22 @@ class BotUserProcessing
 {
     public function getOrCreate($userId)
     {
-        // Try to find
         $user = BotUser::find($userId);
         if ($user) {
             return $user;
         }
 
-        // Or create new
         $botUser = new BotUser;
         $botUser->save();
         return $botUser;
+    }
+
+    public function setName($userId, $name)
+    {
+        $user = BotUser::find($userId);
+        if ($user) {
+            $user->name = $name;
+            $user->save();
+        }
     }
 }

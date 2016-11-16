@@ -8,9 +8,22 @@ class ChatNode extends Model
 {
     public $timestamps = false;
 
-   /* public $id;
-    public $system_name;
-    public $question_text;
-    public $user_variable_name;
-    public $is_start_node;*/
+    public function getFormattedQuestionText(BotUser $botUser)
+    {
+        $result = $this->question_text;
+
+        // Select list of replaces
+        $replaces = UserVariable::where('bot_users_id', $botUser->id)
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
+        // Perform the replaces
+        foreach ($replaces as $replace) {
+            $searchString = '@' . $replace->variable_name . '@';
+            $replaceString = $replace->value;
+            $result = str_replace($searchString, $replaceString, $result);
+        }
+
+        return $result;
+    }
 }

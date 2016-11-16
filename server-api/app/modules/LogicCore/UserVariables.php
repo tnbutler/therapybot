@@ -4,6 +4,7 @@ namespace App\Modules\LogicCore;
 
 use App\Models\UserVariable;
 use App\Models\BotUser;
+use App\Modules\BotUserProcessing;
 
 class UserVariables
 {
@@ -36,11 +37,10 @@ class UserVariables
         $userVariable->value = $value;
         $userVariable->save();          // Method save does not exist.
 
-        echo 1111111111;
-
         // Custom processing rules for some variables
         if ($varName == self::USER_NAME_VARIABLE) {
-            // TODO: set user's name from here
+            $botUserProcessing = new BotUserProcessing();
+            $botUserProcessing->setName($this->botUser->id, $value);
         }
     }
 }

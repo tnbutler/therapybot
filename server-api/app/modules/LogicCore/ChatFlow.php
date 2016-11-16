@@ -15,8 +15,13 @@ class ChatFlow
         $this->botUser = $botUser;
     }
 
+    /**
+     * @return ChatNode Next chat node including question to ask.
+     * @param string $message User's text response. 
+     */
     public function processUserAnswer($message)
     {
+        // Get next chat node, depending on the user's answer
         $chatNode = $this->_getNextChatNode($message);
 
         // Save the question
