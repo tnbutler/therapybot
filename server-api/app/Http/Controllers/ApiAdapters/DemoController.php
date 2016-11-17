@@ -4,6 +4,7 @@ namespace App\Http\Controllers\ApiAdapters;
 
 use App\Http\Controllers\Controller;
 use App\Modules\Api\ApiRequestProcessor;
+use App\Modules\Api\ApiResponse;
 use Illuminate\Http\Request;
 use App\Modules\BotUserProcessing;
 
@@ -22,8 +23,14 @@ class DemoController extends Controller
         $apiRequestProcessor = new ApiRequestProcessor($user);
         $response = $apiRequestProcessor->processRequest($message);
 
-        // Format the answer
-        $answerButtons = $response->getAnswerButtons();
+        // Send response
+        $this->_emulateTypingDelay();
+        return $this->_formatResponse($response);
+    }
+
+    private function _formatResponse(ApiResponse $apiResponse)
+    {
+        $answerButtons = $apiResponse->getAnswerButtons();
         $answerButtonsFormatted = [];
         foreach ($answerButtons as $answerButton) {
             $answerButtonsFormatted[] = array(
@@ -32,14 +39,12 @@ class DemoController extends Controller
             );
         }
 
-        $formattedResponse = array(
-            'user' => $response->getUser(),
-            'message' => $response->getMessage(),
+        $dataToOutput = array(
+            'user' => $apiResponse->getUser(),
+            'message' => $apiResponse->getMessage(),
             'buttons' => $answerButtonsFormatted);
 
-        $this->_emulateTypingDelay();
-
-        return json_encode($formattedResponse);
+        return json_encode($dataToOutput);
     }
 
     private function _emulateTypingDelay()
