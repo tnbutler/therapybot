@@ -17,7 +17,7 @@ class ChatFlow
 
     /**
      * @return ChatNode Next chat node including question to ask.
-     * @param string $message User's text response. 
+     * @param string $message User's text response.
      */
     public function processUserAnswer($message)
     {

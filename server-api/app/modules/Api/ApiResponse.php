@@ -6,11 +6,13 @@ class ApiResponse
 {
     private $user;
     private $message;
+    private $answerButtons;
 
-    function __construct($user, $message)
+    function __construct($user, $message, $answerButtons)
     {
         $this->user = $user;
         $this->message = $message;
+        $this->answerButtons = $answerButtons;
     }
 
     public function getUser()
@@ -21,5 +23,10 @@ class ApiResponse
     public function getMessage()
     {
         return $this->message;
+    }
+
+    public function getAnswerButtons()
+    {
+        return $this->answerButtons;
     }
 }
