@@ -14,10 +14,10 @@ class ApiRequestProcessor
         $this->botUser = $botUser;
     }
 
-    public function processRequest($message)
+    public function processRequest($message, $buttonId)
     {
         $chatFlow = new ChatFlow($this->botUser);
-        $nextChatNode = $chatFlow->processUserAnswer($message);
+        $nextChatNode = $chatFlow->processUserAnswer($message, $buttonId);
 
         $responseMessage = $nextChatNode->getFormattedQuestionText($this->botUser);
         $answerButtons = $nextChatNode->answerButtons;

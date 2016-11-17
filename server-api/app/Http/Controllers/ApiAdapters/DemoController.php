@@ -10,10 +10,15 @@ use App\Modules\BotUserProcessing;
 
 class DemoController extends Controller
 {
+    const BUTTON_REQUEST_VAR_NAME = 'buttonId';
     public function processWebHookCall(Request $request)
     {
         $userId = $request->input('user');
         $message = $request->input('message');
+        $buttonId = null;
+        if ($request->has(self::BUTTON_REQUEST_VAR_NAME)) {
+            $buttonId = intval($request->input(self::BUTTON_REQUEST_VAR_NAME));
+        }
 
         // Get user for this connection
         $botUserProcessing = new BotUserProcessing();
@@ -21,7 +26,7 @@ class DemoController extends Controller
 
         // Process message and receive response
         $apiRequestProcessor = new ApiRequestProcessor($user);
-        $response = $apiRequestProcessor->processRequest($message);
+        $response = $apiRequestProcessor->processRequest($message, $buttonId);
 
         // Send response
         $this->_emulateTypingDelay();
