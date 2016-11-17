@@ -35,8 +35,7 @@ class DemoController extends Controller
         foreach ($answerButtons as $answerButton) {
             $answerButtonsFormatted[] = array(
                 'id' => $answerButton->id,
-                'text' => $answerButton->text
-            );
+                'text' => $answerButton->text);
         }
 
         $dataToOutput = array(
