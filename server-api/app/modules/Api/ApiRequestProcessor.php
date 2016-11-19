@@ -3,7 +3,7 @@
 namespace App\Modules\Api;
 
 use App\Modules\LogicCore\ChatFlow;
-use App\Modules\LogicCore\UserResponse;
+use App\Modules\Api\UserResponse;
 use App\Models\BotUser;
 
 class ApiRequestProcessor

@@ -33,13 +33,13 @@ class ChatFlow
     private function _getNextChatNode(UserResponse $userResponse)
     {
         // Find the last asked question, if any
-        $lastChatLogRecord = ChatLogRecord::where('bot_users_id', $this->botUser->id)
-            ->orderBy('created_at', 'desc')
+        $lastChatLogRecord = ChatLogRecord::where(['bot_users_id' => $this->botUser->id, 'is_bot_question' => '1'])
+            ->orderBy('id', 'desc')
             ->first();
 
         // Process user's reply to the asked question
         if ($lastChatLogRecord) {
-            $chatNode = ChatNode::find($lastChatLogRecord->chat_nodes_id)->first();
+            $chatNode = ChatNode::find($lastChatLogRecord->chat_nodes_id);
 
             // Save the answer
             $this->_logChatRecord($chatNode, false, $userResponse->getMessage(), $userResponse->getButtonId());

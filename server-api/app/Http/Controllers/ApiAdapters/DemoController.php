@@ -5,7 +5,7 @@ namespace App\Http\Controllers\ApiAdapters;
 use App\Http\Controllers\Controller;
 use App\Modules\Api\ApiRequestProcessor;
 use App\Modules\Api\ApiResponse;
-use App\Modules\LogicCore\UserResponse;
+use App\Modules\Api\UserResponse;
 use Illuminate\Http\Request;
 use App\Modules\BotUserProcessing;
 
@@ -17,7 +17,7 @@ class DemoController extends Controller
 
         $userId = $request->input('user');
         $message = $request->input('message');
-        $buttonId = intval($request->input('buttonId'));
+        $buttonId = $request->input('buttonId') == '' ? null : intval($request->input('buttonId'));
 
         // Get user for this connection
         $botUserProcessing = new BotUserProcessing();

@@ -15,7 +15,7 @@ class NodeRulesProcessor
     private $userResponse;
     private $chatNode;
     const RULE_CONDITION_GOTO = 'GOTO';
-    const RULE_CONDITION_SEMANTIC_FIND = 'SEMANTIC_FIND';
+    const RULE_CONDITION_SEMANTIC_FIND = 'INSTRUCTION_FIND';
 
     function __construct(BotUser $botUser, UserResponse $userResponse, ChatNode $chatNode)
     {
@@ -61,12 +61,13 @@ class NodeRulesProcessor
             return $childNode;
         }
 
+
         // Basic semantic search - only mock-up
-        if (strpos($conditionStatement, self::RULE_CONDITION_SEMANTIC_FIND)) {
-            $constructionToFind = str_replace("SEMANTIC_FIND('", "", $conditionStatement);
-            $constructionToFind = str_replace("')", "", $constructionToFind);
+        if (strpos($conditionStatement, self::RULE_CONDITION_SEMANTIC_FIND) !== false) {
+            $instruction = str_replace(self::RULE_CONDITION_SEMANTIC_FIND . "('", "", $conditionStatement);
+            $instruction = str_replace("')", "", $instruction);
             $semanticAnalysis = new SemanticAnalysis;
-            if ($semanticAnalysis->find($this->userResponse->getMessage(), $constructionToFind)) {
+            if ($semanticAnalysis->instructionFind($this->userResponse->getMessage(), $instruction)) {
                 return $childNode;
             }
         }
