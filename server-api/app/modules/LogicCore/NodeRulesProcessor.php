@@ -47,7 +47,7 @@ class NodeRulesProcessor
                 return $nextChatNode;
             }
         }
-
+        
         throw new Exception(trans('exceptions.no_rules_applied_to_answer'));
     }
 

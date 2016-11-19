@@ -24,14 +24,10 @@ class SemanticAnalysis
                 return true;
             }
         }
-
-        return false;
     }
 
     private function _cleanupMessage($messageText)
     {
-        $messageText = strtolower(trim($messageText));
-
         // Instructions should be short - just cut some amount of chars
         $messageText = substr($messageText, 0, 15);
         $messageText = trim($messageText);
@@ -49,6 +45,8 @@ class SemanticAnalysis
 
     private function _findText($message, $text)
     {
+        $message = strtolower($message);
+        $text = strtolower($text);
         return strpos($message, $text) !== false;
     }
 }
