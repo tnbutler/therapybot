@@ -47,7 +47,7 @@ class NodeRulesProcessor
                 return $nextChatNode;
             }
         }
-        
+
         throw new Exception(trans('exceptions.no_rules_applied_to_answer'));
     }
 
@@ -60,7 +60,6 @@ class NodeRulesProcessor
         if ($conditionStatement == self::RULE_CONDITION_GOTO) {
             return $childNode;
         }
-
 
         // Basic semantic search - only mock-up
         if (strpos($conditionStatement, self::RULE_CONDITION_SEMANTIC_FIND) !== false) {
