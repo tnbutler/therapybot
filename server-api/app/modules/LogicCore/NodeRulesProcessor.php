@@ -26,25 +26,25 @@ class NodeRulesProcessor
 
     public function processRules()
     {
-        if ($this->userResponse->isButtonAnswer()) {
-            // TODO: Process button answer
-        } // Process plain text answer
-        else {
-            // Get all rules applied to this question - in order of priority
-            $nodeFlowRules = NodeFlowRule::where('parent_node_id', $this->chatNode->id)
-                ->orderBy('execution_priority', 'asc')
-                ->get();
+        // Select rules for the text question or for the button clicked, depending on the user's answer
+        $condition = $this->userResponse->isButtonAnswer()
+            ? ['answer_buttons_id' => $this->userResponse->getButtonId()]
+            : ['parent_node_id' => $this->chatNode->id];
 
-            if ($nodeFlowRules->isEmpty()) {
-                throw new Exception(trans('exceptions.no_rules_found_for_node'));
-            }
+        // Get all rules applied - in order of priority
+        $nodeFlowRules = NodeFlowRule::where($condition)
+            ->orderBy('execution_priority', 'asc')
+            ->get();
 
-            // Process all the rules in cycle
-            foreach ($nodeFlowRules as $nodeFlowRule) {
-                $nextChatNode = $this->_processNodeRule($nodeFlowRule);
-                if ($nextChatNode != null) {
-                    return $nextChatNode;
-                }
+        if ($nodeFlowRules->isEmpty()) {
+            throw new Exception(trans('exceptions.no_rules_found'));
+        }
+
+        // Process all the rules in cycle
+        foreach ($nodeFlowRules as $nodeFlowRule) {
+            $nextChatNode = $this->_processNodeRule($nodeFlowRule);
+            if ($nextChatNode != null) {
+                return $nextChatNode;
             }
         }
 
