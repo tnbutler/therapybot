@@ -5,6 +5,7 @@ namespace App\Modules\LogicCore;
 use App\Models\ChatLogRecord;
 use App\Models\ChatNode;
 use App\Models\BotUser;
+use App\Modules\Api\UserResponse;
 
 class ChatFlow
 {
@@ -17,13 +18,11 @@ class ChatFlow
 
     /**
      * @return ChatNode Next chat node including question to ask.
-     * @param string $message User's text response.
-     * @param integer $buttonId User's button response.
      */
-    public function processUserAnswer($message, $buttonId)
+    public function processUserAnswer(UserResponse $userResponse)
     {
         // Get next chat node, depending on the user's answer
-        $chatNode = $this->_getNextChatNode($message, $buttonId);
+        $chatNode = $this->_getNextChatNode($userResponse);
 
         // Save the question
         $this->_logChatRecord($chatNode, true);
@@ -31,29 +30,29 @@ class ChatFlow
         return $chatNode;
     }
 
-    private function _getNextChatNode($messageText, $buttonId)
+    private function _getNextChatNode(UserResponse $userResponse)
     {
         // Find the last asked question, if any
         $lastChatLogRecord = ChatLogRecord::where('bot_users_id', $this->botUser->id)
             ->orderBy('created_at', 'desc')
             ->first();
 
-        // Process user's reply to the question
+        // Process user's reply to the asked question
         if ($lastChatLogRecord) {
             $chatNode = ChatNode::find($lastChatLogRecord->chat_nodes_id)->first();
 
             // Save the answer
-            $this->_logChatRecord($chatNode, false, $messageText, $buttonId);
+            $this->_logChatRecord($chatNode, false, $userResponse->getMessage(), $userResponse->getButtonId());
 
             // Set user variables
             $userVariableName = $chatNode->user_variable_name;
             if (isset($userVariableName)) {
                 $userVariables = new UserVariables($this->botUser);
-                $userVariables->set($userVariableName, $messageText);
+                $userVariables->set($userVariableName, $userResponse->getUserVariableValue());
             }
 
             // Get the next node, by processing the rules
-            $nodeRulesProcessor = new NodeRulesProcessor($this->botUser, $messageText, $chatNode);
+            $nodeRulesProcessor = new NodeRulesProcessor($this->botUser, $userResponse, $chatNode);
             return $nodeRulesProcessor->processRules();
         }
 

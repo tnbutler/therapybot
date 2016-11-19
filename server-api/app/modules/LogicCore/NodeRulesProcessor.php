@@ -5,24 +5,27 @@ namespace App\Modules\LogicCore;
 use App\Models\ChatNode;
 use App\Models\BotUser;
 use App\Models\NodeFlowRule;
+use App\Modules\Api\UserResponse;
 use Mockery\CountValidator\Exception;
 
 class NodeRulesProcessor
 {
     private $botUser;
-    private $messageText;
+    private $userResponse;
     private $chatNode;
     const RULE_CONDITION_GOTO = 'GOTO';
 
-    function __construct(BotUser $botUser, $messageText, ChatNode $chatNode)
+    function __construct(BotUser $botUser, UserResponse $userResponse, ChatNode $chatNode)
     {
         $this->botUser = $botUser;
-        $this->messageText = $messageText;
+        $this->userResponse = $userResponse;
         $this->chatNode = $chatNode;
     }
 
     public function processRules()
     {
+        // TODO: Process button answer
+        
         // Get all rules applied to this question
         $nodeFlowRules = NodeFlowRule::where('parent_node_id', $this->chatNode->id)->get();
 
