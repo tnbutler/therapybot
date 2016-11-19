@@ -12,4 +12,9 @@ class NodeFlowRule extends Model
     public $parent_node_id;
     public $child_node_id;
     public $condition_statement;*/
+
+    public function getConditionStatement()
+    {
+        return $this->condition_statement;
+    }
 }

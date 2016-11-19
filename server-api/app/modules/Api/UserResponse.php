@@ -25,9 +25,14 @@ class UserResponse
         return $this->buttonId;
     }
 
+    public function isButtonAnswer()
+    {
+        return $this->buttonId != null;
+    }
+
     public function getUserVariableValue()
     {
-        if ($this->buttonId) {
+        if ($this->isButtonAnswer()) {
             $answerButton = AnswerButton::find($this->buttonId);
             if ($answerButton) {
                 return $answerButton->text;
