@@ -14,7 +14,6 @@ class DemoController extends Controller
     const BUTTON_REQUEST_VAR_NAME = '';
     public function processWebHookCall(Request $request)
     {
-
         $userId = $request->input('user');
         $message = $request->input('message');
         $buttonId = $request->input('buttonId') == '' ? null : intval($request->input('buttonId'));
