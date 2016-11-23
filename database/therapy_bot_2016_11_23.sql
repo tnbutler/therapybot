@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 23, 2016 at 08:03 AM
+-- Generation Time: Nov 23, 2016 at 08:48 AM
 -- Server version: 5.6.26-log
 -- PHP Version: 5.6.12
 
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `answer_buttons` (
   `chat_node_id` int(11) NOT NULL,
   `text` text NOT NULL,
   `display_order` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `answer_buttons`
@@ -49,7 +49,9 @@ INSERT INTO `answer_buttons` (`id`, `chat_node_id`, `text`, `display_order`) VAL
 (9, 5, '2', 2),
 (10, 5, '3', 3),
 (11, 5, '4', 4),
-(12, 5, '5', 5);
+(12, 5, '5', 5),
+(18, 6, 'Yes', 1),
+(19, 6, 'No', 2);
 
 -- --------------------------------------------------------
 
@@ -69,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `bot_users` (
 --
 
 INSERT INTO `bot_users` (`id`, `created_at`, `updated_at`, `name`) VALUES
-(1, '2016-11-19 10:56:41', '2016-11-19 10:56:49', 'Bob');
+(1, '2016-11-23 08:43:33', '2016-11-23 08:43:47', 'Alex');
 
 -- --------------------------------------------------------
 
@@ -86,29 +88,30 @@ CREATE TABLE IF NOT EXISTS `chat_log_records` (
   `message_text` text,
   `answer_buttons_id` int(11) DEFAULT NULL,
   `chat_nodes_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `chat_log_records`
 --
 
 INSERT INTO `chat_log_records` (`id`, `created_at`, `updated_at`, `bot_users_id`, `is_bot_question`, `message_text`, `answer_buttons_id`, `chat_nodes_id`) VALUES
-(1, '2016-11-19 10:56:41', '2016-11-19 10:56:41', 1, 1, NULL, NULL, 1),
-(2, '2016-11-19 10:56:49', '2016-11-19 10:56:49', 1, 0, 'Bob', NULL, 1),
-(3, '2016-11-19 10:56:49', '2016-11-19 10:56:49', 1, 1, NULL, NULL, 2),
-(4, '2016-11-19 10:57:09', '2016-11-19 10:57:09', 1, 0, 'Sad', NULL, 2),
-(5, '2016-11-19 10:57:09', '2016-11-19 10:57:09', 1, 1, NULL, NULL, 4),
-(6, '2016-11-19 10:57:23', '2016-11-19 10:57:23', 1, 0, 'nope', NULL, 4),
-(7, '2016-11-19 10:57:52', '2016-11-19 10:57:52', 1, 0, 'nope', NULL, 4),
-(8, '2016-11-19 10:58:30', '2016-11-19 10:58:30', 1, 0, 'nope', NULL, 4),
-(9, '2016-11-19 10:59:33', '2016-11-19 10:59:33', 1, 0, 'nope', NULL, 4),
-(10, '2016-11-19 10:59:33', '2016-11-19 10:59:33', 1, 1, NULL, NULL, 3),
-(11, '2016-11-19 10:59:48', '2016-11-19 10:59:48', 1, 0, 'pooop', NULL, 3),
-(12, '2016-11-19 10:59:48', '2016-11-19 10:59:48', 1, 1, NULL, NULL, 4),
-(13, '2016-11-19 11:00:15', '2016-11-19 11:00:15', 1, 0, '', 7, 4),
-(14, '2016-11-19 11:00:15', '2016-11-19 11:00:15', 1, 1, NULL, NULL, 3),
-(15, '2016-11-22 09:44:30', '2016-11-22 09:44:30', 1, 0, '', 7, 3),
-(16, '2016-11-22 09:44:30', '2016-11-22 09:44:30', 1, 1, NULL, NULL, 3);
+(1, '2016-11-23 08:43:33', '2016-11-23 08:43:33', 1, 1, NULL, NULL, 1),
+(2, '2016-11-23 08:43:47', '2016-11-23 08:43:47', 1, 0, 'Alex', NULL, 1),
+(3, '2016-11-23 08:43:47', '2016-11-23 08:43:47', 1, 1, NULL, NULL, 2),
+(4, '2016-11-23 08:43:59', '2016-11-23 08:43:59', 1, 0, 'hungry', NULL, 2),
+(5, '2016-11-23 08:43:59', '2016-11-23 08:43:59', 1, 1, NULL, NULL, 4),
+(6, '2016-11-23 08:44:14', '2016-11-23 08:44:14', 1, 0, '', 6, 4),
+(7, '2016-11-23 08:44:14', '2016-11-23 08:44:14', 1, 1, NULL, NULL, 5),
+(8, '2016-11-23 08:44:23', '2016-11-23 08:44:23', 1, 0, '', 9, 5),
+(9, '2016-11-23 08:44:23', '2016-11-23 08:44:23', 1, 1, NULL, NULL, 6),
+(10, '2016-11-23 08:44:44', '2016-11-23 08:44:44', 1, 0, 'yup', NULL, 6),
+(11, '2016-11-23 08:45:02', '2016-11-23 08:45:02', 1, 0, 'yup', NULL, 6),
+(12, '2016-11-23 08:45:53', '2016-11-23 08:45:53', 1, 0, 'yup', NULL, 6),
+(13, '2016-11-23 08:46:44', '2016-11-23 08:46:44', 1, 0, 'yup', NULL, 6),
+(14, '2016-11-23 08:47:13', '2016-11-23 08:47:13', 1, 0, 'yup', NULL, 6),
+(15, '2016-11-23 08:47:36', '2016-11-23 08:47:36', 1, 0, 'yup', NULL, 6),
+(16, '2016-11-23 08:48:48', '2016-11-23 08:48:48', 1, 0, 'yup', NULL, 6),
+(17, '2016-11-23 08:48:48', '2016-11-23 08:48:48', 1, 1, NULL, NULL, 7);
 
 -- --------------------------------------------------------
 
@@ -122,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `chat_nodes` (
   `question_text` text,
   `user_variable_name` varchar(255) DEFAULT NULL,
   `is_start_node` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `chat_nodes`
@@ -134,7 +137,8 @@ INSERT INTO `chat_nodes` (`id`, `system_name`, `question_text`, `user_variable_n
 (3, 'N003_POSSIBLE_MOODS_HELPER', 'Well, as you asked to help, here is list of suggestions for you: peace and quiet, lack of emotion; surprise, astonishment; anticipation; emotional uplift, excitement; inspiration, enthusiasm... Now, how would you describe your mood currently?', 'USER_MOOD', 0),
 (4, 'N004_FEELING_VERIFY', 'I understand you are feeling @USER_MOOD@. Is that correct?', NULL, 0),
 (5, 'N005_MOOD_INTENSITY', 'Now, on a scale from 1 to 5, how intensely are you feeling @USER_MOOD@?', 'MOOD_INTENSITY', 0),
-(6, 'N006_MOOD_VERIFY', 'I understand you are feeling @USER_MOOD@ at an intensity of @MOOD_INTENSITY@ out of 5. Is this correct?', NULL, 0);
+(6, 'N006_MOOD_VERIFY', 'I understand you are feeling @USER_MOOD@ at an intensity of @MOOD_INTENSITY@ out of 5. Is this correct?', NULL, 0),
+(7, 'N007_MOOD_CHECK_COMPLETED', 'Thank you for completing your MOOD CHECK!', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -217,7 +221,7 @@ CREATE TABLE IF NOT EXISTS `node_flow_rules` (
   `child_node_id` int(11) NOT NULL,
   `condition_statement` varchar(255) NOT NULL,
   `execution_priority` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `node_flow_rules`
@@ -253,7 +257,12 @@ INSERT INTO `node_flow_rules` (`id`, `parent_node_id`, `answer_buttons_id`, `chi
 (27, 5, NULL, 6, 'INSTRUCTION_FIND(''three'')', 3),
 (28, 5, NULL, 6, 'INSTRUCTION_FIND(''four'')', 4),
 (29, 5, NULL, 6, 'INSTRUCTION_FIND(''five'')', 5),
-(35, 5, NULL, 5, 'GOTO', 11);
+(35, 5, NULL, 5, 'GOTO', 11),
+(36, 6, NULL, 7, 'INSTRUCTION_FIND(''yes'')', 1),
+(37, 6, NULL, 3, 'INSTRUCTION_FIND(''no'')', 2),
+(38, 6, NULL, 7, 'GOTO', 3),
+(39, NULL, 18, 7, 'GOTO', 1),
+(40, NULL, 19, 3, 'GOTO', 2);
 
 -- --------------------------------------------------------
 
@@ -268,15 +277,16 @@ CREATE TABLE IF NOT EXISTS `user_variables` (
   `bot_users_id` int(11) NOT NULL,
   `variable_name` varchar(255) NOT NULL,
   `value` text NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `user_variables`
 --
 
 INSERT INTO `user_variables` (`id`, `created_at`, `updated_at`, `bot_users_id`, `variable_name`, `value`) VALUES
-(1, '2016-11-19 10:56:49', '2016-11-19 10:56:49', 1, 'USER_NAME', 'Bob'),
-(2, '2016-11-19 10:57:09', '2016-11-22 09:44:30', 1, 'USER_MOOD', 'No');
+(1, '2016-11-23 08:43:47', '2016-11-23 08:43:47', 1, 'USER_NAME', 'Alex'),
+(2, '2016-11-23 08:43:59', '2016-11-23 08:43:59', 1, 'USER_MOOD', 'hungry'),
+(3, '2016-11-23 08:44:23', '2016-11-23 08:44:23', 1, 'MOOD_INTENSITY', '2');
 
 --
 -- Indexes for dumped tables
@@ -340,7 +350,7 @@ ALTER TABLE `user_variables`
 -- AUTO_INCREMENT for table `answer_buttons`
 --
 ALTER TABLE `answer_buttons`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `bot_users`
 --
@@ -350,12 +360,12 @@ ALTER TABLE `bot_users`
 -- AUTO_INCREMENT for table `chat_log_records`
 --
 ALTER TABLE `chat_log_records`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `chat_nodes`
 --
 ALTER TABLE `chat_nodes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `dictionary_groups`
 --
@@ -370,12 +380,12 @@ ALTER TABLE `dictionary_synonyms`
 -- AUTO_INCREMENT for table `node_flow_rules`
 --
 ALTER TABLE `node_flow_rules`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=41;
 --
 -- AUTO_INCREMENT for table `user_variables`
 --
 ALTER TABLE `user_variables`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
