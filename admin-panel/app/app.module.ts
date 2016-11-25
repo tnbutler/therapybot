@@ -7,6 +7,7 @@ import {AppComponent}  from './app.component';
 import {HeroDetailComponent} from './hero-detail.component';
 import {HeroesComponent}     from './heroes.component';
 import {HeroService}         from './hero.service';
+import {DashboardComponent}         from './dashboard.component';
 
 @NgModule({
     imports: [
@@ -16,12 +17,22 @@ import {HeroService}         from './hero.service';
             {
                 path: 'heroes',
                 component: HeroesComponent
-            }
+            },
+            {
+                path: 'dashboard',
+                component: DashboardComponent
+            },
+            {
+                path: '',
+                redirectTo: '/dashboard',
+                pathMatch: 'full'
+            },
         ])
     ],
     declarations: [
         AppComponent,
         HeroDetailComponent,
+        DashboardComponent,
         HeroesComponent,
     ],
     providers: [
