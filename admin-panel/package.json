@@ -1,7 +1,7 @@
 {
-  "name": "therapybot-admin",
+  "name": "angular-quickstart",
   "version": "1.0.0",
-  "description": "TherapyBot admin panel",
+  "description": "QuickStart package.json from the documentation, supplemented with testing support",
   "scripts": {
     "start": "tsc && concurrently \"tsc -w\" \"lite-server\" ",
     "e2e": "tsc && concurrently \"http-server -s\" \"protractor protractor.config.js\" --kill-others --success first",
