@@ -19,7 +19,6 @@ import { DashboardComponent }   from './dashboard.component';
 import { HeroesComponent }      from './heroes.component';
 import { HeroDetailComponent }  from './hero-detail.component';
 import { HeroService }          from './hero.service';
-import { HeroService }          from './hero.service';
 
 @NgModule({
     imports: [
