@@ -13,7 +13,8 @@
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "copy:styles":"xcopy \"app\\styles\" \"dist\\styles\" /i",
-    "copy:views":"xcopy \"app\\views\" \"dist\\views\" /i"
+    "copy:views":"xcopy \"app\\views\" \"dist\\views\" /i",
+    "clear:dist": "rmdir \"dist\\*\""
   },
   "keywords": [],
   "author": "",
