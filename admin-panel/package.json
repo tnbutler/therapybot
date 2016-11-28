@@ -11,7 +11,9 @@
     "test": "tsc && concurrently \"tsc -w\" \"karma start karma.conf.js\"",
     "test-once": "tsc && karma start karma.conf.js --single-run",
     "tsc": "tsc",
-    "tsc:w": "tsc -w"
+    "tsc:w": "tsc -w",
+    "copy:styles":"xcopy \"app\\styles\" \"dist\\styles\" /i",
+    "copy:views":"xcopy \"app\\views\" \"dist\\views\" /i"
   },
   "keywords": [],
   "author": "",
@@ -31,7 +33,11 @@
     "core-js": "^2.4.1",
     "reflect-metadata": "^0.1.8",
     "rxjs": "5.0.0-beta.12",
-    "zone.js": "^0.6.26"
+    "zone.js": "^0.6.26",
+
+    "gulp": "^3.9.0",
+    "gulp-typescript": "^2.8.0",
+    "del": "^2.1.0"
   },
   "devDependencies": {
     "concurrently": "^3.1.0",
