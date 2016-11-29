@@ -39,7 +39,7 @@ export class ChatComponent implements OnInit {
     }
 
     Reply(message:string) {
-        this._usermessageService.addMessage()
+        this._usermessageService.addMessage(message)
             .then(
 
                 // TODO: Create UserMessage instance
@@ -56,14 +56,7 @@ export class ChatComponent implements OnInit {
                 error => this.errorMessage = <any>error);
     }
 
-    addUserID(message:string, UserID:number) {
-        this._usermessageService.addUserID(message, UserID)
-            .then(
-                messages => this.userMessages.push(messages),
-                error => this.errorMessage = <any>error);
-    }
-
     ngOnInit() {
-
+        // TODO: Send the first empty message - to get the user ID
     }
 }
