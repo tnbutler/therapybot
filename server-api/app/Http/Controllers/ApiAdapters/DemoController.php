@@ -15,6 +15,7 @@ class DemoController extends Controller
     public function processWebHookCall(Request $request)
     {
         header("Access-Control-Allow-Origin: *");
+        header('Access-Control-Allow-Headers: Content-Type');
 
         $userId = $request->input('user');
         $message = $request->input('message');

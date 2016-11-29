@@ -32,15 +32,6 @@ export class UserMessageDataService {
             .catch(this.handleError);
     }
 
-    addUserID(message:string, UserID:number):Promise<UserMessage> {
-        let headers = new Headers({'Content-Type': 'application/json'});
-        let options = new RequestOptions({headers: headers});
-        return this.http.post(this.messagesUrl, {message, UserID}, options)
-            .toPromise()
-            .then(this.extractData)
-            .catch(this.handleError);
-    }
-
     private extractData(res:Response) {
         let body = res.json();
         return body || {};

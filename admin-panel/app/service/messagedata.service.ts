@@ -25,6 +25,7 @@ export class MessageDataService {
     addMessage(message:string, debug_info:string):Promise<Message> {
         let headers = new Headers({'Content-Type': 'application/json'});
         let options = new RequestOptions({headers: headers});
+        //let options = new RequestOptions({});
         return this.http.post(this.messagesUrl, {message, debug_info}, options)
             .toPromise()
             .then(this.extractData)

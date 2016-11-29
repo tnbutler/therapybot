@@ -39,9 +39,12 @@ export class ChatComponent implements OnInit {
     }
 
     Reply(message:string) {
-        this._usermessageService.addMessage(message)
+        this._usermessageService.addMessage()
             .then(
-                messages => this.userMessages.push(messages),
+
+                // TODO: Create UserMessage instance
+
+                messages => this.userMessages.push(messages),   // TODO: push it here!
                 error => this.errorMessage = <any>error);
         this.replyValue = '';
     }
