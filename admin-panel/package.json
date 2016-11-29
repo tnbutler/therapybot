@@ -14,7 +14,8 @@
     "tsc:w": "tsc -w",
     "copy:styles":"xcopy \"app\\styles\" \"dist\\styles\" /i",
     "copy:views":"xcopy \"app\\views\" \"dist\\views\" /i",
-    "clear:dist": "rmdir \"dist\\*\""
+    "clear:dist": "del /f /s /q \"dist\" 1>nul",
+    "superstart": "npm run clear:dist && npm run copy:styles && npm run copy:views && npm run start"
   },
   "keywords": [],
   "author": "",
