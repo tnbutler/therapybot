@@ -1,41 +1,47 @@
-import { NgModule }      from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule }   from '@angular/forms';
-import { HttpModule }    from '@angular/http';
-
-import { AppRoutingModule } from './app-routing.module';
-import { HeroSearchComponent } from './hero-search.component';
+ import { NgModule }      from '@angular/core';
+    import { BrowserModule } from '@angular/platform-browser';
+    import { RouterModule }   from '@angular/router';
+    import { FormsModule }    from '@angular/forms';
+    import { HttpModule, JsonpModule } from '@angular/http';
 
 
-import './rxjs-extensions';
+
+    import { AppComponent }   from './app.component';
+    import { ChatComponent } from './components/chat-component';
+
+    import { Message } from './class/message'
+    import { MessageDataService } from './service/messagedata.service'
+    import { UserMessageDataService } from './service/usermessagedata.service'
+    import './rxjs-operators';
 
 
-// Imports for loading & configuring the in-memory web api
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService }  from './in-memory-data.service';
+    @NgModule({
+      imports:      [
+      BrowserModule,
+      FormsModule,
+      HttpModule,
+      JsonpModule,
+      RouterModule.forRoot([
 
-import { AppComponent }         from './app.component';
-import { DashboardComponent }   from './dashboard.component';
-import { HeroesComponent }      from './heroes.component';
-import { HeroDetailComponent }  from './hero-detail.component';
-import { HeroService }          from './hero.service';
+      {
+        path: '',
+        redirectTo: '/chat',
+        pathMatch: 'full'
+      },
 
-@NgModule({
-    imports: [
-        BrowserModule,
-        FormsModule,
-        HttpModule,
-        InMemoryWebApiModule.forRoot(InMemoryDataService),
-        AppRoutingModule
-    ],
-    declarations: [
-        AppComponent,
-        DashboardComponent,
-        HeroDetailComponent,
-        HeroesComponent,
-        HeroSearchComponent
-    ],
-    providers: [ HeroService ],
-    bootstrap: [ AppComponent ]
-})
-export class AppModule { }
+      {
+        path: 'chat',
+        component: ChatComponent
+      }
+
+
+      ])
+
+      ],
+      declarations: [ AppComponent, ChatComponent],
+      providers: [MessageDataService,UserMessageDataService],
+      bootstrap:    [ AppComponent ]
+    })
+
+    export class AppModule { }
+

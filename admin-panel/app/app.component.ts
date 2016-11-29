@@ -1,18 +1,17 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
+
+import { MessageDataService } from './service/messagedata.service';
+import { UserMessageDataService } from './service/usermessagedata.service'
+import './rxjs-operators';
 
 @Component({
-    moduleId: module.id,
-    selector: 'my-app',
-    styleUrls: ['styles/app.component.css'],
-    template: `
-  <h1>{{title}}</h1>
-  <nav>
-    <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
-    <a routerLink="/heroes" routerLinkActive="active">Heroes</a>
-  </nav>
-  <router-outlet></router-outlet>
-    `
+  selector: 'my-app',
+  template: `
+  <div #list class="list" [scrollTop]="list.scrollHeight">
+  <h1> Chat</h1>
+	<router-outlet></router-outlet>
+	</div>
+  `,
+  providers: [MessageDataService,UserMessageDataService]
 })
-export class AppComponent {
-    title = 'TherapyBot admin';
-}
+export class AppComponent  { name = 'Angular'; }

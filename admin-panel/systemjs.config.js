@@ -10,7 +10,8 @@
     },
     // map tells the System loader where to look for things
     map: {
-      app: 'dist',
+      //app: 'dist',
+      app: 'app',
 
       // angular bundles
       '@angular/core': 'npm:@angular/core/bundles/core.umd.js',
