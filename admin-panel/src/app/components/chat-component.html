@@ -1,69 +1,47 @@
 <div class="panel panel-default set-bg-view">
     <div class="container-fluid">
-        <div *ngFor="let userMessage of userMessages; let lst = last; let i = index;">
-            <div *ngIf="userMessage.message">
-
+        <div *ngFor="let botMessage of botMessages; let i = index;let lst = last;">
+            <div>
                 <div class="row">
-                    <div class="col-xs-3 col-sm-3">
-                        <img src="app/img/User.png" class="img-circle pull-left" width="80" height="80">
+                    <div class="col-xs-2 col-sm-2">
+                        <img src="app/img/Bot.png" class="img-circle pull-left" width="100" height="100">
                     </div>
-                    <div class="col-xs-9 col-sm-9">
-                        <br />
-                        <div class="bubble me"> {{userMessage.message}} </div>
+                    <div class="col-xs-10 col-sm-10">
+                        <br/>
+                        <div class="bubble me pull-left"> {{botMessage.message}}</div>
                     </div>
                 </div>
-                <div *ngIf="userMessage.message === 'Help'">
-                    <br />
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-xs-9 col-sm-9">
-                                <br />
+                <div *ngFor="let userMessage of userMessages; let ind = index;">
+                    <br/>
+                    <div *ngIf="i === ind">
+                        <div class="row-fluid">
+                            <div class="col-xs-10 col-sm-10">
                                 <div class="bubble you pull-right">
-                                    Keyphrases:
-                                    <div *ngFor="let botMessage of botMessages">
-                                        ---{{botMessage.message}} </div>
+                                    {{userMessage.message}}
                                 </div>
                             </div>
-                            <div class="col-xs-3 col-sm-3">
-                                <img src="app/img/User.png" class="img-circle pull-right" width="80" height="80">
+                            <div class="col-xs-2 col-sm-2">
+                                <img src="app/img/User.png" class="img-circle pull-right" width="100" height="100">
                             </div>
                         </div>
                     </div>
                 </div>
-                <div *ngFor="let botMessage of botMessages">
-                    <div *ngIf="userMessage.message === botMessage.message">
+                <div *ngIf="lst">
+                    <div class="panel panel-default set-bg-view">
+                        <div class="container-fluid">
+                            <div class="row-fluid">
 
-                        <br />
-                        <div>
-                            <div class="row">
-                                <div class="col-xs-9 col-sm-9">
-                                    <br />
-                                    <div class="bubble you pull-right">
-
-                                        {{botMessage.message}} </div>
-                                </div>
-                                <div class="col-xs-3 col-sm-3">
-                                    <img src="app/img/User.png" class="img-circle pull-right" width="80" height="80">
-                                </div>
+                                <label> Debug: UserID: {{botMessage.user}}, BotMessage: {{botMessage.message}}, Buttons:
+                                    <div *ngFor="let button of botMessage.buttons"> {{button.text}}</div>
+                                </label>
                             </div>
                         </div>
-                        <br />
-                        <div *ngIf="lst">
-                            <div class="container-fluid">
-                                <div class="row-fluid">
-                                    <div class="panel panel-default set-bg-view">
-                                        <label> Debug: BotID: {{botMessage.id}}, BotMessage: {{botMessage.message}},
-                                            Buttons: <div *ngFor="let button of botMessage.buttons"> {{button.text}} </div>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="container-fluid">
-                                <div class="row-fluid">
-                                    <div class="btn-group btn-group-justified">
-                                        <div *ngFor="let button of botMessage.buttons" class="btn btn-default"
-                                             (click)="ReplyButton(button.text,debugValue)">{{button.text}}</div>
-                                    </div>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="row-fluid">
+                            <div class="btn-group set-width">
+                                <div *ngFor="let button of botMessage.buttons" class="btn btn-default"
+                                     (click)="Reply(button.text,button.id)">{{button.text}}
                                 </div>
                             </div>
                         </div>
@@ -72,12 +50,12 @@
             </div>
         </div>
     </div>
-    <br />
 </div>
+<br/>
 <div class="container-fluid">
     <div class="row-fluid">
         <input type="text" class="form-control" [(ngModel)]="replyValue" required (keyup.enter)="Reply(replyValue)">
-        <br />
+        <br/>
         <button class="btn btn-default pull-right" (click)="Reply(replyValue)">Reply</button>
     </div>
 </div>

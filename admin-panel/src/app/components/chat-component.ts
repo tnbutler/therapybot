@@ -6,57 +6,61 @@ import {UserMessageDataService} from '../service/usermessagedata.service'
 
 @Component({
     selector: 'chat',
-    //moduleId: module.id,
     templateUrl: 'chat-component.html',
 })
 
 export class ChatComponent implements OnInit {
-    botMessages:Message[];
-    but:Message;
-    userMessages:UserMessage[];
-    button:Message;
-    message:Message;
-    errorMessage:string;
-    index:number;
-    replyValue:string;
-    debug:string;
+    botMessages: Message[] = [];
+    botMessage: Message;
+    but: Message;
+    userMessages: UserMessage[] = [];
+    userMessage: UserMessage;
 
+    button: Message;
+    message: Message;
+    errorMessage: string;
+    index: number;
+    replyValue: string;
+    debug: string;
+
+    state: boolean = false;
     name = 'chat';
 
-    constructor(private _messagedataService:MessageDataService,
-                private _usermessageService:UserMessageDataService) {
+    empty = '';
+    id: number;
+
+    constructor(private _messageDataService: MessageDataService,
+                private _userMessageDataService: UserMessageDataService) {
     }
 
-    getMessage() {
-        this._messagedataService.getMessages()
+    Empty() {
+        this._userMessageDataService.empty()
             .then(
-                messages => this.botMessages = messages,
-                error => this.errorMessage = <any>error);
-        this._usermessageService.getMessages()
-            .then(
-                messages => this.userMessages = messages,
-                error => this.errorMessage = <any>error);
+                messages => this.botMessage = messages,
+                error => this.errorMessage = <any>error)
+
+        setTimeout(() => console.log(this.botMessages.push(this.botMessage)), 1000)
+        setTimeout(() => console.log(this.botMessage.user), 1000)
+
     }
 
-    Reply(message:string) {
-        this._usermessageService.addMessage(message)
+    Reply(message: string,buttonID: number) {
+        this.userMessage = {user: this.botMessage.user, message: message, buttonId: buttonID }
+        this.userMessages.push(this.userMessage)
+        this.replyValue = '';
+        this._userMessageDataService.addMessage(this.userMessage.user, message)
             .then(
-
                 // TODO: Create UserMessage instance
 
-                messages => this.userMessages.push(messages),   // TODO: push it here!
-                error => this.errorMessage = <any>error);
-        this.replyValue = '';
-    }
-
-    ReplyButton(message:string, debug:string) {
-        this._usermessageService.addMessage(message)
-            .then(
-                messages => this.userMessages.push(messages),
+                messages => this.botMessages.push(messages),   // TODO: push it here!
                 error => this.errorMessage = <any>error);
     }
 
     ngOnInit() {
         // TODO: Send the first empty message - to get the user ID
+        if (!this.state) {
+            this.Empty()
+        }
+
     }
 }

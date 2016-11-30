@@ -8,17 +8,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require("@angular/core");
-var http_1 = require("@angular/http");
-var http_2 = require("@angular/http");
-require("rxjs/add/operator/toPromise");
-require("rxjs/add/operator/catch");
-require("rxjs/Rx");
-require("rxjs/add/observable/throw");
+var core_1 = require('@angular/core');
+var http_1 = require('@angular/http');
+var http_2 = require('@angular/http');
+require('rxjs/add/operator/toPromise');
+require('rxjs/add/operator/catch');
+require('rxjs/Rx');
+require('rxjs/add/observable/throw');
 var UserMessageDataService = (function () {
     function UserMessageDataService(http) {
         this.http = http;
-        this.messagesUrl = 'http://bot.loc:81/demoApi';
+        this.messagesUrl = 'http://therapybot-api.vp-software.com/demoApi';
     }
     UserMessageDataService.prototype.getMessages = function () {
         return this.http.get(this.messagesUrl)
@@ -26,10 +26,18 @@ var UserMessageDataService = (function () {
             .then(this.extractData)
             .catch(this.handleError);
     };
-    UserMessageDataService.prototype.addMessage = function (message) {
+    UserMessageDataService.prototype.addMessage = function (user, message) {
         var headers = new http_2.Headers({ 'Content-Type': 'application/json' });
         var options = new http_2.RequestOptions({ headers: headers });
-        return this.http.post(this.messagesUrl, { message: message }, options)
+        return this.http.post(this.messagesUrl, { user: user, message: message }, options)
+            .toPromise()
+            .then(this.extractData)
+            .catch(this.handleError);
+    };
+    UserMessageDataService.prototype.empty = function () {
+        var headers = new http_2.Headers({ 'Content-Type': 'application/json' });
+        var options = new http_2.RequestOptions({ headers: headers });
+        return this.http.post(this.messagesUrl, {}, options)
             .toPromise()
             .then(this.extractData)
             .catch(this.handleError);
@@ -51,11 +59,11 @@ var UserMessageDataService = (function () {
         console.error(errMsg);
         return Promise.reject(errMsg);
     };
+    UserMessageDataService = __decorate([
+        core_1.Injectable(), 
+        __metadata('design:paramtypes', [http_1.Http])
+    ], UserMessageDataService);
     return UserMessageDataService;
 }());
-UserMessageDataService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http])
-], UserMessageDataService);
 exports.UserMessageDataService = UserMessageDataService;
 //# sourceMappingURL=usermessagedata.service.js.map

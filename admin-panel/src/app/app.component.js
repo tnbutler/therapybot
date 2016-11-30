@@ -8,23 +8,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require("@angular/core");
-var messagedata_service_1 = require("./service/messagedata.service");
-var usermessagedata_service_1 = require("./service/usermessagedata.service");
-require("./rxjs-operators");
+var core_1 = require('@angular/core');
+var messagedata_service_1 = require('./service/messagedata.service');
+var usermessagedata_service_1 = require('./service/usermessagedata.service');
+require('./rxjs-operators');
 var AppComponent = (function () {
     function AppComponent() {
         this.name = 'Angular';
     }
+    AppComponent = __decorate([
+        core_1.Component({
+            selector: 'my-app',
+            template: "\n  <div #list class=\"list\" [scrollTop]=\"list.scrollHeight\">\n  <h1> Chat</h1>\n\t<router-outlet></router-outlet>\n\t</div>\n  ",
+            providers: [messagedata_service_1.MessageDataService, usermessagedata_service_1.UserMessageDataService]
+        }), 
+        __metadata('design:paramtypes', [])
+    ], AppComponent);
     return AppComponent;
 }());
-AppComponent = __decorate([
-    core_1.Component({
-        selector: 'my-app',
-        template: "\n  <div #list class=\"list\" [scrollTop]=\"list.scrollHeight\">\n  <h1> Chat</h1>\n\t<router-outlet></router-outlet>\n\t</div>\n  ",
-        providers: [messagedata_service_1.MessageDataService, usermessagedata_service_1.UserMessageDataService]
-    }),
-    __metadata("design:paramtypes", [])
-], AppComponent);
 exports.AppComponent = AppComponent;
 //# sourceMappingURL=app.component.js.map
