@@ -6,7 +6,7 @@ import {UserMessageDataService} from '../service/usermessagedata.service'
 
 @Component({
     selector: 'chat',
-    moduleId: module.id,
+    //moduleId: module.id,
     templateUrl: 'chat-component.html',
 })
 
