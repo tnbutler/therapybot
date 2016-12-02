@@ -10,7 +10,6 @@
     import { ChatComponent } from './components/chat-component';
 
     import { Message } from './class/message'
-    import { MessageDataService } from './service/messagedata.service'
     import { UserMessageDataService } from './service/usermessagedata.service'
     import './rxjs-operators';
 
@@ -39,7 +38,7 @@
 
       ],
       declarations: [ AppComponent, ChatComponent],
-      providers: [MessageDataService,UserMessageDataService],
+      providers: [UserMessageDataService],
       bootstrap:    [ AppComponent ]
     })
 

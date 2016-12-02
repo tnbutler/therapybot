@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 
-import { MessageDataService } from './service/messagedata.service';
 import { UserMessageDataService } from './service/usermessagedata.service'
 import './rxjs-operators';
 
@@ -8,10 +7,9 @@ import './rxjs-operators';
   selector: 'my-app',
   template: `
   <div #list class="list" [scrollTop]="list.scrollHeight">
-  <h1> Chat</h1>
 	<router-outlet></router-outlet>
 	</div>
   `,
-  providers: [MessageDataService,UserMessageDataService]
+  providers: [UserMessageDataService]
 })
-export class AppComponent  { name = 'Angular'; }
+export class AppComponent  {  }
