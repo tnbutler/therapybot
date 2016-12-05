@@ -9,25 +9,25 @@ import {UserMessageDataService} from '../service/usermessagedata.service'
 })
 
 export class ChatComponent implements OnInit {
-    botMessages: Message[] = [];
-    botMessage: Message;
-    but: Message;
-    userMessages: UserMessage[] = [];
-    userMessage: UserMessage;
+    botMessages:Message[] = [];
+    botMessage:Message;
+    but:Message;
+    userMessages:UserMessage[] = [];
+    userMessage:UserMessage;
 
-    button: Message;
-    message: Message;
-    errorMessage: string;
-    index: number;
-    replyValue: string;
-    debug: string;
-    state: boolean = false;
+    button:Message;
+    message:Message;
+    errorMessage:string;
+    index:number;
+    replyValue:string;
+    debug:string;
+    state:boolean = false;
     name = 'chat';
 
     empty = '';
-    id: number;
+    id:number;
 
-    constructor(private _userMessageDataService: UserMessageDataService) {
+    constructor(private _userMessageDataService:UserMessageDataService) {
     }
 
     Empty() {
@@ -42,8 +42,12 @@ export class ChatComponent implements OnInit {
         setTimeout(() => console.log(this.botMessage.user), 1000);
     }
 
-    Reply(message: string,buttonID: number) {
-        this.userMessage = {user: this.botMessage.user, message: message, buttonId: buttonID };
+    Reply(message:string, buttonID:number) {
+        this.userMessage = {
+            user: this.botMessage.user,
+            message: message,
+            buttonId: buttonID
+        };
         this.userMessages.push(this.userMessage)
         this.replyValue = '';
         this._userMessageDataService.addMessage(this.userMessage.user, message)
