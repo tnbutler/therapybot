@@ -10,7 +10,6 @@ import {UserMessageDataService} from '../service/usermessagedata.service'
 
 export class ChatComponent implements OnInit {
     botMessages:Message[] = [];
-    botMessage:Message;
     but:Message;
     userMessages:UserMessage[] = [];
     userMessage:UserMessage;
@@ -27,25 +26,14 @@ export class ChatComponent implements OnInit {
     empty = '';
     id:number;
 
+    userId:number = 0;
+
     constructor(private _userMessageDataService:UserMessageDataService) {
-    }
-
-    StartChatSession() {
-        console.log('ChatComponent::StartChatSession() is called');
-        this.userMessages = [];
-        this.botMessages = [];
-        this._userMessageDataService.empty()
-            .then(
-                messages => this.botMessage = messages,
-                error => this.errorMessage = <any>error);
-
-        setTimeout(() => console.log('debug-1', this.botMessages.push(this.botMessage)), 5000);
-        setTimeout(() => console.log('debug-2', this.botMessage.user), 5000);
     }
 
     Reply(message:string, buttonID:number) {
         this.userMessage = {
-            user: this.botMessage.user,
+            user: this.userId,
             message: message,
             buttonId: buttonID
         };
@@ -53,9 +41,7 @@ export class ChatComponent implements OnInit {
         this.replyValue = '';
         this._userMessageDataService.addMessage(this.userMessage.user, message)
             .then(
-                // TODO: Create UserMessage instance
-
-                messages => this.botMessages.push(messages),   // TODO: push it here!
+                messages => this.botMessages.push(messages),
                 error => this.errorMessage = <any>error);
         this.chatSessionIsStarted = true;
     }
@@ -63,7 +49,21 @@ export class ChatComponent implements OnInit {
     ngOnInit() {
         console.log('ChatComponent::ngOnInit() is called');
         if (!this.chatSessionIsStarted) {
-            this.StartChatSession()
+            this.StartNewChat();
         }
+    }
+
+    StartNewChat() {
+        console.log('ChatComponent::StartChatSession() is called');
+        this.userMessages = [];
+        this.botMessages = [];
+        this._userMessageDataService.empty()
+            .then(
+                messages => {
+                    console.log('Received messages: ', messages);
+                    this.userId = messages.user;
+                    this.botMessages.push(messages);
+                },
+                error => this.errorMessage = <any>error);
     }
 }
