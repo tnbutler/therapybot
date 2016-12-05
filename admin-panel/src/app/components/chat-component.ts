@@ -21,7 +21,7 @@ export class ChatComponent implements OnInit {
     index:number;
     replyValue:string;
     debug:string;
-    state:boolean = false;
+    chatSessionIsStarted:boolean = false;
     name = 'chat';
 
     empty = '';
@@ -30,7 +30,8 @@ export class ChatComponent implements OnInit {
     constructor(private _userMessageDataService:UserMessageDataService) {
     }
 
-    Empty() {
+    StartChatSession() {
+        console.log('ChatComponent::StartChatSession() is called');
         this.userMessages = [];
         this.botMessages = [];
         this._userMessageDataService.empty()
@@ -38,8 +39,8 @@ export class ChatComponent implements OnInit {
                 messages => this.botMessage = messages,
                 error => this.errorMessage = <any>error);
 
-        setTimeout(() => console.log(this.botMessages.push(this.botMessage)), 1000);
-        setTimeout(() => console.log(this.botMessage.user), 1000);
+        setTimeout(() => console.log('debug-1', this.botMessages.push(this.botMessage)), 5000);
+        setTimeout(() => console.log('debug-2', this.botMessage.user), 5000);
     }
 
     Reply(message:string, buttonID:number) {
@@ -56,14 +57,13 @@ export class ChatComponent implements OnInit {
 
                 messages => this.botMessages.push(messages),   // TODO: push it here!
                 error => this.errorMessage = <any>error);
-        this.state = true;
+        this.chatSessionIsStarted = true;
     }
 
     ngOnInit() {
-        // TODO: Send the first empty message - to get the user ID
-        if (!this.state) {
-            this.Empty()
+        console.log('ChatComponent::ngOnInit() is called');
+        if (!this.chatSessionIsStarted) {
+            this.StartChatSession()
         }
-
     }
 }
