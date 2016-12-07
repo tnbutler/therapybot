@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 30, 2016 at 05:43 AM
+-- Generation Time: Dec 07, 2016 at 08:11 AM
 -- Server version: 5.6.26-log
 -- PHP Version: 5.6.12
 
@@ -102,13 +102,13 @@ CREATE TABLE IF NOT EXISTS `chat_nodes` (
 --
 
 INSERT INTO `chat_nodes` (`id`, `system_name`, `question_text`, `user_variable_name`, `is_start_node`) VALUES
-(1, 'N001_FIRST_GREETING', 'Hi, I am Bob. I am a chatbot that uses evidence-based therapy to help people who are experiencing negative feelings. What should I call you?', 'USER_NAME', 1),
-(2, 'N002_WHAT_IS_YOUR_MOOD', 'Hi @USER_NAME@! Obviously, I am not a human, but I will do my best to respond appropriately to what you write. Let''s start by doing a simple MOOD CHECK. How would you describe your mood currently?', 'USER_MOOD', 0),
+(1, 'N001_FIRST_GREETING', 'Hey, my name is TherapyBot!  What is your name?', 'USER_NAME', 1),
+(2, 'N002_WHAT_IS_YOUR_MOOD', 'Hi @USER_NAME@ =)  You can read more about me here: http://google.fi. Let’s start by doing a simple MOOD CHECK. How would you describe your mood now?', 'USER_MOOD', 0),
 (3, 'N003_POSSIBLE_MOODS_HELPER', 'Well, as you asked to help, here is list of suggestions for you: peace and quiet, lack of emotion; surprise, astonishment; anticipation; emotional uplift, excitement; inspiration, enthusiasm... Now, how would you describe your mood currently?', 'USER_MOOD', 0),
 (4, 'N004_FEELING_VERIFY', 'I understand you are feeling @USER_MOOD@. Is that correct?', NULL, 0),
-(5, 'N005_MOOD_INTENSITY', 'Now, on a scale from 1 to 5, how intensely are you feeling @USER_MOOD@?', 'MOOD_INTENSITY', 0),
+(5, 'N005_MOOD_INTENSITY', 'Got it. On a scale from 1 to 5, how intensely are you feeling @USER_MOOD@?', 'MOOD_INTENSITY', 0),
 (6, 'N006_MOOD_VERIFY', 'I understand you are feeling @USER_MOOD@ at an intensity of @MOOD_INTENSITY@ out of 5. Is this correct?', NULL, 0),
-(7, 'N007_MOOD_CHECK_COMPLETED', 'Thank you for completing your MOOD CHECK!', NULL, 0);
+(7, 'N007_MOOD_CHECK_COMPLETED', 'Thank you, @USER_NAME@, for taking the time to complete your MOOD CHECK.', NULL, 0);
 
 -- --------------------------------------------------------
 
