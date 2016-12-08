@@ -7,12 +7,12 @@ use Mockery\CountValidator\Exception;
 
 class SemanticAnalysis
 {
-    public function instructionFind($messageText, $patternName)
+    public function instructionFind($messageText, $dictionaryGroupId)
     {
-        $dictionaryGroup = DictionaryGroup::where('name', $patternName)->first();
+        $dictionaryGroup = DictionaryGroup::find($dictionaryGroupId);
 
         if (!$dictionaryGroup) {
-            $exceptionText = trans('exceptions.cant_find_dictionary_group') . ": " . $patternName;
+            $exceptionText = trans('exceptions.cant_find_dictionary_group') . ": " . $dictionaryGroupId;
             throw new Exception($exceptionText);
         }
 
