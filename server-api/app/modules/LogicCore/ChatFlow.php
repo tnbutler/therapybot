@@ -45,10 +45,10 @@ class ChatFlow
             $this->_logChatRecord($chatNode, false, $userResponse->getMessage(), $userResponse->getButtonId());
 
             // Set user variables
-            $userVariableName = $chatNode->user_variable_name;
-            if (isset($userVariableName)) {
+            $userVariableId = $chatNode->user_variable_id;
+            if (isset($userVariableId)) {
                 $userVariables = new UserVariables($this->botUser);
-                $userVariables->set($userVariableName, $userResponse->getUserVariableValue());
+                $userVariables->set($userVariableId, $userResponse->getUserVariableValue());
             }
 
             // Get the next node, by processing the rules

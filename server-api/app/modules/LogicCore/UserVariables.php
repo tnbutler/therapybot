@@ -2,7 +2,7 @@
 
 namespace App\Modules\LogicCore;
 
-use App\Models\UserVariable;
+use App\Models\UserVariableValue;
 use App\Models\BotUser;
 use App\Modules\BotUserProcessing;
 
@@ -10,35 +10,40 @@ class UserVariables
 {
     private $botUser;
 
-    const USER_NAME_VARIABLE = 'USER_NAME';
+    const USER_NAME_VARIABLE_ID = 1;
 
     function __construct(BotUser $botUser)
     {
         $this->botUser = $botUser;
     }
 
-    public function set($varName, $value)
+    public function set($userVariableId, $value)
     {
         // Try to find
-        $userVariable = UserVariable::where([
+        $userVariableValue = UserVariableValue::where([
             ['bot_users_id', '=', $this->botUser->id],
-            ['variable_name', '=', $varName]])
+            ['user_variable_id', '=', $userVariableId]])
             ->orderBy('updated_at', 'desc')
             ->first();
 
         // Create, if not found
-        if (!$userVariable) {
-            $userVariable = new UserVariable;
-            $userVariable->bot_users_id = $this->botUser->id;
-            $userVariable->variable_name = $varName;
+        if (!$userVariableValue) {
+            $userVariableValue = new UserVariableValue;
+            $userVariableValue->bot_users_id = $this->botUser->id;
+            $userVariableValue->user_variable_id = $userVariableId;
         }
 
         // Set value & save
-        $userVariable->value = $value;
-        $userVariable->save();          // Method save does not exist.
+        $userVariableValue->value = $value;
+        $userVariableValue->save();
 
         // Custom processing rules for some variables
-        if ($varName == self::USER_NAME_VARIABLE) {
+        $this->performCustomProcessing($userVariableId, $value);
+    }
+
+    private function performCustomProcessing($userVariableId, $value)
+    {
+        if ($userVariableId == self::USER_NAME_VARIABLE_ID) {
             $botUserProcessing = new BotUserProcessing();
             $botUserProcessing->setName($this->botUser->id, $value);
         }

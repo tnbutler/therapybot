@@ -18,13 +18,13 @@ class ChatNode extends Model
         $result = $this->question_text;
 
         // Select list of replaces
-        $replaces = UserVariable::where('bot_users_id', $botUser->id)
+        $replaces = UserVariableValue::where('bot_users_id', $botUser->id)
             ->orderBy('updated_at', 'desc')
             ->get();
 
         // Perform the replaces
         foreach ($replaces as $replace) {
-            $searchString = '@' . $replace->variable_name . '@';
+            $searchString = '[@' . $replace->user_variable_id . '@]';
             $replaceString = $replace->value;
             $result = str_replace($searchString, $replaceString, $result);
         }

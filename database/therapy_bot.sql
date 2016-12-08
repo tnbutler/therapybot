@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 07, 2016 at 08:11 AM
+-- Generation Time: Dec 08, 2016 at 09:44 AM
 -- Server version: 5.6.26-log
 -- PHP Version: 5.6.12
 
@@ -91,9 +91,8 @@ CREATE TABLE IF NOT EXISTS `chat_log_records` (
 
 CREATE TABLE IF NOT EXISTS `chat_nodes` (
   `id` int(11) NOT NULL,
-  `system_name` varchar(255) DEFAULT NULL,
   `question_text` text,
-  `user_variable_name` varchar(255) DEFAULT NULL,
+  `user_variable_id` int(11) DEFAULT NULL,
   `is_start_node` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
@@ -101,14 +100,14 @@ CREATE TABLE IF NOT EXISTS `chat_nodes` (
 -- Dumping data for table `chat_nodes`
 --
 
-INSERT INTO `chat_nodes` (`id`, `system_name`, `question_text`, `user_variable_name`, `is_start_node`) VALUES
-(1, 'N001_FIRST_GREETING', 'Hey, my name is TherapyBot!  What is your name?', 'USER_NAME', 1),
-(2, 'N002_WHAT_IS_YOUR_MOOD', 'Hi @USER_NAME@ =)  You can read more about me here: http://google.fi. Let’s start by doing a simple MOOD CHECK. How would you describe your mood now?', 'USER_MOOD', 0),
-(3, 'N003_POSSIBLE_MOODS_HELPER', 'Well, as you asked to help, here is list of suggestions for you: peace and quiet, lack of emotion; surprise, astonishment; anticipation; emotional uplift, excitement; inspiration, enthusiasm... Now, how would you describe your mood currently?', 'USER_MOOD', 0),
-(4, 'N004_FEELING_VERIFY', 'I understand you are feeling @USER_MOOD@. Is that correct?', NULL, 0),
-(5, 'N005_MOOD_INTENSITY', 'Got it. On a scale from 1 to 5, how intensely are you feeling @USER_MOOD@?', 'MOOD_INTENSITY', 0),
-(6, 'N006_MOOD_VERIFY', 'I understand you are feeling @USER_MOOD@ at an intensity of @MOOD_INTENSITY@ out of 5. Is this correct?', NULL, 0),
-(7, 'N007_MOOD_CHECK_COMPLETED', 'Thank you, @USER_NAME@, for taking the time to complete your MOOD CHECK.', NULL, 0);
+INSERT INTO `chat_nodes` (`id`, `question_text`, `user_variable_id`, `is_start_node`) VALUES
+(1, 'Hey, my name is TherapyBot!  What is your name?', 1, 1),
+(2, 'Hi [@1@] =)  You can read more about me here: http://google.fi. Let’s start by doing a simple MOOD CHECK. How would you describe your mood now?', 2, 0),
+(3, 'Well, as you asked to help, here is list of suggestions for you: peace and quiet, lack of emotion; surprise, astonishment; anticipation; emotional uplift, excitement; inspiration, enthusiasm... Now, how would you describe your mood currently?', 2, 0),
+(4, 'I understand you are feeling [@2@]. Is that correct?', NULL, 0),
+(5, 'Got it. On a scale from 1 to 5, how intensely are you feeling [@2@]?', 3, 0),
+(6, 'I understand you are feeling [@2@] at an intensity of [@3@] out of 5. Is this correct?', NULL, 0),
+(7, 'Thank you, [@1@], for taking the time to complete your MOOD CHECK.', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -242,10 +241,31 @@ INSERT INTO `node_flow_rules` (`id`, `parent_node_id`, `answer_buttons_id`, `chi
 
 CREATE TABLE IF NOT EXISTS `user_variables` (
   `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `is_system` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `user_variables`
+--
+
+INSERT INTO `user_variables` (`id`, `name`, `is_system`) VALUES
+(1, 'USER_NAME', 1),
+(2, 'USER_MOOD', 0),
+(3, 'MOOD_INTENSITY', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_variable_values`
+--
+
+CREATE TABLE IF NOT EXISTS `user_variable_values` (
+  `id` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `bot_users_id` int(11) NOT NULL,
-  `variable_name` varchar(255) NOT NULL,
+  `user_variable_id` int(11) NOT NULL,
   `value` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -300,8 +320,14 @@ ALTER TABLE `node_flow_rules`
 -- Indexes for table `user_variables`
 --
 ALTER TABLE `user_variables`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `user_variable_values`
+--
+ALTER TABLE `user_variable_values`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `bot_users_id` (`bot_users_id`,`variable_name`);
+  ADD KEY `bot_users_id` (`bot_users_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -346,6 +372,11 @@ ALTER TABLE `node_flow_rules`
 -- AUTO_INCREMENT for table `user_variables`
 --
 ALTER TABLE `user_variables`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `user_variable_values`
+--
+ALTER TABLE `user_variable_values`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
