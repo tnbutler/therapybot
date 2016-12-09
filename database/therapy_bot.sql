@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 09, 2016 at 06:21 AM
+-- Generation Time: Dec 09, 2016 at 07:07 AM
 -- Server version: 5.6.26-log
 -- PHP Version: 5.6.12
 
@@ -55,7 +55,7 @@ INSERT INTO `answer_buttons` (`id`, `chat_node_id`, `text`, `child_chat_node_id`
 (12, 5, '5', 6, 5, 1, 8),
 (18, 6, 'Yes', 7, 1, 1, 1),
 (19, 6, 'No', 3, 2, 1, 2),
-(20, 2, 'HELP', 4, 6, 0, 3);
+(20, 2, 'HELP', 3, 6, 0, 3);
 
 -- --------------------------------------------------------
 

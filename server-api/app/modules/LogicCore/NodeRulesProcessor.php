@@ -35,7 +35,6 @@ class NodeRulesProcessor
         foreach ($this->chatNode->answerButtons as $questionButton) {
             if (isset($questionButton->dictionary_group_id)) {
                 if ($semanticAnalysis->instructionFind($this->userResponse->getMessage(), $questionButton->dictionary_group_id)) {
-                    //echo "BBB";
                     return $this->_getChatNodeById($questionButton->child_chat_node_id);
                 }
             }
