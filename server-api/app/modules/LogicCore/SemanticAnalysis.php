@@ -20,7 +20,7 @@ class SemanticAnalysis
 
         foreach ($dictionaryGroup->synonyms as $dictionarySynonym) {
             $text = $dictionarySynonym->text;
-            if ($this->_findText($message, $text)) {
+            if (stripos($message, $text) !== false) {
                 return true;
             }
         }
@@ -29,7 +29,7 @@ class SemanticAnalysis
     private function _cleanupMessage($messageText)
     {
         // Instructions should be short - just cut some amount of chars
-        $messageText = substr($messageText, 0, 15);
+        $messageText = substr($messageText, 0, 20);
         $messageText = trim($messageText);
 
         // Replace punctuation, line returns and tabs with space, but leave '?'
@@ -41,12 +41,5 @@ class SemanticAnalysis
         $messageText = preg_replace('/\s+/', ' ', $messageText);
 
         return $messageText;
-    }
-
-    private function _findText($message, $text)
-    {
-        $message = strtolower($message);
-        $text = strtolower($text);
-        return strpos($message, $text) !== false;
     }
 }

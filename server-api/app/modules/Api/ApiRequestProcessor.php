@@ -21,7 +21,11 @@ class ApiRequestProcessor
         $nextChatNode = $chatFlow->processUserAnswer($userResponse);
 
         $responseMessage = $nextChatNode->getFormattedQuestionText($this->botUser);
-        $answerButtons = $nextChatNode->answerButtons;
+
+        // Todo : Filter the ones with is_visible = 0 here
+        $answerButtons = $nextChatNode->answerButtons->where("is_visible", "1");
+
+
 
         return new ApiResponse($this->botUser->id, $responseMessage, $answerButtons);
     }

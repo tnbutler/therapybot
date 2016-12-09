@@ -6,6 +6,7 @@ use App\Models\ChatNode;
 use App\Models\BotUser;
 use App\Models\AnswerButton;
 use App\Modules\Api\UserResponse;
+use Mockery\CountValidator\Exception;
 
 class NodeRulesProcessor
 {
@@ -25,7 +26,8 @@ class NodeRulesProcessor
         // User clicked the button, the next node is defined in this button
         if ($this->userResponse->isButtonAnswer()) {
             $answerButton = AnswerButton::find($this->userResponse->getButtonId());
-            return ChatNode::find($answerButton->child_chat_node_id);
+            //echo "AAA";
+            return $this->_getChatNodeById($answerButton->child_chat_node_id);
         }
 
         // It's text answer - try to recognize instruction
@@ -33,12 +35,23 @@ class NodeRulesProcessor
         foreach ($this->chatNode->answerButtons as $questionButton) {
             if (isset($questionButton->dictionary_group_id)) {
                 if ($semanticAnalysis->instructionFind($this->userResponse->getMessage(), $questionButton->dictionary_group_id)) {
-                    return ChatNode::find($questionButton->child_chat_node_id);
+                    //echo "BBB";
+                    return $this->_getChatNodeById($questionButton->child_chat_node_id);
                 }
             }
         }
 
         // No text recognized - use 'not recognized node'
-        return ChatNode::find($this->chatNode->not_recognized_chat_node_id);
+        return $this->_getChatNodeById($this->chatNode->not_recognized_chat_node_id);
+    }
+
+    private function _getChatNodeById($chat_node_id)
+    {
+        $chatNode = ChatNode::find($chat_node_id);
+        if (!$chatNode) {
+            $exceptionText = trans('exceptions.cant_find_chat_node') . ": " . $chat_node_id;
+            throw new Exception($exceptionText);
+        }
+        return $chatNode;
     }
 }

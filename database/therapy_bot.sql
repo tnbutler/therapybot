@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 08, 2016 at 09:44 AM
+-- Generation Time: Dec 09, 2016 at 05:55 AM
 -- Server version: 5.6.26-log
 -- PHP Version: 5.6.12
 
@@ -30,28 +30,32 @@ CREATE TABLE IF NOT EXISTS `answer_buttons` (
   `id` int(11) NOT NULL,
   `chat_node_id` int(11) NOT NULL,
   `text` text NOT NULL,
-  `display_order` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+  `child_chat_node_id` int(11) DEFAULT NULL,
+  `display_order` int(11) NOT NULL,
+  `is_visible` tinyint(1) NOT NULL DEFAULT '1',
+  `dictionary_group_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `answer_buttons`
 --
 
-INSERT INTO `answer_buttons` (`id`, `chat_node_id`, `text`, `display_order`) VALUES
-(1, 2, 'Happy', 1),
-(2, 2, 'Sad', 2),
-(3, 2, 'Angry', 3),
-(4, 2, 'Afraid', 4),
-(5, 2, 'Ashamed', 5),
-(6, 4, 'Yes', 1),
-(7, 4, 'No', 2),
-(8, 5, '1', 1),
-(9, 5, '2', 2),
-(10, 5, '3', 3),
-(11, 5, '4', 4),
-(12, 5, '5', 5),
-(18, 6, 'Yes', 1),
-(19, 6, 'No', 2);
+INSERT INTO `answer_buttons` (`id`, `chat_node_id`, `text`, `child_chat_node_id`, `display_order`, `is_visible`, `dictionary_group_id`) VALUES
+(1, 2, 'Happy', 4, 1, 1, NULL),
+(2, 2, 'Sad', 4, 2, 1, NULL),
+(3, 2, 'Angry', 4, 3, 1, NULL),
+(4, 2, 'Afraid', 4, 4, 1, NULL),
+(5, 2, 'Ashamed', 4, 5, 1, NULL),
+(6, 4, 'Yes', 5, 1, 1, 1),
+(7, 4, 'No', 3, 2, 1, 2),
+(8, 5, '1', 6, 1, 1, 4),
+(9, 5, '2', 6, 2, 1, 5),
+(10, 5, '3', 6, 3, 1, 6),
+(11, 5, '4', 6, 4, 1, 7),
+(12, 5, '5', 6, 5, 1, 8),
+(18, 6, 'Yes', 7, 1, 1, 1),
+(19, 6, 'No', 3, 2, 1, 2),
+(20, 2, 'HELP', 4, 6, 0, 3);
 
 -- --------------------------------------------------------
 
@@ -93,21 +97,22 @@ CREATE TABLE IF NOT EXISTS `chat_nodes` (
   `id` int(11) NOT NULL,
   `question_text` text,
   `user_variable_id` int(11) DEFAULT NULL,
-  `is_start_node` tinyint(1) NOT NULL DEFAULT '0'
+  `is_start_node` tinyint(1) NOT NULL DEFAULT '0',
+  `not_recognized_chat_node_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `chat_nodes`
 --
 
-INSERT INTO `chat_nodes` (`id`, `question_text`, `user_variable_id`, `is_start_node`) VALUES
-(1, 'Hey, my name is TherapyBot!  What is your name?', 1, 1),
-(2, 'Hi [@1@] =)  You can read more about me here: http://google.fi. Let’s start by doing a simple MOOD CHECK. How would you describe your mood now?', 2, 0),
-(3, 'Well, as you asked to help, here is list of suggestions for you: peace and quiet, lack of emotion; surprise, astonishment; anticipation; emotional uplift, excitement; inspiration, enthusiasm... Now, how would you describe your mood currently?', 2, 0),
-(4, 'I understand you are feeling [@2@]. Is that correct?', NULL, 0),
-(5, 'Got it. On a scale from 1 to 5, how intensely are you feeling [@2@]?', 3, 0),
-(6, 'I understand you are feeling [@2@] at an intensity of [@3@] out of 5. Is this correct?', NULL, 0),
-(7, 'Thank you, [@1@], for taking the time to complete your MOOD CHECK.', NULL, 0);
+INSERT INTO `chat_nodes` (`id`, `question_text`, `user_variable_id`, `is_start_node`, `not_recognized_chat_node_id`) VALUES
+(1, 'Hey, my name is TherapyBot!  What is your name?', 1, 1, 2),
+(2, 'Hi [@1@] =)  You can read more about me here: http://google.fi. Let’s start by doing a simple MOOD CHECK. How would you describe your mood now?', 2, 0, 4),
+(3, 'Well, as you asked to help, here is list of suggestions for you: peace and quiet, lack of emotion; surprise, astonishment; anticipation; emotional uplift, excitement; inspiration, enthusiasm... Now, how would you describe your mood currently?', 2, 0, 4),
+(4, 'I understand you are feeling [@2@]. Is that correct?', NULL, 0, 5),
+(5, 'Got it. On a scale from 1 to 5, how intensely are you feeling [@2@]?', 3, 0, 5),
+(6, 'I understand you are feeling [@2@] at an intensity of [@3@] out of 5. Is this correct?', NULL, 0, 7),
+(7, 'Thank you, [@1@], for taking the time to complete your MOOD CHECK.', NULL, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -176,62 +181,6 @@ INSERT INTO `dictionary_synonyms` (`id`, `dictionary_group_id`, `text`) VALUES
 (23, 8, '5'),
 (34, 5, 'two'),
 (35, 5, '2');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `node_flow_rules`
---
-
-CREATE TABLE IF NOT EXISTS `node_flow_rules` (
-  `id` int(11) NOT NULL,
-  `parent_node_id` int(11) DEFAULT NULL,
-  `answer_buttons_id` int(11) DEFAULT NULL,
-  `child_node_id` int(11) NOT NULL,
-  `condition_statement` varchar(255) NOT NULL,
-  `execution_priority` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `node_flow_rules`
---
-
-INSERT INTO `node_flow_rules` (`id`, `parent_node_id`, `answer_buttons_id`, `child_node_id`, `condition_statement`, `execution_priority`) VALUES
-(1, 1, NULL, 2, 'GOTO', 2),
-(2, 2, NULL, 3, 'INSTRUCTION_FIND(''help'')', 1),
-(3, NULL, 1, 4, 'GOTO', 1),
-(4, NULL, 2, 4, 'GOTO', 1),
-(5, NULL, 3, 4, 'GOTO', 1),
-(6, NULL, 4, 4, 'GOTO', 1),
-(7, NULL, 5, 4, 'GOTO', 1),
-(8, 3, NULL, 4, 'GOTO', 1),
-(9, 2, NULL, 4, 'GOTO', 2),
-(10, NULL, 6, 5, 'GOTO', 1),
-(11, NULL, 7, 3, 'GOTO', 1),
-(12, 4, NULL, 5, 'INSTRUCTION_FIND(''yes'')', 1),
-(13, 4, NULL, 3, 'INSTRUCTION_FIND(''no'')', 2),
-(14, 4, NULL, 5, 'GOTO', 3),
-(15, NULL, 8, 6, 'GOTO', 1),
-(16, NULL, 9, 6, 'GOTO', 2),
-(17, NULL, 10, 6, 'GOTO', 3),
-(18, NULL, 11, 6, 'GOTO', 4),
-(19, NULL, 12, 6, 'GOTO', 5),
-(20, NULL, 13, 6, 'GOTO', 6),
-(21, NULL, 14, 6, 'GOTO', 7),
-(22, NULL, 15, 6, 'GOTO', 8),
-(23, NULL, 16, 6, 'GOTO', 9),
-(24, NULL, 17, 6, 'GOTO', 10),
-(25, 5, NULL, 6, 'INSTRUCTION_FIND(''one'')', 1),
-(26, 5, NULL, 6, 'INSTRUCTION_FIND(''two'')', 2),
-(27, 5, NULL, 6, 'INSTRUCTION_FIND(''three'')', 3),
-(28, 5, NULL, 6, 'INSTRUCTION_FIND(''four'')', 4),
-(29, 5, NULL, 6, 'INSTRUCTION_FIND(''five'')', 5),
-(35, 5, NULL, 5, 'GOTO', 11),
-(36, 6, NULL, 7, 'INSTRUCTION_FIND(''yes'')', 1),
-(37, 6, NULL, 3, 'INSTRUCTION_FIND(''no'')', 2),
-(38, 6, NULL, 7, 'GOTO', 3),
-(39, NULL, 18, 7, 'GOTO', 1),
-(40, NULL, 19, 3, 'GOTO', 2);
 
 -- --------------------------------------------------------
 
@@ -311,12 +260,6 @@ ALTER TABLE `dictionary_synonyms`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `node_flow_rules`
---
-ALTER TABLE `node_flow_rules`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `user_variables`
 --
 ALTER TABLE `user_variables`
@@ -337,7 +280,7 @@ ALTER TABLE `user_variable_values`
 -- AUTO_INCREMENT for table `answer_buttons`
 --
 ALTER TABLE `answer_buttons`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `bot_users`
 --
@@ -363,11 +306,6 @@ ALTER TABLE `dictionary_groups`
 --
 ALTER TABLE `dictionary_synonyms`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=36;
---
--- AUTO_INCREMENT for table `node_flow_rules`
---
-ALTER TABLE `node_flow_rules`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=41;
 --
 -- AUTO_INCREMENT for table `user_variables`
 --

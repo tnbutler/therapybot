@@ -17,12 +17,10 @@ class ChatNode extends Model
     {
         $result = $this->question_text;
 
-        // Select list of replaces
         $replaces = UserVariableValue::where('bot_users_id', $botUser->id)
             ->orderBy('updated_at', 'desc')
             ->get();
 
-        // Perform the replaces
         foreach ($replaces as $replace) {
             $searchString = '[@' . $replace->user_variable_id . '@]';
             $replaceString = $replace->value;
