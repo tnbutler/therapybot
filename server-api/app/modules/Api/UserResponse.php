@@ -9,10 +9,16 @@ class UserResponse
     private $message;
     private $buttonId;
 
-    function __construct($message, $buttonId)
+    function __construct($message, $buttonId, $chat_version_id)
     {
         $this->message = $message;
         $this->buttonId = $buttonId;
+        $this->chat_version_id = $chat_version_id;
+    }
+
+    public function getChatVersion()
+    {
+        return $this->chat_version_id;
     }
 
     public function getMessage()

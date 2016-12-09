@@ -10,10 +10,12 @@ use App\Modules\Api\UserResponse;
 class ChatFlow
 {
     private $botUser;
+    private $chat_version_id;
 
-    function __construct(BotUser $botUser)
+    function __construct(BotUser $botUser, $chat_version_id)
     {
         $this->botUser = $botUser;
+        $this->chat_version_id = $chat_version_id;
     }
 
     /**
@@ -57,7 +59,10 @@ class ChatFlow
         }
 
         // Ask the start question
-        return ChatNode::where('is_start_node', 1)->first();
+        return ChatNode::where([
+            'is_start_node' => 1,
+            'chat_version_id' => $this->chat_version_id
+        ])->first();
     }
 
     private function _logChatRecord(ChatNode $chatNode, $is_bot_question, $messageText = '', $buttonId = null)

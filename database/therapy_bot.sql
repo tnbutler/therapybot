@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 09, 2016 at 05:55 AM
+-- Generation Time: Dec 09, 2016 at 06:21 AM
 -- Server version: 5.6.26-log
 -- PHP Version: 5.6.12
 
@@ -95,6 +95,7 @@ CREATE TABLE IF NOT EXISTS `chat_log_records` (
 
 CREATE TABLE IF NOT EXISTS `chat_nodes` (
   `id` int(11) NOT NULL,
+  `chat_version_id` int(11) NOT NULL,
   `question_text` text,
   `user_variable_id` int(11) DEFAULT NULL,
   `is_start_node` tinyint(1) NOT NULL DEFAULT '0',
@@ -105,14 +106,33 @@ CREATE TABLE IF NOT EXISTS `chat_nodes` (
 -- Dumping data for table `chat_nodes`
 --
 
-INSERT INTO `chat_nodes` (`id`, `question_text`, `user_variable_id`, `is_start_node`, `not_recognized_chat_node_id`) VALUES
-(1, 'Hey, my name is TherapyBot!  What is your name?', 1, 1, 2),
-(2, 'Hi [@1@] =)  You can read more about me here: http://google.fi. Let’s start by doing a simple MOOD CHECK. How would you describe your mood now?', 2, 0, 4),
-(3, 'Well, as you asked to help, here is list of suggestions for you: peace and quiet, lack of emotion; surprise, astonishment; anticipation; emotional uplift, excitement; inspiration, enthusiasm... Now, how would you describe your mood currently?', 2, 0, 4),
-(4, 'I understand you are feeling [@2@]. Is that correct?', NULL, 0, 5),
-(5, 'Got it. On a scale from 1 to 5, how intensely are you feeling [@2@]?', 3, 0, 5),
-(6, 'I understand you are feeling [@2@] at an intensity of [@3@] out of 5. Is this correct?', NULL, 0, 7),
-(7, 'Thank you, [@1@], for taking the time to complete your MOOD CHECK.', NULL, 0, 1);
+INSERT INTO `chat_nodes` (`id`, `chat_version_id`, `question_text`, `user_variable_id`, `is_start_node`, `not_recognized_chat_node_id`) VALUES
+(1, 1, 'Hey, my name is TherapyBot!  What is your name?', 1, 1, 2),
+(2, 1, 'Hi [@1@] =)  You can read more about me here: http://google.fi. Let’s start by doing a simple MOOD CHECK. How would you describe your mood now?', 2, 0, 4),
+(3, 1, 'Well, as you asked to help, here is list of suggestions for you: peace and quiet, lack of emotion; surprise, astonishment; anticipation; emotional uplift, excitement; inspiration, enthusiasm... Now, how would you describe your mood currently?', 2, 0, 4),
+(4, 1, 'I understand you are feeling [@2@]. Is that correct?', NULL, 0, 5),
+(5, 1, 'Got it. On a scale from 1 to 5, how intensely are you feeling [@2@]?', 3, 0, 5),
+(6, 1, 'I understand you are feeling [@2@] at an intensity of [@3@] out of 5. Is this correct?', NULL, 0, 7),
+(7, 1, 'Thank you, [@1@], for taking the time to complete your MOOD CHECK.', NULL, 0, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `chat_versions`
+--
+
+CREATE TABLE IF NOT EXISTS `chat_versions` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `chat_versions`
+--
+
+INSERT INTO `chat_versions` (`id`, `title`, `create_at`) VALUES
+(1, 'Initial MOOD CHECK MODULE.', '2016-12-09 10:07:16');
 
 -- --------------------------------------------------------
 
@@ -247,6 +267,12 @@ ALTER TABLE `chat_nodes`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `chat_versions`
+--
+ALTER TABLE `chat_versions`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `dictionary_groups`
 --
 ALTER TABLE `dictionary_groups`
@@ -296,6 +322,11 @@ ALTER TABLE `chat_log_records`
 --
 ALTER TABLE `chat_nodes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT for table `chat_versions`
+--
+ALTER TABLE `chat_versions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `dictionary_groups`
 --

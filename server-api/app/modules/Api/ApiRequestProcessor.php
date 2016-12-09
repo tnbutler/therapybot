@@ -3,7 +3,6 @@
 namespace App\Modules\Api;
 
 use App\Modules\LogicCore\ChatFlow;
-use App\Modules\Api\UserResponse;
 use App\Models\BotUser;
 
 class ApiRequestProcessor
@@ -17,7 +16,7 @@ class ApiRequestProcessor
 
     public function processRequest(UserResponse $userResponse)
     {
-        $chatFlow = new ChatFlow($this->botUser);
+        $chatFlow = new ChatFlow($this->botUser, $userResponse->getChatVersion());
         $nextChatNode = $chatFlow->processUserAnswer($userResponse);
 
         $responseMessage = $nextChatNode->getFormattedQuestionText($this->botUser);

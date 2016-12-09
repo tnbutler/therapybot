@@ -12,6 +12,8 @@ use App\Modules\BotUserProcessing;
 class DemoController extends Controller
 {
     const BUTTON_REQUEST_VAR_NAME = '';
+    const CHAT_VERSION = 1;                 // Right now, we don't get the chat version from user's response.
+
     public function processWebHookCall(Request $request)
     {
         header("Access-Control-Allow-Origin: *");
@@ -25,8 +27,8 @@ class DemoController extends Controller
         $botUserProcessing = new BotUserProcessing();
         $user = $botUserProcessing->getOrCreate($userId);
 
-        // Get user response
-        $userResponse = new UserResponse($message, $buttonId);
+        // Create user response
+        $userResponse = new UserResponse($message, $buttonId, self::CHAT_VERSION);
 
         // Process message and receive response
         $apiRequestProcessor = new ApiRequestProcessor($user);
