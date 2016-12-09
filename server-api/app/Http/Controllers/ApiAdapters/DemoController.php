@@ -27,15 +27,12 @@ class DemoController extends Controller
         $botUserProcessing = new BotUserProcessing();
         $user = $botUserProcessing->getOrCreate($userId);
 
-        // Create user response
+        // Create user response & process it
         $userResponse = new UserResponse($message, $buttonId, self::CHAT_VERSION);
-
-        // Process message and receive response
         $apiRequestProcessor = new ApiRequestProcessor($user);
         $response = $apiRequestProcessor->processRequest($userResponse, $buttonId);
 
-        // Send response
-        $this->_emulateTypingDelay();
+        // Send bot's answer
         return $this->_formatResponse($response);
     }
 
@@ -55,10 +52,5 @@ class DemoController extends Controller
             'buttons' => $answerButtonsFormatted);
 
         return json_encode($dataToOutput);
-    }
-
-    private function _emulateTypingDelay()
-    {
-        // TODO: Sleep random time (maybe 0.5 or 1 second) - to emulate delay
     }
 }
