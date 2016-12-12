@@ -9,7 +9,9 @@ export const QUESTIONS: QuestionList[] = [
     {id: 2, text: "Question 2", start: false},
     {id: 3, text: "Question 3", start: false},
     {id: 4, text: "Question 4", start: false},
-    {id: 5, text: "Question 5", start: false}];
+    {id: 5, text: "Question 5", start: false}
+];
+
 
 @Component({
     selector: 'editor',
@@ -18,7 +20,16 @@ export const QUESTIONS: QuestionList[] = [
 
 export class EditorComponent implements OnInit {
     questionList: QuestionList[] = QUESTIONS;
+    hidden: boolean = true;
+    clkId: number = 0;
+
+    Color(state: boolean) {
+        if(state)
+            return "green";
+        else
+            return "grey";
+    }
     ngOnInit() {
-        console.log('123123');
+        console.log();
     }
 }
