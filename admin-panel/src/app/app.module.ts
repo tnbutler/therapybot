@@ -8,6 +8,7 @@
 
     import { AppComponent }   from './app.component';
     import { ChatComponent } from './components/chat-component';
+    import { EditorComponent} from './components/editor-component'
 
     import { Message } from './class/message'
     import { UserMessageDataService } from './service/usermessagedata.service'
@@ -31,13 +32,17 @@
       {
         path: 'chat',
         component: ChatComponent
-      }
+      },
+          {
+              path: 'editor',
+              component: EditorComponent
+          }
 
 
       ])
 
       ],
-      declarations: [ AppComponent, ChatComponent],
+      declarations: [ AppComponent, ChatComponent, EditorComponent],
       providers: [UserMessageDataService],
       bootstrap:    [ AppComponent ]
     })
