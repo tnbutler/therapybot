@@ -1,44 +1,35 @@
-<div class="container-fluid">
-    <div *ngFor="let botMessage of botMessages; let i = index;let lst = last;">
-        <div>
-            <div class="row">
-                <div class="form-inline">
+<div class="pad" style="overflow-x:hidden;">
+    <div class="container-fluid" style="position: relative">
+        <div *ngFor="let botMessage of botMessages; let i = index;let lst = last;">
+            <div class="row-fluid">
+                <div class="column-left">
                     <img src="assets/css/img/Bot.png" class="pull-left" width="100px" height="100px">
-                    <div class="bubble me"> {{botMessage.message}}</div>
+                </div>
+                <div class="column-right">
+                    <div class="bubble me" style=""> {{botMessage.message}}</div>
                 </div>
             </div>
             <div *ngFor="let userMessage of userMessages; let ind = index;">
-                <br/>
                 <div *ngIf="i === ind">
-                    <div class="row">
-                        <div class="form-inline pull-right">
-                            <img src="assets/css/img/User.png" class="pull-right" width="100px" height="100px">
-                            <div class="bubble you">
+                    <div class="row" style="margin-top: 10px">
+                        <img src="assets/css/img/User.png" class="pull-right" width="100px" height="100px"
+                             style="float: right;">
+                        <div style="overflow: hidden;;">
+                            <div class="bubble you pull-right">
                                 {{userMessage.message}}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div *ngIf="lst">
-                <!--
-                <div class="panel panel-default set-bg-view">
-                    <div class="container-fluid">
-                        <div class="row-fluid">
 
-                            <label> Debug: UserID: {{botMessage.user}}, BotMessage: {{botMessage.message}}, Buttons:
-                                <div *ngFor="let button of botMessage.buttons"> {{button.text}}</div>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                -->
-                <div class="container-fluid" style="margin-bottom: 10px">
-                    <div class="row-fluid">
-                        <div class="btn-group-wrap">
+            <div *ngIf="lst">
+                <div class="container-fluid" style="margin-top: 10px;margin-bottom: 10px;">
+                    <div class="row-fluid" >
+                        <div class="btn-group-wrap" [style.display]="Show()">
                             <div class="btn-group text-center">
                                 <div *ngFor="let button of botMessage.buttons" class="btn btn-default"
-                                     (click)="Reply(button.text,button.id)">{{button.text}}
+                                     (click)="showStyle = !showStyle; Reply(button.text,button.id);">{{button.text}}
                                 </div>
                             </div>
                         </div>
@@ -47,31 +38,21 @@
             </div>
         </div>
     </div>
-</div>
 
-<form #topicForm="ngForm" novalidate autocomplete="off">
-    <div class="form-group">
+    <div class="form-group" style="position: relative;">
         <div class="container-fluid">
             <div class="row-fluid">
-                <input type="text" class="form-control" [(ngModel)]="replyValue" id="mess" required name="mess"
-                       #mess="ngModel">
-
-                <!--
-                <div *ngIf="mess.errors && (mess.dirty || mess.touched)"
-                     class="alert alert-danger">
-                    <div [hidden]="!mess.errors.required">
-                        Message is required
-                    </div>
-                </div>
-                -->
-                <br/>
-                <button class="btn btn-default pull-left" (click)="StartNewChat()">Start new chat</button>
-                <button class="btn btn-default pull-right" [disabled]="!topicForm.form.valid"
-                        (click)="Reply(replyValue)">Send
-                </button>
+                <form #topicForm="ngForm" id="sendForm" novalidate autocomplete="off" (ngSubmit)="Reply(replyValue)">
+                    <input type="text" id="message" class="form-control" [(ngModel)]="replyValue" name="message"
+                           #message="ngModel" required>
+                    <button type="submit" class="btn btn-default pull-right mrg" id="snd"
+                            [disabled]="!topicForm.form.valid">
+                        Send
+                    </button>
+                </form>
+                <button class="btn btn-default pull-left mrg" (click)="StartNewChat()">Start new chat</button>
             </div>
         </div>
     </div>
-</form>
-
+</div>
 

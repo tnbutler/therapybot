@@ -12,28 +12,36 @@ import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class UserMessageDataService {
-    private messagesUrl = 'http://bot.loc:81/demoApi'; //'http://therapybot-api.vp-software.com/demoApi';
+    private messagesUrl = /*'http://bot.loc:81/demoApi';*/ 'http://therapybot-api.vp-software.com/demoApi';
 
-    constructor(private http:Http) {
+    constructor(private http: Http) {
     }
 
-    getMessages():Promise<UserMessage> {
+    getMessages(): Promise<UserMessage> {
         return this.http.get(this.messagesUrl)
             .toPromise()
             .then(this.extractData)
             .catch(this.handleError);
     }
 
-    addMessage(user:number, message:string):Promise<Message> {
+    addMessage(user: number, message: string, buttonId: number): Promise<Message> {
         let headers = new Headers({'Content-Type': 'application/json'});
         let options = new RequestOptions({headers: headers});
-        return this.http.post(this.messagesUrl, {user, message}, options)
-            .toPromise()
-            .then(this.extractData)
-            .catch(this.handleError);
+        if(buttonId != 0){
+            console.log('ButtonID: ', buttonId);
+            return this.http.post(this.messagesUrl, {user, message, buttonId}, options)
+                .toPromise()
+                .then(this.extractData)
+                .catch(this.handleError);
+        } else {
+            return this.http.post(this.messagesUrl, {user, message}, options)
+                .toPromise()
+                .then(this.extractData)
+                .catch(this.handleError);
+        }
     }
 
-    empty():Promise<Message> {
+    empty(): Promise<Message> {
         let headers = new Headers({'Content-Type': 'application/json'});
         let options = new RequestOptions({headers: headers});
         return this.http.post(this.messagesUrl, {}, options)
@@ -42,13 +50,13 @@ export class UserMessageDataService {
             .catch(this.handleError);
     }
 
-    private extractData(res:Response) {
+    private extractData(res: Response) {
         let body = res.json();
         return body || {};
     }
 
-    private handleError(error:Response | any) {
-        let errMsg:string;
+    private handleError(error: Response | any) {
+        let errMsg: string;
         if (error instanceof Response) {
             const body = error.json() || '';
             const err = body.error || JSON.stringify(body);

@@ -9,47 +9,65 @@ import {UserMessageDataService} from '../service/usermessagedata.service'
 })
 
 export class ChatComponent implements OnInit {
-    botMessages:Message[] = [];
-    but:Message;
-    userMessages:UserMessage[] = [];
-    userMessage:UserMessage;
+    botMessages: Message[] = [];
+    but: Message;
+    userMessages: UserMessage[] = [];
+    userMessage: UserMessage;
 
-    button:Message;
-    message:Message;
-    errorMessage:string;
-    index:number;
-    replyValue:string;
-    debug:string;
-    chatSessionIsStarted:boolean = false;
+    button: Message;
+    message: Message;
+    errorMessage: string;
+    index: number;
+    replyValue: string;
+    debug: string;
+    chatSessionIsStarted: boolean = false;
     name = 'chat';
 
     empty = '';
-    id:number;
+    id: number;
 
-    userId:number = 0;
+    userId: number = 0;
+    showStyle: boolean = false;
 
-    constructor(private _userMessageDataService:UserMessageDataService) {
+    constructor(private _userMessageDataService: UserMessageDataService) {
     }
 
-    Reply(message:string, buttonID:number) {
+    Reply(message: string, buttonId: number) {
         this.userMessage = {
             user: this.userId,
             message: message,
-            buttonId: buttonID
+            buttonId: buttonId
         };
-        this.userMessages.push(this.userMessage)
+        this.userMessages.push(this.userMessage);
         this.replyValue = '';
-        this._userMessageDataService.addMessage(this.userMessage.user, message)
-            .then(
-                messages => this.botMessages.push(messages),
-                error => this.errorMessage = <any>error);
+        if(buttonId) {
+            this._userMessageDataService.addMessage(this.userMessage.user, message, buttonId)
+                .then(
+                    messages => this.botMessages.push(messages),
+                    error => this.errorMessage = <any>error);
+            console.log(buttonId);
+        } else {
+            this._userMessageDataService.addMessage(this.userMessage.user, message, 0)
+                .then(
+                    messages => this.botMessages.push(messages),
+                    error => this.errorMessage = <any>error);
+        }
         this.chatSessionIsStarted = true;
+        this.showStyle = false;
     }
 
     ngOnInit() {
         console.log('ChatComponent::ngOnInit() is called');
         if (!this.chatSessionIsStarted) {
             this.StartNewChat();
+        }
+    }
+
+    Show() {
+        if (this.showStyle) {
+            return "none";
+        } else {
+            return "block";
         }
     }
 
