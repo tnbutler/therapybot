@@ -1,0 +1,16 @@
+###################################################################s
+GET /admin/v{chatVersion}/questions/{questionId}
+- Returns array of Question objects
+    {
+        id
+        question_text
+        is_start_node
+        user_variable_id
+        not_recognized_chat_node_id
+    }
+- Array is ordered by ID
+- Can retrieve single question, if optional parameter {questionId} is specified
+- {chatVersion} should always be 1
+- Examples:
+    GET /admin/v1/questions
+    GET /admin/v1/questions/13
