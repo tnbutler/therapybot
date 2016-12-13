@@ -19,7 +19,7 @@ class ApiRequestProcessor
         $chatFlow = new ChatFlow($this->botUser, $userResponse->getChatVersion());
         $nextChatNode = $chatFlow->processUserAnswer($userResponse);
 
-        $responseMessage = $nextChatNode->getFormattedQuestionText($this->botUser);
+        $responseMessage = $nextChatNode->getTextWithUserVariableValues($this->botUser);
         $answerButtons = $nextChatNode->answerButtons->where("is_visible", "1");
 
         return new ApiResponse($this->botUser->id, $responseMessage, $answerButtons);

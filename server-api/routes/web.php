@@ -13,3 +13,6 @@ Route::options('demoApi', function () {
     header('Access-Control-Allow-Headers: Content-Type');
     return "";
 });
+
+// Admin panel API
+Route::get('/admin/v{chatVersion}/questions/{questionId?}', 'AdminPanel\QuestionsController@getQuestion');
