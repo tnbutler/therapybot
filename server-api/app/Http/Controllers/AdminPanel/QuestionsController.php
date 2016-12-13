@@ -8,7 +8,7 @@ use App\Models\ChatNode;
 
 class QuestionsController extends Controller
 {
-    public function getQuestion($chatVersion, $questionId = null)
+    public function questions($chatVersion, $questionId = null)
     {
         header("Access-Control-Allow-Origin: *");
         header('Access-Control-Allow-Headers: Content-Type');

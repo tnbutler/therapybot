@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class ChatNode extends Model
 {
     public $timestamps = false;
-    protected $hidden = ['chat_version_id'];
     const SYS_VAR_PREFIX = '[@';
     const SYS_VAR_POSTFIX = '@]';
 

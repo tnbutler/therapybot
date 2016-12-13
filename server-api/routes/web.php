@@ -15,4 +15,6 @@ Route::options('demoApi', function () {
 });
 
 // Admin panel API
-Route::get('/admin/v{chatVersion}/questions/{questionId?}', 'AdminPanel\QuestionsController@getQuestion');
+Route::get('/admin/v{chatVersion}/questions/{questionId?}', 'AdminPanel\QuestionsController@questions');
+Route::get('/admin/v{chatVersion}/rules/{questionId}', 'AdminPanel\RulesController@rules');
+Route::get('/admin/v{chatVersion}/uservars', 'AdminPanel\UserVarsController@uservars');
