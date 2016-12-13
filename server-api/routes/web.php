@@ -18,3 +18,4 @@ Route::options('demoApi', function () {
 Route::get('/admin/v{chatVersion}/questions/{questionId?}', 'AdminPanel\QuestionsController@questions');
 Route::get('/admin/v{chatVersion}/rules/{questionId}', 'AdminPanel\RulesController@rules');
 Route::get('/admin/v{chatVersion}/uservars', 'AdminPanel\UserVarsController@uservars');
+Route::get('/admin/dictionaries', 'AdminPanel\DictionaryGroupsController@dictionaries');

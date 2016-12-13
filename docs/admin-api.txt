@@ -37,3 +37,12 @@ Returns list of user variables:
         name
         is_system
     }
+
+###################################################################
+GET /admin/dictionaries
+
+Returns list of dictionaries:
+    {
+        id
+        name
+    }
