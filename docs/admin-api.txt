@@ -27,6 +27,10 @@ Returns array of Rule objects associated with the specified question:
         target_question_caption
     }
 
+- {chatVersion} should always be 1
+- Examples:
+    GET /admin/v1/rules/13      - will return list of all the rules associated with question with id = 13
+
 ###################################################################
 GET /admin/v{chatVersion}/uservars
 
@@ -38,6 +42,10 @@ Returns list of user variables:
         is_system
     }
 
+- {chatVersion} should always be 1
+- Examples:
+    GET /admin/v1/uservars      - will return list of all user variables
+
 ###################################################################
 GET /admin/dictionaries
 
@@ -46,3 +54,6 @@ Returns list of dictionaries:
         id
         name
     }
+
+- Examples:
+    GET /admin/v1/dictionaries      - will return list of all dictionaries
