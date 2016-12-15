@@ -18,6 +18,22 @@ Returns array of Question objects:
     GET /admin/v1/questions/13  - will return lit of one question, with id = 13
 
 ###################################################################
+POST /admin/v{chatVersion}/questions/add
+
+Add new question.
+Parameters:
+    question_text
+    user_variable_id
+    not_recognized_chat_node_id
+
+Returns:
+    {
+        "id": 123,              // Id if the newly added question
+        "success":  "true",
+         "errors": "no error text"
+     }
+
+###################################################################
 GET /admin/v{chatVersion}/rules/{questionId}
 
 Returns array of Rule objects associated with the specified question:

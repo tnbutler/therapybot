@@ -16,6 +16,11 @@ Route::options('demoApi', function () {
 
 // Admin panel API
 Route::match(['get', 'options'], '/admin/v{chatVersion}/questions/{questionId?}', 'AdminPanel\QuestionsController@questions');
+
+Route::post('/admin/v{chatVersion}/questions/add', 'AdminPanel\QuestionsController@add');
+
+
+
 Route::match(['get', 'options'], '/admin/v{chatVersion}/rules/{questionId}', 'AdminPanel\RulesController@rules');
 Route::match(['get', 'options'], '/admin/v{chatVersion}/uservars', 'AdminPanel\UserVarsController@uservars');
 Route::match(['get', 'options'], '/admin/dictionaries', 'AdminPanel\DictionaryGroupsController@dictionaries');

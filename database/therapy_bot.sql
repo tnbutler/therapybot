@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 09, 2016 at 07:07 AM
+-- Generation Time: Dec 15, 2016 at 08:52 AM
 -- Server version: 5.6.26-log
 -- PHP Version: 5.6.12
 
@@ -210,6 +210,7 @@ INSERT INTO `dictionary_synonyms` (`id`, `dictionary_group_id`, `text`) VALUES
 
 CREATE TABLE IF NOT EXISTS `user_variables` (
   `id` int(11) NOT NULL,
+  `chat_version_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `is_system` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
@@ -218,10 +219,10 @@ CREATE TABLE IF NOT EXISTS `user_variables` (
 -- Dumping data for table `user_variables`
 --
 
-INSERT INTO `user_variables` (`id`, `name`, `is_system`) VALUES
-(1, 'USER_NAME', 1),
-(2, 'USER_MOOD', 0),
-(3, 'MOOD_INTENSITY', 0);
+INSERT INTO `user_variables` (`id`, `chat_version_id`, `name`, `is_system`) VALUES
+(1, 1, 'USER_NAME', 1),
+(2, 1, 'USER_MOOD', 0),
+(3, 1, 'MOOD_INTENSITY', 0);
 
 -- --------------------------------------------------------
 
