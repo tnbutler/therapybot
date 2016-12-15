@@ -73,6 +73,51 @@ Returns array of Rule objects associated with the specified question:
     GET /admin/v1/rules/13      - will return list of all the rules associated with question with id = 13
 
 ###################################################################
+POST /admin/v{chatVersion}/rules/add
+
+Add new rule.
+
+Parameters:
+    chat_node_id
+    text
+    child_chat_node_id
+    is_visible
+    dictionary_group_id
+
+Returns:
+    {
+        "id": 123,              // Id if the newly added question
+        "success":  "true",
+         "errors": "no error text"
+     }
+
+###################################################################
+
+PUT /admin/v{chatVersion}/rules/{ruleId}
+
+Update existing rule.
+
+Parameters:
+    chat_node_id
+    text
+    child_chat_node_id
+    is_visible
+    dictionary_group_id
+
+Returns:
+    {
+        "id": 123,              // Id of the updated question
+        "success":  "true",
+         "errors": "no error text"
+     }
+
+
+###################################################################
+DELETE /admin/v{chatVersion}/rules/{ruleId}
+
+Delete existing rule.
+
+###################################################################
 GET /admin/v{chatVersion}/uservars
 
 Returns list of user variables:

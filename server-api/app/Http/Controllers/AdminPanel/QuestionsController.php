@@ -45,17 +45,17 @@ class QuestionsController extends Controller
     {
         header("Access-Control-Allow-Origin: *");
         header('Access-Control-Allow-Headers: Content-Type');
-        return $this->_saveQuestion($chatVersion, $questionId, $request);
+        return $this->_save($chatVersion, $questionId, $request);
     }
 
     public function add($chatVersion, Request $request)
     {
         header("Access-Control-Allow-Origin: *");
         header('Access-Control-Allow-Headers: Content-Type');
-        return $this->_saveQuestion($chatVersion, null, $request);
+        return $this->_save($chatVersion, null, $request);
     }
 
-    private function _saveQuestion($chatVersion, $questionId, Request $request)
+    private function _save($chatVersion, $questionId, Request $request)
     {
         // TODO: Add validation layer here!
         $errorText = "";

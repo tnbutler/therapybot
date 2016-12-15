@@ -20,8 +20,10 @@ Route::post('/admin/v{chatVersion}/questions/add', 'AdminPanel\QuestionsControll
 Route::put('/admin/v{chatVersion}/questions/{questionId}', 'AdminPanel\QuestionsController@update');
 Route::delete('/admin/v{chatVersion}/questions/{questionId}', 'AdminPanel\QuestionsController@delete');
 
-
-
 Route::match(['get', 'options'], '/admin/v{chatVersion}/rules/{questionId}', 'AdminPanel\RulesController@rules');
+Route::post('/admin/v{chatVersion}/rules/add', 'AdminPanel\RulesController@add');
+Route::put('/admin/v{chatVersion}/rules/{ruleId}', 'AdminPanel\RulesController@update');
+Route::delete('/admin/v{chatVersion}/rules/{ruleId}', 'AdminPanel\RulesController@delete');
+
 Route::match(['get', 'options'], '/admin/v{chatVersion}/uservars', 'AdminPanel\UserVarsController@uservars');
 Route::match(['get', 'options'], '/admin/dictionaries', 'AdminPanel\DictionaryGroupsController@dictionaries');
