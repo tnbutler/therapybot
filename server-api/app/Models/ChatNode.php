@@ -18,25 +18,37 @@ class ChatNode extends Model
     public function getTextWithUserVariableValues(BotUser $botUser)
     {
         $replaces = UserVariableValue::where('bot_users_id', $botUser->id)->orderBy('updated_at', 'desc')->get();
-        return $this->_performReplaces($replaces);
+        return $this->_performReplaces1($replaces);
     }
 
     public function getTextWithUserVariableSysNames()
     {
         $replaces = UserVariable::where('chat_version_id', $this->chat_version_id)->get();
-        return $this->_performReplaces($replaces, '@');
+        return $this->_performReplaces2($replaces);
     }
 
-    private function _performReplaces($replaces, $prefixAndPostfix = null)
+    private function _performReplaces1($replaces)
+    {
+        $result = $this->question_text;
+
+        foreach ($replaces as $replace) {
+            $searchString = self::SYS_VAR_PREFIX . $replace->user_variable_id . self::SYS_VAR_POSTFIX;
+            $replaceString = $replace->value;
+            $result = str_replace($searchString, $replaceString, $result);
+        }
+
+        return $result;
+    }
+
+    // TODO: remove function duplicate
+    private function _performReplaces2($replaces)
     {
         $result = $this->question_text;
 
         foreach ($replaces as $replace) {
             $searchString = self::SYS_VAR_PREFIX . $replace->id . self::SYS_VAR_POSTFIX;
             $replaceString = $replace->name;
-            if ($prefixAndPostfix) {
-                $replaceString = $prefixAndPostfix . $replaceString . $prefixAndPostfix;
-            }
+            $replaceString = '@' . $replaceString . '@';
             $result = str_replace($searchString, $replaceString, $result);
         }
 

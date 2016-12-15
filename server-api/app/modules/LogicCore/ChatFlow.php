@@ -6,6 +6,7 @@ use App\Models\ChatLogRecord;
 use App\Models\ChatNode;
 use App\Models\BotUser;
 use App\Modules\Api\UserResponse;
+use Mockery\CountValidator\Exception;
 
 class ChatFlow
 {
@@ -59,10 +60,16 @@ class ChatFlow
         }
 
         // Ask the start question
-        return ChatNode::where([
+        $chatNode = ChatNode::where([
             'is_start_node' => 1,
             'chat_version_id' => $this->chat_version_id
         ])->first();
+
+        if($chatNode) {
+            return $chatNode;
+        }
+
+        throw new Exception('Can\'t find start node for the chat.');
     }
 
     private function _logChatRecord(ChatNode $chatNode, $is_bot_question, $messageText = '', $buttonId = null)

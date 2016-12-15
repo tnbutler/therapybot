@@ -14,7 +14,8 @@ class QuestionsController extends Controller
         header("Access-Control-Allow-Origin: *");
         header('Access-Control-Allow-Headers: Content-Type');
 
-        $query = ChatNode::where('chat_version_id', $chatVersion);
+        $query = ChatNode::where('chat_version_id', $chatVersion)
+            ->orderby('id');
 
         if ($questionId) {
             $query->where('id', $questionId);
@@ -111,7 +112,7 @@ class QuestionsController extends Controller
 
         if (empty($errorText)) {
             $response["success"] = true;
-            if($chatNodeId > 0) {
+            if ($chatNodeId > 0) {
                 $response["id"] = $chatNodeId;
             }
         } else {
