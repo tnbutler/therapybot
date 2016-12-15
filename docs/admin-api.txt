@@ -25,6 +25,7 @@ Parameters:
     question_text
     user_variable_id
     not_recognized_chat_node_id
+    is_start_node
 
 Returns:
     {

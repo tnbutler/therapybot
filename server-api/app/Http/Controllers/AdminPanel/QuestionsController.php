@@ -44,11 +44,11 @@ class QuestionsController extends Controller
         if($user_variable_id > 0) {
             $chatNode->user_variable_id = $user_variable_id;
         }
-        
+
         $chatNode->not_recognized_chat_node_id = $request->input('not_recognized_chat_node_id');
         $chatNode->save();
 
-        // If we wnat this question to be the start wuestion
+        // If we want this question to be the start question
         if ($request->input('is_start_node')) {
             // Set all other question as NOT Start
             DB::table('chat_nodes')
@@ -63,5 +63,7 @@ class QuestionsController extends Controller
         $response["id"] = $chatNode->id;
         $response["success"] = true;
         $response["error"] = "no error found";
+
+        return $response;
     }
 }
