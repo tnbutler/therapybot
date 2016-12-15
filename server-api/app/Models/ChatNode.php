@@ -17,38 +17,31 @@ class ChatNode extends Model
 
     public function getTextWithUserVariableValues(BotUser $botUser)
     {
-        $replaces = UserVariableValue::where('bot_users_id', $botUser->id)->orderBy('updated_at', 'desc')->get();
-        return $this->_performReplaces1($replaces);
+        $userVariableValues = UserVariableValue::where('bot_users_id', $botUser->id)->orderBy('updated_at', 'desc')->get();
+        $replaces = array();
+        foreach ($userVariableValues as $userVariableValue) {
+            $replaces[] = array('user_variable_id' => $userVariableValue->user_variable_id, 'value' => $userVariableValue->value);
+        }
+        return $this->_performReplaces($replaces);
     }
 
     public function getTextWithUserVariableSysNames()
     {
-        $replaces = UserVariable::where('chat_version_id', $this->chat_version_id)->get();
-        return $this->_performReplaces2($replaces);
-    }
-
-    private function _performReplaces1($replaces)
-    {
-        $result = $this->question_text;
-
-        foreach ($replaces as $replace) {
-            $searchString = self::SYS_VAR_PREFIX . $replace->user_variable_id . self::SYS_VAR_POSTFIX;
-            $replaceString = $replace->value;
-            $result = str_replace($searchString, $replaceString, $result);
+        $userVariables = UserVariable::where('chat_version_id', $this->chat_version_id)->get();
+        $replaces = array();
+        foreach ($userVariables as $userVariable) {
+            $replaces[] = array('user_variable_id' => $userVariable->id, 'value' => '@' . $userVariable->name . '@');
         }
-
-        return $result;
+        return $this->_performReplaces($replaces);
     }
 
-    // TODO: remove function duplicate
-    private function _performReplaces2($replaces)
+    private function _performReplaces($replaces)
     {
         $result = $this->question_text;
 
         foreach ($replaces as $replace) {
-            $searchString = self::SYS_VAR_PREFIX . $replace->id . self::SYS_VAR_POSTFIX;
-            $replaceString = $replace->name;
-            $replaceString = '@' . $replaceString . '@';
+            $searchString = self::SYS_VAR_PREFIX . $replace['user_variable_id'] . self::SYS_VAR_POSTFIX;
+            $replaceString = $replace['value'];
             $result = str_replace($searchString, $replaceString, $result);
         }
 
