@@ -16,8 +16,8 @@ Route::options('demoApi', function () {
 
 // Admin panel API
 Route::match(['get', 'options'], '/admin/v{chatVersion}/questions/{questionId?}', 'AdminPanel\QuestionsController@questions');
-
 Route::post('/admin/v{chatVersion}/questions/add', 'AdminPanel\QuestionsController@add');
+Route::post('/admin/v{chatVersion}/questions/{questionId}', 'AdminPanel\QuestionsController@update');
 
 
 

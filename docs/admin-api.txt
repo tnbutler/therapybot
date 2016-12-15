@@ -21,6 +21,7 @@ Returns array of Question objects:
 POST /admin/v{chatVersion}/questions/add
 
 Add new question.
+
 Parameters:
     question_text
     user_variable_id
@@ -30,6 +31,24 @@ Parameters:
 Returns:
     {
         "id": 123,              // Id if the newly added question
+        "success":  "true",
+         "errors": "no error text"
+     }
+
+###################################################################
+POST /admin/v{chatVersion}/questions/{questionId}
+
+Update existing question.
+
+Parameters:
+    question_text
+    user_variable_id
+    not_recognized_chat_node_id
+    is_start_node
+
+Returns:
+    {
+        "id": 123,              // Id of the updated question
         "success":  "true",
          "errors": "no error text"
      }
