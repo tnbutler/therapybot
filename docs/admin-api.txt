@@ -36,7 +36,7 @@ Returns:
      }
 
 ###################################################################
-POST /admin/v{chatVersion}/questions/{questionId}
+PUT /admin/v{chatVersion}/questions/{questionId}
 
 Update existing question.
 
@@ -52,6 +52,11 @@ Returns:
         "success":  "true",
          "errors": "no error text"
      }
+
+###################################################################
+DELETE /admin/v{chatVersion}/questions/{questionId}
+
+Delete existing question.
 
 ###################################################################
 GET /admin/v{chatVersion}/rules/{questionId}

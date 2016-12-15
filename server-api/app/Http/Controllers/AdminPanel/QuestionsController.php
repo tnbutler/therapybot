@@ -30,6 +30,17 @@ class QuestionsController extends Controller
         return $chatNodesList->toArray();
     }
 
+    public function delete($chatVersion, $questionId)
+    {
+        header("Access-Control-Allow-Origin: *");
+        header('Access-Control-Allow-Headers: Content-Type');
+
+        $chatNode = ChatNode::find($questionId);
+        $chatNode->delete();
+
+        return $this->_composeResponse(null, null);
+    }
+
     public function update($chatVersion, $questionId, Request $request)
     {
         header("Access-Control-Allow-Origin: *");
@@ -100,7 +111,9 @@ class QuestionsController extends Controller
 
         if (empty($errorText)) {
             $response["success"] = true;
-            $response["id"] = $chatNodeId;
+            if($chatNodeId > 0) {
+                $response["id"] = $chatNodeId;
+            }
         } else {
             $response["success"] = false;
             $response["error"] = $errorText;
