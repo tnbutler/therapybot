@@ -18,20 +18,9 @@ Route::match(['get', 'post'], 'demoApi', 'ApiAdapters\DemoController@processWebH
 
 // Admin panel API requests
 Route::group(['prefix' => 'admin/v{chatVersion}', 'namespace' => 'AdminPanel'], function () {
-
-    /*
-    Route::resource('photo', 'PhotoController', ['only' => [
-        'index', 'show'
+    Route::resource('questions', 'QuestionsController', ['only' => [
+        'index', 'show', 'store', 'update', 'destroy'
     ]]);
-    */
-
-
-    Route::group(['prefix' => 'questions'], function () {
-        Route::get('{questionId?}', 'QuestionsController@questions');
-        Route::post('add', 'QuestionsController@add');
-        Route::put('{questionId}', 'QuestionsController@update');
-        Route::delete('{questionId}', 'QuestionsController@delete');
-    });
 
     Route::group(['prefix' => 'rules'], function () {
         Route::get('{questionId}', 'RulesController@rules');

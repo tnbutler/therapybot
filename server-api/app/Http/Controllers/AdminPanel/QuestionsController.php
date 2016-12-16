@@ -9,36 +9,27 @@ use Illuminate\Support\Facades\DB;
 
 class QuestionsController extends Controller
 {
-    public function questions($chatVersion, $questionId = null)
+    public function index($chatVersion)
     {
         header("Access-Control-Allow-Origin: *");
         header('Access-Control-Allow-Headers: Content-Type');
-
-        $query = ChatNode::where('chat_version_id', $chatVersion)
-            ->orderby('id');
-
-        if ($questionId) {
-            $query->where('id', $questionId);
-        }
-
-        $chatNodesList = $query->orderBy('id', 'desc')->get();
-
-        // Replace system variable IDs by their names - to make it user-readable
-        foreach ($chatNodesList as $chatNode) {
-            $chatNode->question_text = $chatNode->getTextWithUserVariableSysNames();
-        }
-
-        return $chatNodesList->toArray();
+        return $this->_getQuestions($chatVersion, null);
     }
 
-    public function delete($chatVersion, $questionId)
+    public function show($chatVersion, $questionId)
+    {
+        header("Access-Control-Allow-Origin: *");
+        header('Access-Control-Allow-Headers: Content-Type');
+        return $this->_getQuestions($chatVersion, $questionId);
+    }
+
+    public function destroy($chatVersion, $questionId)
     {
         header("Access-Control-Allow-Origin: *");
         header('Access-Control-Allow-Headers: Content-Type');
 
         $chatNode = ChatNode::find($questionId);
         $chatNode->delete();
-
         return $this->_composeResponse(null, null);
     }
 
@@ -49,7 +40,7 @@ class QuestionsController extends Controller
         return $this->_save($chatVersion, $questionId, $request);
     }
 
-    public function add($chatVersion, Request $request)
+    public function store($chatVersion, Request $request)
     {
         header("Access-Control-Allow-Origin: *");
         header('Access-Control-Allow-Headers: Content-Type');
@@ -121,5 +112,24 @@ class QuestionsController extends Controller
         }
 
         return $response;
+    }
+
+    private function _getQuestions($chatVersion, $questionId = null)
+    {
+        $query = ChatNode::where('chat_version_id', $chatVersion)
+            ->orderby('id');
+
+        if ($questionId) {
+            $query->where('id', $questionId);
+        }
+
+        $chatNodesList = $query->orderBy('id', 'desc')->get();
+
+        // Replace system variable IDs by their names - to make it user-readable
+        foreach ($chatNodesList as $chatNode) {
+            $chatNode->question_text = $chatNode->getTextWithUserVariableSysNames();
+        }
+
+        return $chatNodesList->toArray();
     }
 }
