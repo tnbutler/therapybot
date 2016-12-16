@@ -9,10 +9,15 @@ use App\Models\AnswerButton;
 
 class RulesController extends Controller
 {
-    public function index($chatVersion, $questionId)
+    public function index($chatVersion, $questionId, $ruleId = null)
     {
         header("Access-Control-Allow-Origin: *");
         header('Access-Control-Allow-Headers: Content-Type');
+
+        if ($ruleId > 0) {
+            return AnswerButton::find($ruleId);
+        }
+
         $chatNode = ChatNode::find($questionId);
 
         $results = array();
@@ -25,16 +30,6 @@ class RulesController extends Controller
             );
         }
         return $results;
-    }
-
-    public function show($chatVersion, $questionId, $ruleId)
-    {
-        header("Access-Control-Allow-Origin: *");
-        header('Access-Control-Allow-Headers: Content-Type');
-
-        $answerButton = AnswerButton::find($ruleId);
-
-        return $answerButton;
     }
 
     public function destroy($chatVersion, $questionId, $ruleId)

@@ -1,144 +1,81 @@
-###################################################################
-GET /admin/v{chatVersion}/questions/{questionId?}
+All requests to the Admin API should start with:
 
-Returns array of Question objects:
-    {
-        id
+/admin/v{chatVersion}/
+
+------------------------------------------------------------------------------
+
+QUESTIONS
+
+** Get list of all questions
+
+    GET []/questions
+    Example: GET /admin/v1/questions
+
+** Get single question data
+
+    GET []/questions/:QuestionId
+    Example: GET /admin/v1/questions/1
+
+** Create new question
+
+    POST []/questions
+    Example: POST /admin/v1/questions
+
+    Parameters:
         question_text
-        is_start_node
         user_variable_id
         not_recognized_chat_node_id
-        chat_version_id
-    }
-- Array is ordered by ID
-- Can retrieve single question, if optional parameter {questionId} is specified
-- {chatVersion} should always be 1
-- Examples:
-    GET /admin/v1/questions     - will return list of all the questions for chat version 1.
-    GET /admin/v1/questions/13  - will return lit of one question, with id = 13
+        is_start_node
+    Returns:
+        {
+            "id": 123,              // ID of the newly added question
+            "success": "true",
+            "errors": "no error text"
+         }
 
-###################################################################
-POST /admin/v{chatVersion}/questions/add
+** Update existing question
 
-Add new question.
+    PUT []/questions/:QuestionId
+    Example: POST /admin/v1/questions/14
 
-Parameters:
-    question_text
-    user_variable_id
-    not_recognized_chat_node_id
-    is_start_node
+------------------------------------------------------------------------------
 
-Returns:
-    {
-        "id": 123,              // Id if the newly added question
-        "success":  "true",
-         "errors": "no error text"
-     }
+RULES
 
-###################################################################
-PUT /admin/v{chatVersion}/questions/{questionId}
+All requests to the Admin API should start with:
 
-Update existing question.
+/admin/v{chatVersion}/questions/{questionID}/
 
-Parameters:
-    question_text
-    user_variable_id
-    not_recognized_chat_node_id
-    is_start_node
+** Get list of all rules related to the question
+    GET /rules
+    EXAMPLE: GET /admin/v1/questions/14/rules
 
-Returns:
-    {
-        "id": 123,              // Id of the updated question
-        "success":  "true",
-         "errors": "no error text"
-     }
+** Get single rule details
+    GET /rules/{RuleId}
+    EXAMPLE: GET /admin/v1/questions/14/rules/1
 
-###################################################################
-DELETE /admin/v{chatVersion}/questions/{questionId}
+** Create new rule
+    POST /rules
+    EXAMPLE: POST /admin/v1/questions/14/rules
 
-Delete existing question.
+** Update existing rule
+    PUT /rules/{RuleId}
+    EXAMPLE: POST /admin/v1/questions/14/rules/2
 
-###################################################################
-GET /admin/v{chatVersion}/rules/{questionId}
+** Delete existing rule
+    DELETE /rules/{RuleId}
+    EXAMPLE: DELETE /admin/v1/questions/14/rules/2
 
-Returns array of Rule objects associated with the specified question:
-    {
-        id
-        button_caption
-        target_question_caption
-    }
+------------------------------------------------------------------------------
 
-- {chatVersion} should always be 1
-- Examples:
-    GET /admin/v1/rules/13      - will return list of all the rules associated with question with id = 13
+USER VARS
 
-###################################################################
-POST /admin/v{chatVersion}/rules/add
+** Get list of all the vars
+    GET /uservars
 
-Add new rule.
+------------------------------------------------------------------------------
 
-Parameters:
-    chat_node_id
-    text
-    child_chat_node_id
-    is_visible
-    dictionary_group_id
+DICTIONARIES
 
-Returns:
-    {
-        "id": 123,              // Id if the newly added question
-        "success":  "true",
-         "errors": "no error text"
-     }
-
-###################################################################
-
-PUT /admin/v{chatVersion}/rules/{ruleId}
-
-Update existing rule.
-
-Parameters:
-    chat_node_id
-    text
-    child_chat_node_id
-    is_visible
-    dictionary_group_id
-
-Returns:
-    {
-        "id": 123,              // Id of the updated question
-        "success":  "true",
-         "errors": "no error text"
-     }
-
-###################################################################
-DELETE /admin/v{chatVersion}/rules/{ruleId}
-
-Delete existing rule.
-
-###################################################################
-GET /admin/v{chatVersion}/uservars
-
-Returns list of user variables:
-    {
-        id
-        chat_version_id
-        name
-        is_system
-    }
-
-- {chatVersion} should always be 1
-- Examples:
-    GET /admin/v1/uservars      - will return list of all user variables
-
-###################################################################
-GET /admin/dictionaries
-
-Returns list of dictionaries:
-    {
-        id
-        name
-    }
-
-- Examples:
-    GET /admin/v1/dictionaries      - will return list of all dictionaries
+** Get list of all the dictionaries
+    GET /dictionaries

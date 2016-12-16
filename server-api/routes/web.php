@@ -27,7 +27,7 @@ Route::group(['prefix' => 'admin/v{chatVersion}', 'namespace' => 'AdminPanel'], 
 
 
         Route::group(['prefix' => '{questionId}/rules'], function () {
-            Route::get('', 'RulesController@index');
+            Route::get('{ruleId?}', 'RulesController@index');
             Route::post('', 'RulesController@create');
             Route::put('{ruleId}', 'RulesController@update');
             Route::delete('{ruleId}', 'RulesController@destroy');
