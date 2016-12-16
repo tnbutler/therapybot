@@ -4,26 +4,42 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::match(['get', 'post'], 'demoApi', 'ApiAdapters\DemoController@processWebHookCall');
-
-// Angular2 application performs OPTION-calls for the cross-origin requests.
+// Browsers perform OPTION-calls before every actual call to check if cross-origin requests are allowed.
 // We catch them here, and return nothing.
-Route::options('demoApi', function () {
+Route::options('/{any}', function () {
     header("Access-Control-Allow-Origin: *");
     header('Access-Control-Allow-Headers: Content-Type');
+    header('Access-Control-Allow-Methods: PUT, DELETE, GET, POST');
     return "";
+})->where('any', '.*');
+
+// Demo interface API requests
+Route::match(['get', 'post'], 'demoApi', 'ApiAdapters\DemoController@processWebHookCall');
+
+// Admin panel API requests
+Route::group(['prefix' => 'admin/v{chatVersion}', 'namespace' => 'AdminPanel'], function () {
+
+    /*
+    Route::resource('photo', 'PhotoController', ['only' => [
+        'index', 'show'
+    ]]);
+    */
+
+
+    Route::group(['prefix' => 'questions'], function () {
+        Route::get('{questionId?}', 'QuestionsController@questions');
+        Route::post('add', 'QuestionsController@add');
+        Route::put('{questionId}', 'QuestionsController@update');
+        Route::delete('{questionId}', 'QuestionsController@delete');
+    });
+
+    Route::group(['prefix' => 'rules'], function () {
+        Route::get('{questionId}', 'RulesController@rules');
+        Route::post('add', 'RulesController@add');
+        Route::put('{ruleId}', 'RulesController@update');
+        Route::delete('{ruleId}', 'RulesController@delete');
+    });
+
+    Route::get('uservars', 'UserVarsController@uservars');
+    Route::get('dictionaries', 'DictionaryGroupsController@dictionaries');
 });
-
-// Admin panel API
-Route::match(['get', 'options'], '/admin/v{chatVersion}/questions/{questionId?}', 'AdminPanel\QuestionsController@questions');
-Route::post('/admin/v{chatVersion}/questions/add', 'AdminPanel\QuestionsController@add');
-Route::put('/admin/v{chatVersion}/questions/{questionId}', 'AdminPanel\QuestionsController@update');
-Route::delete('/admin/v{chatVersion}/questions/{questionId}', 'AdminPanel\QuestionsController@delete');
-
-Route::match(['get', 'options'], '/admin/v{chatVersion}/rules/{questionId}', 'AdminPanel\RulesController@rules');
-Route::post('/admin/v{chatVersion}/rules/add', 'AdminPanel\RulesController@add');
-Route::put('/admin/v{chatVersion}/rules/{ruleId}', 'AdminPanel\RulesController@update');
-Route::delete('/admin/v{chatVersion}/rules/{ruleId}', 'AdminPanel\RulesController@delete');
-
-Route::match(['get', 'options'], '/admin/v{chatVersion}/uservars', 'AdminPanel\UserVarsController@uservars');
-Route::match(['get', 'options'], '/admin/dictionaries', 'AdminPanel\DictionaryGroupsController@dictionaries');

@@ -111,7 +111,6 @@ Returns:
          "errors": "no error text"
      }
 
-
 ###################################################################
 DELETE /admin/v{chatVersion}/rules/{ruleId}
 
