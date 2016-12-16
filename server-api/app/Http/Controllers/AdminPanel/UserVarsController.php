@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class UserVarsController extends Controller
 {
-    public function uservars($chatVersion)
+    public function index($chatVersion)
     {
         header("Access-Control-Allow-Origin: *");
         header('Access-Control-Allow-Headers: Content-Type');

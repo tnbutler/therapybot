@@ -9,15 +9,13 @@ use App\Models\AnswerButton;
 
 class RulesController extends Controller
 {
-    public function rules($chatVersion, $questionId)
+    public function index($chatVersion, $questionId)
     {
         header("Access-Control-Allow-Origin: *");
         header('Access-Control-Allow-Headers: Content-Type');
-
         $chatNode = ChatNode::find($questionId);
 
         $results = array();
-
         foreach ($chatNode->answerButtons as $answerButton) {
             $nextNodeCaption = ChatNode::find($answerButton->child_chat_node_id)->getTextWithUserVariableSysNames();
             $results[] = array(
@@ -26,9 +24,48 @@ class RulesController extends Controller
                 'target_question_caption' => $nextNodeCaption,
             );
         }
-
         return $results;
     }
+
+    public function show($chatVersion, $questionId, $ruleId)
+    {
+        header("Access-Control-Allow-Origin: *");
+        header('Access-Control-Allow-Headers: Content-Type');
+
+        $answerButton = AnswerButton::find($ruleId);
+
+        return $answerButton;
+    }
+
+    public function destroy($chatVersion, $questionId)
+    {
+        header("Access-Control-Allow-Origin: *");
+        header('Access-Control-Allow-Headers: Content-Type');
+
+        $chatNode = ChatNode::find($questionId);
+        $chatNode->delete();
+        return $this->_composeResponse(null, null);
+    }
+
+    /*
+    public function update($chatVersion, $questionId, Request $request)
+    {
+        header("Access-Control-Allow-Origin: *");
+        header('Access-Control-Allow-Headers: Content-Type');
+        return $this->_save($chatVersion, $questionId, $request);
+    }
+    */
+
+    public function store($chatVersion, Request $request)
+    {
+        header("Access-Control-Allow-Origin: *");
+        header('Access-Control-Allow-Headers: Content-Type');
+        return $this->_save($chatVersion, null, $request);
+    }
+
+
+    // ******************
+
 
     public function delete($chatVersion, $ruleId)
     {
@@ -40,6 +77,7 @@ class RulesController extends Controller
 
         return $this->_composeResponse(null, null);
     }
+
 
     public function update($chatVersion, $ruleId, Request $request)
     {
@@ -80,7 +118,7 @@ class RulesController extends Controller
         } else {
             $answerButton = new AnswerButton();
         }
-        
+
         $answerButton->chat_node_id = $chat_node_id;
         $answerButton->text = $text;
         $answerButton->child_chat_node_id = $child_chat_node_id;

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class DictionaryGroupsController extends Controller
 {
-    public function dictionaries()
+    public function index()
     {
         header("Access-Control-Allow-Origin: *");
         header('Access-Control-Allow-Headers: Content-Type');

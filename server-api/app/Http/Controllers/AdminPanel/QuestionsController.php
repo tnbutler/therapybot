@@ -9,18 +9,39 @@ use Illuminate\Support\Facades\DB;
 
 class QuestionsController extends Controller
 {
-    public function index($chatVersion)
+    public function show($chatVersion, $questionId = null)
     {
         header("Access-Control-Allow-Origin: *");
         header('Access-Control-Allow-Headers: Content-Type');
-        return $this->_getQuestions($chatVersion, null);
+        $query = ChatNode::where('chat_version_id', $chatVersion)
+            ->orderby('id');
+
+        if ($questionId) {
+            $query->where('id', $questionId);
+        }
+
+        $chatNodesList = $query->orderBy('id', 'desc')->get();
+
+        // Replace system variable IDs by their names - to make it user-readable
+        foreach ($chatNodesList as $chatNode) {
+            $chatNode->question_text = $chatNode->getTextWithUserVariableSysNames();
+        }
+
+        return $chatNodesList->toArray();
     }
 
-    public function show($chatVersion, $questionId)
+    public function create($chatVersion, Request $request)
     {
         header("Access-Control-Allow-Origin: *");
         header('Access-Control-Allow-Headers: Content-Type');
-        return $this->_getQuestions($chatVersion, $questionId);
+        return $this->_save($chatVersion, null, $request);
+    }
+
+    public function update($chatVersion, $questionId, Request $request)
+    {
+        header("Access-Control-Allow-Origin: *");
+        header('Access-Control-Allow-Headers: Content-Type');
+        return $this->_save($chatVersion, $questionId, $request);
     }
 
     public function destroy($chatVersion, $questionId)
@@ -31,20 +52,6 @@ class QuestionsController extends Controller
         $chatNode = ChatNode::find($questionId);
         $chatNode->delete();
         return $this->_composeResponse(null, null);
-    }
-
-    public function update($chatVersion, $questionId, Request $request)
-    {
-        header("Access-Control-Allow-Origin: *");
-        header('Access-Control-Allow-Headers: Content-Type');
-        return $this->_save($chatVersion, $questionId, $request);
-    }
-
-    public function store($chatVersion, Request $request)
-    {
-        header("Access-Control-Allow-Origin: *");
-        header('Access-Control-Allow-Headers: Content-Type');
-        return $this->_save($chatVersion, null, $request);
     }
 
     private function _save($chatVersion, $questionId, Request $request)
@@ -112,24 +119,5 @@ class QuestionsController extends Controller
         }
 
         return $response;
-    }
-
-    private function _getQuestions($chatVersion, $questionId = null)
-    {
-        $query = ChatNode::where('chat_version_id', $chatVersion)
-            ->orderby('id');
-
-        if ($questionId) {
-            $query->where('id', $questionId);
-        }
-
-        $chatNodesList = $query->orderBy('id', 'desc')->get();
-
-        // Replace system variable IDs by their names - to make it user-readable
-        foreach ($chatNodesList as $chatNode) {
-            $chatNode->question_text = $chatNode->getTextWithUserVariableSysNames();
-        }
-
-        return $chatNodesList->toArray();
     }
 }
