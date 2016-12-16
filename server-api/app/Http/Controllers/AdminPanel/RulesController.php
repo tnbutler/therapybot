@@ -37,37 +37,7 @@ class RulesController extends Controller
         return $answerButton;
     }
 
-    public function destroy($chatVersion, $questionId)
-    {
-        header("Access-Control-Allow-Origin: *");
-        header('Access-Control-Allow-Headers: Content-Type');
-
-        $chatNode = ChatNode::find($questionId);
-        $chatNode->delete();
-        return $this->_composeResponse(null, null);
-    }
-
-    /*
-    public function update($chatVersion, $questionId, Request $request)
-    {
-        header("Access-Control-Allow-Origin: *");
-        header('Access-Control-Allow-Headers: Content-Type');
-        return $this->_save($chatVersion, $questionId, $request);
-    }
-    */
-
-    public function store($chatVersion, Request $request)
-    {
-        header("Access-Control-Allow-Origin: *");
-        header('Access-Control-Allow-Headers: Content-Type');
-        return $this->_save($chatVersion, null, $request);
-    }
-
-
-    // ******************
-
-
-    public function delete($chatVersion, $ruleId)
+    public function destroy($chatVersion, $questionId, $ruleId)
     {
         header("Access-Control-Allow-Origin: *");
         header('Access-Control-Allow-Headers: Content-Type');
@@ -78,27 +48,26 @@ class RulesController extends Controller
         return $this->_composeResponse(null, null);
     }
 
-
-    public function update($chatVersion, $ruleId, Request $request)
+    public function update($chatVersion, $questionId, $ruleId, Request $request)
     {
         header("Access-Control-Allow-Origin: *");
         header('Access-Control-Allow-Headers: Content-Type');
-        return $this->_save($chatVersion, $ruleId, $request);
+        return $this->_save($chatVersion, $ruleId, $request, $questionId);
     }
 
-    public function add($chatVersion, Request $request)
+    public function create($chatVersion, $questionId, Request $request)
     {
         header("Access-Control-Allow-Origin: *");
         header('Access-Control-Allow-Headers: Content-Type');
-        return $this->_save($chatVersion, null, $request);
+        return $this->_save($chatVersion, null, $request, $questionId);
     }
 
-    private function _save($chatVersion, $ruleId, Request $request)
+    private function _save($chatVersion, $ruleId, Request $request, $chatNodeId)
     {
         // TODO: Add validation layer here!
         $errorText = "";
 
-        $chat_node_id = trim($request->input('chat_node_id'));
+        $chat_node_id = $chatNodeId;//trim($request->input('chat_node_id'));
         $text = trim($request->input('text'));
         $child_chat_node_id = trim($request->input('child_chat_node_id'));
         $is_visible = trim($request->input('is_visible'));

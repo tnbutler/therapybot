@@ -24,15 +24,15 @@ Route::group(['prefix' => 'admin/v{chatVersion}', 'namespace' => 'AdminPanel'], 
         Route::post('', 'QuestionsController@create');
         Route::put('{questionId}', 'QuestionsController@update');
         Route::delete('{questionId}', 'QuestionsController@destroy');
-    });
 
-    /*
-    Route::group(['prefix' => 'rules'], function () {
-        Route::get('{questionId}', 'RulesController@rules');
-        Route::post('add', 'RulesController@add');
-        Route::put('{ruleId}', 'RulesController@update');
-        Route::delete('{ruleId}', 'RulesController@delete');
-    });*/
+
+        Route::group(['prefix' => '{questionId}/rules'], function () {
+            Route::get('', 'RulesController@index');
+            Route::post('', 'RulesController@create');
+            Route::put('{ruleId}', 'RulesController@update');
+            Route::delete('{ruleId}', 'RulesController@destroy');
+        });
+    });
 
     Route::get('uservars', 'UserVarsController@index');
     Route::get('dictionaries', 'DictionaryGroupsController@index');
