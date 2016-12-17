@@ -14,7 +14,7 @@ class AnswerButtonController extends AdminPanelController
 
     function __construct()
     {
-        $this->_chatNodeId = Route::current()->getParameter('_chatNodeId');
+        $this->_chatNodeId = Route::current()->getParameter('chatNodeId');
         $this->_answerButtonService = new AnswerButtonService($this->_chatNodeId);
     }
 

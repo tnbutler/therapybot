@@ -73,7 +73,7 @@ class ChatNodeService implements AdminPanelServiceInterface
     {
         // Reset the flag for all the nodes
         DB::table('chat_nodes')
-            ->where('_chatVersionId', $this->_chatVersionId)
+            ->where('chat_version_id', $this->_chatVersionId)
             ->update(['is_start_node' => 0]);
 
         // Set flag for the given node
@@ -89,7 +89,7 @@ class ChatNodeService implements AdminPanelServiceInterface
      */
     private function _getFromDb($chatNodeId = null)
     {
-        $query = ChatNode::where('_chatVersionId', $this->_chatVersionId);
+        $query = ChatNode::where('chat_version_id', $this->_chatVersionId);
 
         if ($chatNodeId) {
             $query->where('id', $chatNodeId);

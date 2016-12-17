@@ -13,7 +13,7 @@ class ChatNodeController extends AdminPanelController
 
     function __construct()
     {
-        $chatVersionId = Route::current()->getParameter('_chatVersionId');
+        $chatVersionId = Route::current()->getParameter('chatVersionId');
         $this->_chatNodeService = new ChatNodeService($chatVersionId);
     }
 

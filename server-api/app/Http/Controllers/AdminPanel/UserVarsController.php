@@ -10,7 +10,7 @@ class UserVarsController extends Controller
 {
     public function index($chatVersion)
     {
-        $userVariables = UserVariable::where('_chatVersionId', $chatVersion)
+        $userVariables = UserVariable::where('chat_version_id', $chatVersion)
             ->orderby('name')
             ->get();
         return $userVariables->toArray();

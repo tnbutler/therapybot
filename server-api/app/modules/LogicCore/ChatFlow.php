@@ -62,7 +62,7 @@ class ChatFlow
         // Ask the start question
         $chatNode = ChatNode::where([
             'is_start_node' => 1,
-            '_chatVersionId' => $this->_chatVersionId
+            'chat_version_id' => $this->_chatVersionId
         ])->first();
 
         if($chatNode) {
