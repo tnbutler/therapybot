@@ -19,32 +19,32 @@ Route::get('/', function () {
 Route::match(['get', 'post'], 'demoApi', 'ApiAdapters\DemoController@processWebHookCall');
 
 // Admin panel API requests
-Route::group(['prefix' => 'admin/v{chatVersion}', 'namespace' => 'AdminPanel'], function () {
+Route::group(['prefix' => 'admin/v{chatVersionId}', 'namespace' => 'AdminPanel'], function () {
     Route::group(['prefix' => 'questions'], function () {
-        Route::get('{questionId?}', function ($chatVersion, $questionId = null) {
-            return App::make('App\Http\Controllers\AdminPanel\ChatNodeController')->show($questionId);
+        Route::get('{chatNodeId?}', function ($chatVersionId, $chatNodeId = null) {
+            return App::make('App\Http\Controllers\AdminPanel\ChatNodeController')->show($chatNodeId);
         });
-        Route::post('', function ($chatVersion) {
+        Route::post('', function ($chatVersionId) {
             return App::make('App\Http\Controllers\AdminPanel\ChatNodeController')->create();
         });
-        Route::put('{questionId}', function ($chatVersion, $questionId) {
-            return App::make('App\Http\Controllers\AdminPanel\ChatNodeController')->update($questionId);
+        Route::put('{chatNodeId}', function ($chatVersionId, $chatNodeId) {
+            return App::make('App\Http\Controllers\AdminPanel\ChatNodeController')->update($chatNodeId);
         });
-        Route::delete('{questionId}', function ($chatVersion, $questionId = null) {
-            return App::make('App\Http\Controllers\AdminPanel\ChatNodeController')->delete($questionId);
+        Route::delete('{chatNodeId}', function ($chatVersionId, $chatNodeId = null) {
+            return App::make('App\Http\Controllers\AdminPanel\ChatNodeController')->delete($chatNodeId);
         });
-        Route::group(['prefix' => '{questionId}/rules'], function () {
-            Route::get('{ruleId?}', function ($chatVersion, $questionId, $ruleId = null) {
-                return App::make('App\Http\Controllers\AdminPanel\AnswerButtonController')->index($ruleId);
+        Route::group(['prefix' => '{chatNodeId}/rules'], function () {
+            Route::get('{answerButtonId?}', function ($chatVersionId, $chatNodeId, $answerButtonId = null) {
+                return App::make('App\Http\Controllers\AdminPanel\AnswerButtonController')->index($answerButtonId);
             });
-            Route::post('', function ($chatVersion, $questionId) {
+            Route::post('', function ($chatVersionId, $chatNodeId) {
                 return App::make('App\Http\Controllers\AdminPanel\AnswerButtonController')->create();
             });
-            Route::put('{ruleId}', function ($chatVersion, $questionId, $ruleId) {
-                return App::make('App\Http\Controllers\AdminPanel\AnswerButtonController')->update($ruleId);
+            Route::put('{answerButtonId}', function ($chatVersionId, $chatNodeId, $answerButtonId) {
+                return App::make('App\Http\Controllers\AdminPanel\AnswerButtonController')->update($answerButtonId);
             });
-            Route::delete('{ruleId}', function ($chatVersion, $questionId, $ruleId) {
-                return App::make('App\Http\Controllers\AdminPanel\AnswerButtonController')->delete($ruleId);
+            Route::delete('{answerButtonId}', function ($chatVersionId, $chatNodeId, $answerButtonId) {
+                return App::make('App\Http\Controllers\AdminPanel\AnswerButtonController')->delete($answerButtonId);
             });
         });
     });

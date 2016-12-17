@@ -14,28 +14,28 @@ class AnswerButtonController extends AdminPanelController
 
     function __construct()
     {
-        $this->chatNodeId = Route::current()->getParameter('questionId');
+        $this->chatNodeId = Route::current()->getParameter('chatNodeId');
         $this->answerButtonService = new AnswerButtonService($this->chatNodeId);
     }
 
-    public function index($ruleId = null)
+    public function index($answerButtonId = null)
     {
-        if ($ruleId > 0) {
-            return $this->answerButtonService->get($ruleId);
+        if ($answerButtonId > 0) {
+            return $this->answerButtonService->get($answerButtonId);
         }
 
         return $this->answerButtonService->getList();
     }
 
-    public function delete($ruleId)
+    public function delete($answerButtonId)
     {
-        $this->answerButtonService->delete($ruleId);
+        $this->answerButtonService->delete($answerButtonId);
         return $this->_successResult();
     }
 
-    public function update($ruleId, Request $request)
+    public function update($answerButtonId, Request $request)
     {
-        return $this->_save($ruleId, $request);
+        return $this->_save($answerButtonId, $request);
     }
 
     public function create(Request $request)
@@ -43,7 +43,7 @@ class AnswerButtonController extends AdminPanelController
         return $this->_save(null, $request);
     }
 
-    private function _save($ruleId, Request $request)
+    private function _save($answerButtonId, Request $request)
     {
         $errors = $this->_validate($request, [
             'text' => 'string|required',
@@ -56,8 +56,8 @@ class AnswerButtonController extends AdminPanelController
             return $errors;
         }
 
-        $answerButton = $ruleId > 0
-            ? AnswerButton::find($ruleId)
+        $answerButton = $answerButtonId > 0
+            ? AnswerButton::find($answerButtonId)
             : new AnswerButton();
 
         $answerButton->chat_node_id = $this->chatNodeId;

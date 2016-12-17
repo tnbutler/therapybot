@@ -13,14 +13,14 @@ class ChatNodeController extends AdminPanelController
 
     function __construct()
     {
-        $chatVersionId = Route::current()->getParameter('chatVersion');
+        $chatVersionId = Route::current()->getParameter('chatVersionId');
         $this->chatNodeService = new ChatNodeService($chatVersionId);
     }
 
-    public function show($questionId = null)
+    public function show($chatNodeId = null)
     {
-        $chatNodesList = $questionId
-            ? $this->chatNodeService->get($questionId)
+        $chatNodesList = $chatNodeId
+            ? $this->chatNodeService->get($chatNodeId)
             : $this->chatNodeService->getList();
         return $chatNodesList->toArray();
     }
@@ -30,18 +30,18 @@ class ChatNodeController extends AdminPanelController
         return $this->_save(null, $request);
     }
 
-    public function update($questionId, Request $request)
+    public function update($chatNodeId, Request $request)
     {
-        return $this->_save($questionId, $request);
+        return $this->_save($chatNodeId, $request);
     }
 
-    public function delete($questionId)
+    public function delete($chatNodeId)
     {
-        $this->chatNodeService->delete($questionId);
+        $this->chatNodeService->delete($chatNodeId);
         return $this->_successResult();
     }
 
-    private function _save($questionId, Request $request)
+    private function _save($chatNodeId, Request $request)
     {
         $errors = $this->_validate($request, [
             'question_text' => 'string|required',
@@ -54,8 +54,8 @@ class ChatNodeController extends AdminPanelController
             return $errors;
         }
 
-        $chatNode = $questionId > 0
-            ? ChatNode::find($questionId)
+        $chatNode = $chatNodeId > 0
+            ? ChatNode::find($chatNodeId)
             : new ChatNode();
 
         $chatNode->question_text = $request->input('question_text');
