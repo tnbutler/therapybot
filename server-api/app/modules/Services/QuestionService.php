@@ -41,7 +41,7 @@ class QuestionService implements AdminPanelServiceInterface
         $chatNode->save();
 
         if ($chatNode->is_start_node) {
-            $this->_setStartNode($chatNode->id);
+            $this->_setStartNode($chatNode->chat_version_id, $chatNode->id);
         }
 
         return $chatNode->id;
@@ -61,12 +61,14 @@ class QuestionService implements AdminPanelServiceInterface
     /**
      * Set given Chat Node to be the start node.
      *
+     * @param integer $chatVersionId Chat version id
      * @param integer $chatNodeId Chat node id to become the start node
      */
-    private function _setStartNode($chatNodeId)
+    private function _setStartNode($chatVersionId, $chatNodeId)
     {
         // Reset the flag for all the nodes
         DB::table('chat_nodes')
+            ->where('chat_version_id', $chatVersionId)
             ->update(['is_start_node' => 0]);
 
         // Set flag for the given node
