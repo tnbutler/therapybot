@@ -16,6 +16,11 @@ class AnswerButtonService implements AdminPanelServiceInterface
 {
     private $_chatNodeId;
 
+    /**
+     * Constructor.
+     *
+     * @param integer $chatNodeId Chat Node entity ID
+     */
     function __construct($chatNodeId)
     {
         $this->_chatNodeId = $chatNodeId;

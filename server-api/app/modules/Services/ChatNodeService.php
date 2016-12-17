@@ -16,6 +16,11 @@ class ChatNodeService implements AdminPanelServiceInterface
 {
     private $_chatVersionId;
 
+    /**
+     * Constructor.
+     *
+     * @param integer $chatVersionId Chat version ID
+     */
     function __construct($chatVersionId)
     {
         $this->_chatVersionId = $chatVersionId;

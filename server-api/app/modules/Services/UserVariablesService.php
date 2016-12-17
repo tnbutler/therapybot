@@ -16,14 +16,24 @@ use App\Modules\BotUserProcessing;
 class UserVariablesService
 {
     private $_botUser;
-
     const USER_NAME_VARIABLE_ID = 1;
 
+    /**
+     * Constructor.
+     *
+     * @param BotUser $botUser Dependency injection: need bot user entity.
+     */
     function __construct(BotUser $botUser)
     {
         $this->_botUser = $botUser;
     }
 
+    /**
+     * Set value of the given variable.
+     *
+     * @param integer $userVariableId User variable ID
+     * @return string $value Value to set
+     */
     public function set($userVariableId, $value)
     {
         // Try to find
@@ -45,10 +55,10 @@ class UserVariablesService
         $userVariableValue->save();
 
         // Custom processing rules for some variables
-        $this->performCustomProcessing($userVariableId, $value);
+        $this->_performCustomProcessing($userVariableId, $value);
     }
 
-    private function performCustomProcessing($userVariableId, $value)
+    private function _performCustomProcessing($userVariableId, $value)
     {
         if ($userVariableId == self::USER_NAME_VARIABLE_ID) {
             $botUserProcessing = new BotUserProcessing();
