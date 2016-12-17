@@ -21,27 +21,31 @@ Route::match(['get', 'post'], 'demoApi', 'ApiAdapters\DemoController@processWebH
 // Admin panel API requests
 Route::group(['prefix' => 'admin/v{chatVersion}', 'namespace' => 'AdminPanel'], function () {
     Route::group(['prefix' => 'questions'], function () {
-        Route::get('{questionId?}', function($chatVersion, $questionId = null)
-        {
+        Route::get('{questionId?}', function ($chatVersion, $questionId = null) {
             return App::make('App\Http\Controllers\AdminPanel\QuestionsController')->show($questionId);
         });
-        Route::post('', function($chatVersion)
-        {
+        Route::post('', function ($chatVersion) {
             return App::make('App\Http\Controllers\AdminPanel\QuestionsController')->create();
         });
-        Route::put('{questionId}', function($chatVersion, $questionId)
-        {
+        Route::put('{questionId}', function ($chatVersion, $questionId) {
             return App::make('App\Http\Controllers\AdminPanel\QuestionsController')->update($questionId);
         });
-        Route::delete('{questionId}', function($chatVersion, $questionId = null)
-        {
+        Route::delete('{questionId}', function ($chatVersion, $questionId = null) {
             return App::make('App\Http\Controllers\AdminPanel\QuestionsController')->delete($questionId);
         });
         Route::group(['prefix' => '{questionId}/rules'], function () {
-            Route::get('{ruleId?}', 'RulesController@index');
-            Route::post('', 'RulesController@create');
-            Route::put('{ruleId}', 'RulesController@update');
-            Route::delete('{ruleId}', 'RulesController@destroy');
+            Route::get('{ruleId?}', function ($chatVersion, $questionId, $ruleId = null) {
+                return App::make('App\Http\Controllers\AdminPanel\RulesController')->index($ruleId);
+            });
+            Route::post('', function ($chatVersion, $questionId) {
+                return App::make('App\Http\Controllers\AdminPanel\RulesController')->create();
+            });
+            Route::put('{ruleId}', function ($chatVersion, $questionId, $ruleId) {
+                return App::make('App\Http\Controllers\AdminPanel\RulesController')->update($ruleId);
+            });
+            Route::delete('{ruleId}', function ($chatVersion, $questionId, $ruleId) {
+                return App::make('App\Http\Controllers\AdminPanel\RulesController')->delete($ruleId);
+            });
         });
     });
     Route::get('uservars', 'UserVarsController@index');

@@ -15,7 +15,7 @@ class QuestionService implements AdminPanelServiceInterface
     }
 
     /**
-     * Get by ID single question entity.
+     * Get by ID single Chat Node entity.
      *
      * @param integer $chatNodeId Chat node id to get
      * @return ChatNode ChatNode entity
