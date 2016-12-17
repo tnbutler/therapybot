@@ -20,7 +20,7 @@ class ChatNode extends Model
         $userVariableValues = UserVariableValue::where('bot_users_id', $botUser->id)->orderBy('updated_at', 'desc')->get();
         $replaces = array();
         foreach ($userVariableValues as $userVariableValue) {
-            $replaces[] = array('user_variable_id' => $userVariableValue->user_variable_id, 'value' => $userVariableValue->value);
+            $replaces[$userVariableValue->user_variable_id] = $userVariableValue->value;
         }
         return $this->_performReplaces($replaces);
     }
@@ -30,7 +30,7 @@ class ChatNode extends Model
         $userVariables = UserVariable::where('chat_version_id', $this->chat_version_id)->get();
         $replaces = array();
         foreach ($userVariables as $userVariable) {
-            $replaces[] = array('user_variable_id' => $userVariable->id, 'value' => '@' . $userVariable->name . '@');
+            $replaces[$userVariable->id] = '@' . $userVariable->name . '@';
         }
         return $this->_performReplaces($replaces);
     }
@@ -38,10 +38,9 @@ class ChatNode extends Model
     private function _performReplaces($replaces)
     {
         $result = $this->question_text;
-        foreach ($replaces as $replace) {
-            $searchString = self::SYS_VAR_PREFIX . $replace['user_variable_id'] . self::SYS_VAR_POSTFIX;
-            $replaceString = $replace['value'];
-            $result = str_replace($searchString, $replaceString, $result);
+        foreach ($replaces as $key => $value) {
+            $searchString = self::SYS_VAR_PREFIX . $key . self::SYS_VAR_POSTFIX;
+            $result = str_replace($searchString, $value, $result);
         }
         return $result;
     }
