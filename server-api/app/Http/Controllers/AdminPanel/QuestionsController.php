@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\AdminPanel;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ChatNode;
 use Illuminate\Support\Facades\DB;
 
-class QuestionsController extends Controller
+class QuestionsController extends AdminPanelController
 {
     public function show($chatVersion, $questionId = null)
     {
@@ -102,22 +101,5 @@ class QuestionsController extends Controller
         DB::table('chat_nodes')
             ->where('id', $chatNodeId)
             ->update(['is_start_node' => 1]);
-    }
-
-    private function _composeResponse($chatNodeId, $errorText)
-    {
-        $response = array();
-
-        if (empty($errorText)) {
-            $response["success"] = true;
-            if ($chatNodeId > 0) {
-                $response["id"] = $chatNodeId;
-            }
-        } else {
-            $response["success"] = false;
-            $response["error"] = $errorText;
-        }
-
-        return $response;
     }
 }

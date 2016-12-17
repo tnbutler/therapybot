@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\AdminPanel;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ChatNode;
 use App\Models\AnswerButton;
 
-class RulesController extends Controller
+class RulesController extends AdminPanelController
 {
     public function index($chatVersion, $questionId, $ruleId = null)
     {
@@ -91,23 +90,5 @@ class RulesController extends Controller
         $answerButton->save();
 
         return $this->_composeResponse($answerButton->id, "");
-    }
-
-    // TODO: Get rid of copying between controllers
-    private function _composeResponse($id, $errorText)
-    {
-        $response = array();
-
-        if (empty($errorText)) {
-            $response["success"] = true;
-            if ($id > 0) {
-                $response["id"] = $id;
-            }
-        } else {
-            $response["success"] = false;
-            $response["error"] = $errorText;
-        }
-
-        return $response;
     }
 }
