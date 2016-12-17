@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Route;
 use App\Models\ChatNode;
 use App\Modules\Services\QuestionService;
 
-
 class QuestionsController extends AdminPanelController
 {
     private $questionService = null;
@@ -60,11 +59,11 @@ class QuestionsController extends AdminPanelController
             : new ChatNode();
 
         $chatNode->question_text = $request->input('question_text');
+        $chatNode->not_recognized_chat_node_id = $request->input('not_recognized_chat_node_id');
+        $chatNode->is_start_node = $request->input('is_start_node');
         $chatNode->user_variable_id = $request->input('user_variable_id') > 0
             ? $request->input('user_variable_id')
             : null;
-        $chatNode->not_recognized_chat_node_id = $request->input('not_recognized_chat_node_id');
-        $chatNode->is_start_node = $request->input('is_start_node');
 
         $id = $this->questionService->save($chatNode);
         return $this->_successResult($id);
