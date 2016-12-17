@@ -17,7 +17,7 @@ class QuestionsController extends AdminPanelController
         $this->questionService = new QuestionService($chatVersionId);
     }
 
-    public function show($chatVersion, $questionId = null)
+    public function show($questionId = null)
     {
         $chatNodesList = $questionId
             ? $this->questionService->get($questionId)
@@ -25,7 +25,7 @@ class QuestionsController extends AdminPanelController
         return $chatNodesList->toArray();
     }
 
-    public function create($chatVersion, Request $request)
+    public function create(Request $request)
     {
         return $this->_save(null, $request);
     }
@@ -35,7 +35,7 @@ class QuestionsController extends AdminPanelController
         return $this->_save($questionId, $request);
     }
 
-    public function destroy($chatVersion, $questionId)
+    public function delete($questionId)
     {
         $this->questionService->delete($questionId);
         return $this->_successResult();
