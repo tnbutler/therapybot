@@ -18,7 +18,7 @@ class RulesController extends AdminPanelController
     public function index($chatVersion, $questionId, $ruleId = null)
     {
         if ($ruleId > 0) {
-            return $this->ruleService->get($ruleId);
+            return $this->ruleService->get($chatVersion, $ruleId);
         }
 
         return $this->ruleService->getList($questionId);
