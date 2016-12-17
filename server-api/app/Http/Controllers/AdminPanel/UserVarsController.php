@@ -10,13 +10,9 @@ class UserVarsController extends Controller
 {
     public function index($chatVersion)
     {
-        header("Access-Control-Allow-Origin: *");
-        header('Access-Control-Allow-Headers: Content-Type');
-
         $userVariables = UserVariable::where('chat_version_id', $chatVersion)
             ->orderby('name')
             ->get();
-
         return $userVariables->toArray();
     }
 }

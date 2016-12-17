@@ -10,8 +10,6 @@ class QuestionsController extends AdminPanelController
 {
     public function show($chatVersion, $questionId = null)
     {
-        header("Access-Control-Allow-Origin: *");
-        header('Access-Control-Allow-Headers: Content-Type');
         $query = ChatNode::where('chat_version_id', $chatVersion)
             ->orderby('id');
 
@@ -31,23 +29,16 @@ class QuestionsController extends AdminPanelController
 
     public function create($chatVersion, Request $request)
     {
-        header("Access-Control-Allow-Origin: *");
-        header('Access-Control-Allow-Headers: Content-Type');
         return $this->_save($chatVersion, null, $request);
     }
 
     public function update($chatVersion, $questionId, Request $request)
     {
-        header("Access-Control-Allow-Origin: *");
-        header('Access-Control-Allow-Headers: Content-Type');
         return $this->_save($chatVersion, $questionId, $request);
     }
 
     public function destroy($chatVersion, $questionId)
     {
-        header("Access-Control-Allow-Origin: *");
-        header('Access-Control-Allow-Headers: Content-Type');
-
         $chatNode = ChatNode::find($questionId);
         $chatNode->delete();
         return $this->_composeResponse(null, null);

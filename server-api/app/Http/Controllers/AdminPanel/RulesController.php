@@ -10,9 +10,6 @@ class RulesController extends AdminPanelController
 {
     public function index($chatVersion, $questionId, $ruleId = null)
     {
-        header("Access-Control-Allow-Origin: *");
-        header('Access-Control-Allow-Headers: Content-Type');
-
         if ($ruleId > 0) {
             return AnswerButton::find($ruleId);
         }
@@ -33,26 +30,18 @@ class RulesController extends AdminPanelController
 
     public function destroy($chatVersion, $questionId, $ruleId)
     {
-        header("Access-Control-Allow-Origin: *");
-        header('Access-Control-Allow-Headers: Content-Type');
-
         $answerButton = AnswerButton::find($ruleId);
         $answerButton->delete();
-
         return $this->_composeResponse(null, null);
     }
 
     public function update($chatVersion, $questionId, $ruleId, Request $request)
     {
-        header("Access-Control-Allow-Origin: *");
-        header('Access-Control-Allow-Headers: Content-Type');
         return $this->_save($chatVersion, $ruleId, $request, $questionId);
     }
 
     public function create($chatVersion, $questionId, Request $request)
     {
-        header("Access-Control-Allow-Origin: *");
-        header('Access-Control-Allow-Headers: Content-Type');
         return $this->_save($chatVersion, null, $request, $questionId);
     }
 

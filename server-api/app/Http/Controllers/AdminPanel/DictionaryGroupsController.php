@@ -10,11 +10,7 @@ class DictionaryGroupsController extends Controller
 {
     public function index()
     {
-        header("Access-Control-Allow-Origin: *");
-        header('Access-Control-Allow-Headers: Content-Type');
-
         $dictionaryGroups = DictionaryGroup::orderby('id')->get();
-
         return $dictionaryGroups->toArray();
     }
 }
