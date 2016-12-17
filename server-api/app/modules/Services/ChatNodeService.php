@@ -5,7 +5,7 @@ namespace App\Modules\Services;
 use App\Models\ChatNode;
 use Illuminate\Support\Facades\DB;
 
-class QuestionService implements AdminPanelServiceInterface
+class ChatNodeService implements AdminPanelServiceInterface
 {
     private $chatVersionId;
 

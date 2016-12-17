@@ -5,31 +5,31 @@ namespace App\Http\Controllers\AdminPanel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\AnswerButton;
-use App\Modules\Services\RuleService;
+use App\Modules\Services\AnswerButtonService;
 
-class RulesController extends AdminPanelController
+class AnswerButtonController extends AdminPanelController
 {
-    private $ruleService = null;
+    private $answerButtonService = null;
     private $chatNodeId = null;
 
     function __construct()
     {
         $this->chatNodeId = Route::current()->getParameter('questionId');
-        $this->ruleService = new RuleService($this->chatNodeId);
+        $this->answerButtonService = new AnswerButtonService($this->chatNodeId);
     }
 
     public function index($ruleId = null)
     {
         if ($ruleId > 0) {
-            return $this->ruleService->get($ruleId);
+            return $this->answerButtonService->get($ruleId);
         }
 
-        return $this->ruleService->getList();
+        return $this->answerButtonService->getList();
     }
 
     public function delete($ruleId)
     {
-        $this->ruleService->delete($ruleId);
+        $this->answerButtonService->delete($ruleId);
         return $this->_successResult();
     }
 
@@ -68,7 +68,7 @@ class RulesController extends AdminPanelController
             ? $request->input('dictionary_group_id')
             : null;
 
-        $id = $this->ruleService->save($answerButton);
+        $id = $this->answerButtonService->save($answerButton);
 
         return $this->_successResult($id);
     }

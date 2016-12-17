@@ -5,23 +5,23 @@ namespace App\Http\Controllers\AdminPanel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\ChatNode;
-use App\Modules\Services\QuestionService;
+use App\Modules\Services\ChatNodeService;
 
-class QuestionsController extends AdminPanelController
+class ChatNodeController extends AdminPanelController
 {
-    private $questionService = null;
+    private $chatNodeService = null;
 
     function __construct()
     {
         $chatVersionId = Route::current()->getParameter('chatVersion');
-        $this->questionService = new QuestionService($chatVersionId);
+        $this->chatNodeService = new ChatNodeService($chatVersionId);
     }
 
     public function show($questionId = null)
     {
         $chatNodesList = $questionId
-            ? $this->questionService->get($questionId)
-            : $this->questionService->getList();
+            ? $this->chatNodeService->get($questionId)
+            : $this->chatNodeService->getList();
         return $chatNodesList->toArray();
     }
 
@@ -37,7 +37,7 @@ class QuestionsController extends AdminPanelController
 
     public function delete($questionId)
     {
-        $this->questionService->delete($questionId);
+        $this->chatNodeService->delete($questionId);
         return $this->_successResult();
     }
 
@@ -65,7 +65,7 @@ class QuestionsController extends AdminPanelController
             ? $request->input('user_variable_id')
             : null;
 
-        $id = $this->questionService->save($chatNode);
+        $id = $this->chatNodeService->save($chatNode);
         return $this->_successResult($id);
     }
 }

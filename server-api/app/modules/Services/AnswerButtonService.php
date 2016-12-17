@@ -5,7 +5,7 @@ namespace App\Modules\Services;
 use App\Models\AnswerButton;
 use App\Models\ChatNode;
 
-class RuleService implements AdminPanelServiceInterface
+class AnswerButtonService implements AdminPanelServiceInterface
 {
     private $chatNodeId;
 
