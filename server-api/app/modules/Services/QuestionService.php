@@ -17,12 +17,6 @@ class QuestionService
         return $this->_getFromDb($chatVersionId, null);
     }
 
-    public function delete($chatNodeId)
-    {
-        $chatNode = ChatNode::find($chatNodeId);
-        $chatNode->delete();
-    }
-
     public function save(ChatNode $chatNode)
     {
         $errorText = $this->_validate($chatNode);
@@ -40,6 +34,12 @@ class QuestionService
         return array('success' => 'true', 'id' => $chatNode->id);
     }
 
+    public function delete($chatNodeId)
+    {
+        $chatNode = ChatNode::find($chatNodeId);
+        $chatNode->delete();
+    }
+
     private function _setStartNode($chatNodeId)
     {
         // Set all questions as NOT Start
@@ -55,8 +55,7 @@ class QuestionService
     private function _validate(ChatNode $chatNode)
     {
         $errorText = "";
-
-        // TODO: Add validation layer here
+        
         if (empty($chatNode->question_text)) {
             $errorText = "'question_text' is empty";
         }
