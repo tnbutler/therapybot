@@ -9,27 +9,27 @@ use App\Modules\Services\AnswerButtonService;
 
 class AnswerButtonController extends AdminPanelController
 {
-    private $answerButtonService = null;
-    private $chatNodeId = null;
+    private $_answerButtonService = null;
+    private $_chatNodeId = null;
 
     function __construct()
     {
-        $this->chatNodeId = Route::current()->getParameter('chatNodeId');
-        $this->answerButtonService = new AnswerButtonService($this->chatNodeId);
+        $this->_chatNodeId = Route::current()->getParameter('_chatNodeId');
+        $this->_answerButtonService = new AnswerButtonService($this->_chatNodeId);
     }
 
     public function index($answerButtonId = null)
     {
         if ($answerButtonId > 0) {
-            return $this->answerButtonService->get($answerButtonId);
+            return $this->_answerButtonService->get($answerButtonId);
         }
 
-        return $this->answerButtonService->getList();
+        return $this->_answerButtonService->getList();
     }
 
     public function delete($answerButtonId)
     {
-        $this->answerButtonService->delete($answerButtonId);
+        $this->_answerButtonService->delete($answerButtonId);
         return $this->_successResult();
     }
 
@@ -60,7 +60,7 @@ class AnswerButtonController extends AdminPanelController
             ? AnswerButton::find($answerButtonId)
             : new AnswerButton();
 
-        $answerButton->chat_node_id = $this->chatNodeId;
+        $answerButton->chat_node_id = $this->_chatNodeId;
         $answerButton->text = $request->input('text');
         $answerButton->child_chat_node_id = $request->input('child_chat_node_id');
         $answerButton->is_visible = $request->input('is_visible');
@@ -68,7 +68,7 @@ class AnswerButtonController extends AdminPanelController
             ? $request->input('dictionary_group_id')
             : null;
 
-        $id = $this->answerButtonService->save($answerButton);
+        $id = $this->_answerButtonService->save($answerButton);
 
         return $this->_successResult($id);
     }

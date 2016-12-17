@@ -8,20 +8,20 @@ use App\Modules\BotUserProcessing;
 
 class UserVariables
 {
-    private $botUser;
+    private $_botUser;
 
     const USER_NAME_VARIABLE_ID = 1;
 
     function __construct(BotUser $botUser)
     {
-        $this->botUser = $botUser;
+        $this->_botUser = $botUser;
     }
 
     public function set($userVariableId, $value)
     {
         // Try to find
         $userVariableValue = UserVariableValue::where([
-            ['bot_users_id', '=', $this->botUser->id],
+            ['bot_users_id', '=', $this->_botUser->id],
             ['user_variable_id', '=', $userVariableId]])
             ->orderBy('updated_at', 'desc')
             ->first();
@@ -29,7 +29,7 @@ class UserVariables
         // Create, if not found
         if (!$userVariableValue) {
             $userVariableValue = new UserVariableValue;
-            $userVariableValue->bot_users_id = $this->botUser->id;
+            $userVariableValue->bot_users_id = $this->_botUser->id;
             $userVariableValue->user_variable_id = $userVariableId;
         }
 
@@ -45,7 +45,7 @@ class UserVariables
     {
         if ($userVariableId == self::USER_NAME_VARIABLE_ID) {
             $botUserProcessing = new BotUserProcessing();
-            $botUserProcessing->setName($this->botUser->id, $value);
+            $botUserProcessing->setName($this->_botUser->id, $value);
         }
     }
 }

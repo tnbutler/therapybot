@@ -9,19 +9,19 @@ use App\Modules\Services\ChatNodeService;
 
 class ChatNodeController extends AdminPanelController
 {
-    private $chatNodeService = null;
+    private $_chatNodeService = null;
 
     function __construct()
     {
-        $chatVersionId = Route::current()->getParameter('chatVersionId');
-        $this->chatNodeService = new ChatNodeService($chatVersionId);
+        $chatVersionId = Route::current()->getParameter('_chatVersionId');
+        $this->_chatNodeService = new ChatNodeService($chatVersionId);
     }
 
     public function show($chatNodeId = null)
     {
         $chatNodesList = $chatNodeId
-            ? $this->chatNodeService->get($chatNodeId)
-            : $this->chatNodeService->getList();
+            ? $this->_chatNodeService->get($chatNodeId)
+            : $this->_chatNodeService->getList();
         $result = $chatNodesList->toArray();
 
         if($chatNodeId) {
@@ -43,7 +43,7 @@ class ChatNodeController extends AdminPanelController
 
     public function delete($chatNodeId)
     {
-        $this->chatNodeService->delete($chatNodeId);
+        $this->_chatNodeService->delete($chatNodeId);
         return $this->_successResult();
     }
 
@@ -71,7 +71,7 @@ class ChatNodeController extends AdminPanelController
             ? $request->input('user_variable_id')
             : null;
 
-        $id = $this->chatNodeService->save($chatNode);
+        $id = $this->_chatNodeService->save($chatNode);
         return $this->_successResult($id);
     }
 }

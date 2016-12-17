@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\DB;
 
 class ChatNodeService implements AdminPanelServiceInterface
 {
-    private $chatVersionId;
+    private $_chatVersionId;
 
     function __construct($chatVersionId)
     {
-        $this->chatVersionId = $chatVersionId;
+        $this->_chatVersionId = $chatVersionId;
     }
 
     /**
@@ -43,7 +43,7 @@ class ChatNodeService implements AdminPanelServiceInterface
      */
     public function save($chatNode)
     {
-        $chatNode->chat_version_id = $this->chatVersionId;
+        $chatNode->chat_version_id = $this->_chatVersionId;
         $chatNode->save();
 
         if ($chatNode->is_start_node) {
@@ -73,7 +73,7 @@ class ChatNodeService implements AdminPanelServiceInterface
     {
         // Reset the flag for all the nodes
         DB::table('chat_nodes')
-            ->where('chat_version_id', $this->chatVersionId)
+            ->where('_chatVersionId', $this->_chatVersionId)
             ->update(['is_start_node' => 0]);
 
         // Set flag for the given node
@@ -89,7 +89,7 @@ class ChatNodeService implements AdminPanelServiceInterface
      */
     private function _getFromDb($chatNodeId = null)
     {
-        $query = ChatNode::where('chat_version_id', $this->chatVersionId);
+        $query = ChatNode::where('_chatVersionId', $this->_chatVersionId);
 
         if ($chatNodeId) {
             $query->where('id', $chatNodeId);

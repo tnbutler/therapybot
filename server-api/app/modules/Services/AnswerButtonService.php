@@ -7,11 +7,11 @@ use App\Models\ChatNode;
 
 class AnswerButtonService implements AdminPanelServiceInterface
 {
-    private $chatNodeId;
+    private $_chatNodeId;
 
     function __construct($chatNodeId)
     {
-        $this->chatNodeId = $chatNodeId;
+        $this->_chatNodeId = $chatNodeId;
     }
 
     /**
@@ -32,7 +32,7 @@ class AnswerButtonService implements AdminPanelServiceInterface
      */
     public function getList()
     {
-        $chatNode = ChatNode::find($this->chatNodeId);
+        $chatNode = ChatNode::find($this->_chatNodeId);
         $results = array();
         foreach ($chatNode->answerButtons as $answerButton) {
             $nextNodeCaption = ChatNode::find($answerButton->child_chat_node_id)->getTextWithUserVariableSysNames();

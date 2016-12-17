@@ -10,13 +10,13 @@ use Mockery\CountValidator\Exception;
 
 class ChatFlow
 {
-    private $botUser;
-    private $chat_version_id;
+    private $_botUser;
+    private $_chatVersionId;
 
     function __construct(BotUser $botUser, $chat_version_id)
     {
-        $this->botUser = $botUser;
-        $this->chat_version_id = $chat_version_id;
+        $this->_botUser = $botUser;
+        $this->_chatVersionId = $chat_version_id;
     }
 
     /**
@@ -36,7 +36,7 @@ class ChatFlow
     private function _getNextChatNode(UserResponse $userResponse)
     {
         // Find the last asked question, if any
-        $lastChatLogRecord = ChatLogRecord::where(['bot_users_id' => $this->botUser->id, 'is_bot_question' => '1'])
+        $lastChatLogRecord = ChatLogRecord::where(['bot_users_id' => $this->_botUser->id, 'is_bot_question' => '1'])
             ->orderBy('id', 'desc')
             ->first();
 
@@ -50,19 +50,19 @@ class ChatFlow
             // Set user variables
             $userVariableId = $chatNode->user_variable_id;
             if (isset($userVariableId)) {
-                $userVariables = new UserVariables($this->botUser);
+                $userVariables = new UserVariables($this->_botUser);
                 $userVariables->set($userVariableId, $userResponse->getUserVariableValue());
             }
 
             // Get the next node, by processing the rules
-            $nodeRulesProcessor = new NodeRulesProcessor($this->botUser, $userResponse, $chatNode);
+            $nodeRulesProcessor = new NodeRulesProcessor($this->_botUser, $userResponse, $chatNode);
             return $nodeRulesProcessor->processRules();
         }
 
         // Ask the start question
         $chatNode = ChatNode::where([
             'is_start_node' => 1,
-            'chat_version_id' => $this->chat_version_id
+            '_chatVersionId' => $this->_chatVersionId
         ])->first();
 
         if($chatNode) {
@@ -75,7 +75,7 @@ class ChatFlow
     private function _logChatRecord(ChatNode $chatNode, $is_bot_question, $messageText = '', $buttonId = null)
     {
         $chatLogRecord = new ChatLogRecord;
-        $chatLogRecord->bot_users_id = $this->botUser->id;
+        $chatLogRecord->bot_users_id = $this->_botUser->id;
         $chatLogRecord->chat_nodes_id = $chatNode->id;
         $chatLogRecord->is_bot_question = $is_bot_question;
         $chatLogRecord->message_text = $is_bot_question ? null : $messageText;

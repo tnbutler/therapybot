@@ -27,7 +27,7 @@ class ChatNode extends Model
 
     public function getTextWithUserVariableSysNames()
     {
-        $userVariables = UserVariable::where('chat_version_id', $this->chat_version_id)->get();
+        $userVariables = UserVariable::where('_chatVersionId', $this->chat_version_id)->get();
         $replaces = array();
         foreach ($userVariables as $userVariable) {
             $replaces[$userVariable->id] = '@' . $userVariable->name . '@';

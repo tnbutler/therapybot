@@ -10,38 +10,38 @@ use Mockery\CountValidator\Exception;
 
 class NodeRulesProcessor
 {
-    private $botUser;
-    private $userResponse;
-    private $chatNode;
+    private $_botUser;
+    private $_userResponse;
+    private $_chatNode;
 
     function __construct(BotUser $botUser, UserResponse $userResponse, ChatNode $chatNode)
     {
-        $this->botUser = $botUser;
-        $this->userResponse = $userResponse;
-        $this->chatNode = $chatNode;
+        $this->_botUser = $botUser;
+        $this->_userResponse = $userResponse;
+        $this->_chatNode = $chatNode;
     }
 
     public function processRules()
     {
         // User clicked the button, the next node is defined in this button
-        if ($this->userResponse->isButtonAnswer()) {
-            $answerButton = AnswerButton::find($this->userResponse->getButtonId());
+        if ($this->_userResponse->isButtonAnswer()) {
+            $answerButton = AnswerButton::find($this->_userResponse->getButtonId());
             //echo "AAA";
             return $this->_getChatNodeById($answerButton->child_chat_node_id);
         }
 
         // It's text answer - try to recognize instruction
         $semanticAnalysis = new SemanticAnalysis;
-        foreach ($this->chatNode->answerButtons as $questionButton) {
+        foreach ($this->_chatNode->answerButtons as $questionButton) {
             if (isset($questionButton->dictionary_group_id)) {
-                if ($semanticAnalysis->instructionFind($this->userResponse->getMessage(), $questionButton->dictionary_group_id)) {
+                if ($semanticAnalysis->instructionFind($this->_userResponse->getMessage(), $questionButton->dictionary_group_id)) {
                     return $this->_getChatNodeById($questionButton->child_chat_node_id);
                 }
             }
         }
 
         // No text recognized - use 'not recognized node'
-        return $this->_getChatNodeById($this->chatNode->not_recognized_chat_node_id);
+        return $this->_getChatNodeById($this->_chatNode->not_recognized_chat_node_id);
     }
 
     private function _getChatNodeById($chat_node_id)

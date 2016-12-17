@@ -19,21 +19,21 @@ Route::get('/', function () {
 Route::match(['get', 'post'], 'demoApi', 'ApiAdapters\DemoController@processWebHookCall');
 
 // Admin panel API requests
-Route::group(['prefix' => 'admin/v{chatVersionId}', 'namespace' => 'AdminPanel'], function () {
+Route::group(['prefix' => 'admin/v{_chatVersionId}', 'namespace' => 'AdminPanel'], function () {
     Route::group(['prefix' => 'questions'], function () {
-        Route::get('{chatNodeId?}', function ($chatVersionId, $chatNodeId = null) {
+        Route::get('{_chatNodeId?}', function ($chatVersionId, $chatNodeId = null) {
             return App::make('App\Http\Controllers\AdminPanel\ChatNodeController')->show($chatNodeId);
         });
         Route::post('', function ($chatVersionId) {
             return App::make('App\Http\Controllers\AdminPanel\ChatNodeController')->create();
         });
-        Route::put('{chatNodeId}', function ($chatVersionId, $chatNodeId) {
+        Route::put('{_chatNodeId}', function ($chatVersionId, $chatNodeId) {
             return App::make('App\Http\Controllers\AdminPanel\ChatNodeController')->update($chatNodeId);
         });
-        Route::delete('{chatNodeId}', function ($chatVersionId, $chatNodeId = null) {
+        Route::delete('{_chatNodeId}', function ($chatVersionId, $chatNodeId = null) {
             return App::make('App\Http\Controllers\AdminPanel\ChatNodeController')->delete($chatNodeId);
         });
-        Route::group(['prefix' => '{chatNodeId}/rules'], function () {
+        Route::group(['prefix' => '{_chatNodeId}/rules'], function () {
             Route::get('{answerButtonId?}', function ($chatVersionId, $chatNodeId, $answerButtonId = null) {
                 return App::make('App\Http\Controllers\AdminPanel\AnswerButtonController')->index($answerButtonId);
             });
