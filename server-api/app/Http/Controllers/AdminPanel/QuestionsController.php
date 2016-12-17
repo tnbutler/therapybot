@@ -4,26 +4,22 @@ namespace App\Http\Controllers\AdminPanel;
 
 use Illuminate\Http\Request;
 use App\Models\ChatNode;
-use Illuminate\Support\Facades\DB;
+use App\Modules\Services\QuestionService;
 
 class QuestionsController extends AdminPanelController
 {
+    private $questionService = null;
+
+    function __construct()
+    {
+        $this->questionService = new QuestionService();
+    }
+
     public function show($chatVersion, $questionId = null)
     {
-        $query = ChatNode::where('chat_version_id', $chatVersion)
-            ->orderby('id');
-
-        if ($questionId) {
-            $query->where('id', $questionId);
-        }
-
-        $chatNodesList = $query->orderBy('id', 'desc')->get();
-
-        // Replace system variable IDs by their names - to make it user-readable
-        foreach ($chatNodesList as $chatNode) {
-            $chatNode->question_text = $chatNode->getTextWithUserVariableSysNames();
-        }
-
+        $chatNodesList = $questionId
+            ? $this->questionService->get($chatVersion, $questionId)
+            : $this->questionService->getList($chatVersion);
         return $chatNodesList->toArray();
     }
 
@@ -39,58 +35,28 @@ class QuestionsController extends AdminPanelController
 
     public function destroy($chatVersion, $questionId)
     {
-        $chatNode = ChatNode::find($questionId);
-        $chatNode->delete();
+        $this->questionService->delete($questionId);
         return $this->_composeResponse(null, null);
     }
 
     private function _save($chatVersion, $questionId, Request $request)
     {
-        // TODO: Add validation layer here!
-        $errorText = "";
-        $question_text = trim($request->input('question_text'));
-        $user_variable_id = $request->input('user_variable_id');
+        $chatNode = $questionId > 0
+            ? ChatNode::find($questionId)
+            : new ChatNode();
 
-        if (empty($question_text)) {
-            $errorText = "'question_text' is empty";
-        }
-
-        if ($errorText != "") {
-            return $this->_composeResponse(null, $errorText);
-        }
-
-        // Save the data
-        if ($questionId > 0) {
-            $chatNode = ChatNode::find($questionId);
-        } else {
-            $chatNode = new ChatNode();
-        }
         $chatNode->chat_version_id = $chatVersion;
-        $chatNode->question_text = $question_text;
-        if ($user_variable_id > 0) {
-            // TODO: Add entity-relation here
-            $chatNode->user_variable_id = $user_variable_id;
-        }
+        $chatNode->question_text = $request->input('question_text');
+        $user_variable_id = $request->input('user_variable_id');
+        $chatNode->user_variable_id = $user_variable_id;
         $chatNode->not_recognized_chat_node_id = $request->input('not_recognized_chat_node_id');
-        $chatNode->save();
 
-        // Set start node, if equired
-        if ($request->input('is_start_node') == 1) {
-            $this->_setStartNode($chatNode->id);
+        $result = $this->questionService->save($chatNode);
+
+        if ($result['success']) {
+            return $this->_composeResponse($result['id'], "");
         }
 
-        return $this->_composeResponse($chatNode->id, "");
-    }
-
-    private function _setStartNode($chatNodeId)
-    {
-        // Set all other question as NOT Start
-        DB::table('chat_nodes')
-            ->update(['is_start_node' => 0]);
-
-        // Set this question as Start
-        DB::table('chat_nodes')
-            ->where('id', $chatNodeId)
-            ->update(['is_start_node' => 1]);
+        return $this->_composeResponse(null, $result['error_text']);
     }
 }

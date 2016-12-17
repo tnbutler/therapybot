@@ -38,13 +38,11 @@ class ChatNode extends Model
     private function _performReplaces($replaces)
     {
         $result = $this->question_text;
-
         foreach ($replaces as $replace) {
             $searchString = self::SYS_VAR_PREFIX . $replace['user_variable_id'] . self::SYS_VAR_POSTFIX;
             $replaceString = $replace['value'];
             $result = str_replace($searchString, $replaceString, $result);
         }
-
         return $result;
     }
 }
