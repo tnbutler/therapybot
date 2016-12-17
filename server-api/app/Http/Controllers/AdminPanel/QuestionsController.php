@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\AdminPanel;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use App\Models\ChatNode;
 use App\Modules\Services\QuestionService;
 
@@ -13,25 +14,26 @@ class QuestionsController extends AdminPanelController
 
     function __construct()
     {
-        $this->questionService = new QuestionService();
+        $chatVersionId = Route::current()->getParameter('chatVersion');
+        $this->questionService = new QuestionService($chatVersionId);
     }
 
     public function show($chatVersion, $questionId = null)
     {
         $chatNodesList = $questionId
-            ? $this->questionService->get($chatVersion, $questionId)
-            : $this->questionService->getList($chatVersion);
+            ? $this->questionService->get($questionId)
+            : $this->questionService->getList();
         return $chatNodesList->toArray();
     }
 
     public function create($chatVersion, Request $request)
     {
-        return $this->_save($chatVersion, null, $request);
+        return $this->_save(null, $request);
     }
 
-    public function update($chatVersion, $questionId, Request $request)
+    public function update($questionId, Request $request)
     {
-        return $this->_save($chatVersion, $questionId, $request);
+        return $this->_save($questionId, $request);
     }
 
     public function destroy($chatVersion, $questionId)
@@ -40,7 +42,7 @@ class QuestionsController extends AdminPanelController
         return $this->_successResult();
     }
 
-    private function _save($chatVersion, $questionId, Request $request)
+    private function _save($questionId, Request $request)
     {
         $errors = $this->_validate($request, [
             'question_text' => 'string|required',
@@ -57,7 +59,6 @@ class QuestionsController extends AdminPanelController
             ? ChatNode::find($questionId)
             : new ChatNode();
 
-        $chatNode->chat_version_id = $chatVersion;
         $chatNode->question_text = $request->input('question_text');
         $chatNode->user_variable_id = $request->input('user_variable_id') > 0
             ? $request->input('user_variable_id')

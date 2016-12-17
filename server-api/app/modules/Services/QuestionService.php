@@ -7,27 +7,32 @@ use Illuminate\Support\Facades\DB;
 
 class QuestionService implements AdminPanelServiceInterface
 {
+    private $chatVersionId;
+
+    function __construct($chatVersionId)
+    {
+        $this->chatVersionId = $chatVersionId;
+    }
+
     /**
      * Get by ID single question entity.
      *
-     * @param integer $chatVersionId Chat version id
      * @param integer $chatNodeId Chat node id to get
      * @return ChatNode ChatNode entity
      */
-    public function get($chatVersionId, $chatNodeId)
+    public function get($chatNodeId)
     {
-        return $this->_getFromDb($chatVersionId, $chatNodeId);
+        return $this->_getFromDb($chatNodeId);
     }
 
     /**
      * Get list of Chat Nodes for the given chat version.
      *
-     * @param integer $chatVersionId Chat version id
      * @return array  Array of ChatNode entities
      */
-    public function getList($chatVersionId)
+    public function getList()
     {
-        return $this->_getFromDb($chatVersionId, null);
+        return $this->_getFromDb(null);
     }
 
     /**
@@ -38,10 +43,11 @@ class QuestionService implements AdminPanelServiceInterface
      */
     public function save($chatNode)
     {
+        $chatNode->chat_version_id = $this->chatVersionId;
         $chatNode->save();
 
         if ($chatNode->is_start_node) {
-            $this->_setStartNode($chatNode->chat_version_id, $chatNode->id);
+            $this->_setStartNode($chatNode->id);
         }
 
         return $chatNode->id;
@@ -61,14 +67,13 @@ class QuestionService implements AdminPanelServiceInterface
     /**
      * Set given Chat Node to be the start node.
      *
-     * @param integer $chatVersionId Chat version id
      * @param integer $chatNodeId Chat node id to become the start node
      */
-    private function _setStartNode($chatVersionId, $chatNodeId)
+    private function _setStartNode($chatNodeId)
     {
         // Reset the flag for all the nodes
         DB::table('chat_nodes')
-            ->where('chat_version_id', $chatVersionId)
+            ->where('chat_version_id', $this->chatVersionId)
             ->update(['is_start_node' => 0]);
 
         // Set flag for the given node
@@ -80,12 +85,11 @@ class QuestionService implements AdminPanelServiceInterface
     /**
      * Get one or many Chat Node entities from Database.
      *
-     * @param integer $chatVersionId Chat version id
      * @return integer Id of single Chat Node
      */
-    private function _getFromDb($chatVersionId, $chatNodeId = null)
+    private function _getFromDb($chatNodeId = null)
     {
-        $query = ChatNode::where('chat_version_id', $chatVersionId);
+        $query = ChatNode::where('chat_version_id', $this->chatVersionId);
 
         if ($chatNodeId) {
             $query->where('id', $chatNodeId);
