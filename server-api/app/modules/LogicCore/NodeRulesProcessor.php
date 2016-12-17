@@ -26,7 +26,6 @@ class NodeRulesProcessor
         // User clicked the button, the next node is defined in this button
         if ($this->_userResponse->isButtonAnswer()) {
             $answerButton = AnswerButton::find($this->_userResponse->getButtonId());
-            //echo "AAA";
             return $this->_getChatNodeById($answerButton->child_chat_node_id);
         }
 
@@ -48,7 +47,7 @@ class NodeRulesProcessor
     {
         $chatNode = ChatNode::find($chat_node_id);
         if (!$chatNode) {
-            $exceptionText = trans('exceptions.cant_find_chat_node') . ": " . $chat_node_id;
+            $exceptionText = trans('exceptions.cant_find_chat_node') . ': ' . $chat_node_id;
             throw new Exception($exceptionText);
         }
         return $chatNode;

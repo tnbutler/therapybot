@@ -13,7 +13,7 @@ class AdminPanelController extends Controller
         $validator = Validator::make($request->all(), $validationRules);
 
         if ($validator->fails()) {
-            $errorText = "";
+            $errorText = '';
             foreach ($validator->errors()->all() as $key => $value) {
                 $errorText .= $value . ' ';
             }
@@ -33,13 +33,13 @@ class AdminPanelController extends Controller
         $response = array();
 
         if (empty($errorText)) {
-            $response["success"] = true;
+            $response['success'] = true;
             if ($id > 0) {
-                $response["id"] = $id;
+                $response['id'] = $id;
             }
         } else {
-            $response["success"] = false;
-            $response["error"] = $errorText;
+            $response['success'] = false;
+            $response['error'] = $errorText;
         }
 
         return $response;

@@ -12,7 +12,7 @@ class SemanticAnalysis
         $dictionaryGroup = DictionaryGroup::find($dictionaryGroupId);
 
         if (!$dictionaryGroup) {
-            $exceptionText = trans('exceptions.cant_find_dictionary_group') . ": " . $dictionaryGroupId;
+            $exceptionText = trans('exceptions.cant_find_dictionary_group') . ': ' . $dictionaryGroupId;
             throw new Exception($exceptionText);
         }
 
@@ -33,8 +33,8 @@ class SemanticAnalysis
         $messageText = trim($messageText);
 
         // Replace punctuation, line returns and tabs with space, but leave '?'
-        $toRemove = array("!", ",", ";", '.', '\t', '\r', '\n');
-        $messageText = str_replace($toRemove, " ", $messageText);
+        $toRemove = array('!', ',', ';', '.', '\t', '\r', '\n');
+        $messageText = str_replace($toRemove, ' ', $messageText);
         $messageText = trim($messageText);
 
         // Remove multiple spaces
