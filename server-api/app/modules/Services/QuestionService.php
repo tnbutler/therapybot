@@ -16,26 +16,20 @@ class QuestionService implements AdminPanelServiceInterface
     {
         return $this->_getFromDb($chatVersionId, null);
     }
-    
+
     /**
      * @param ChatNode $chatNode
      * @return array
      */
     public function save($chatNode)
     {
-        $errorText = $this->_validate($chatNode);
-
-        if ($errorText != "") {
-            return array('success' => 'false', 'error_text' => $errorText);
-        }
-
         $chatNode->save();
 
         if ($chatNode->is_start_node) {
             $this->_setStartNode($chatNode->id);
         }
-
-        return array('success' => 'true', 'id' => $chatNode->id);
+        
+        return $chatNode->id;
     }
 
     public function delete($chatNodeId)
@@ -54,17 +48,6 @@ class QuestionService implements AdminPanelServiceInterface
         DB::table('chat_nodes')
             ->where('id', $chatNodeId)
             ->update(['is_start_node' => 1]);
-    }
-
-    private function _validate(ChatNode $chatNode)
-    {
-        $errorText = "";
-
-        if (empty($chatNode->question_text)) {
-            $errorText = "'question_text' is empty";
-        }
-
-        return $errorText;
     }
 
     private function _getFromDb($chatVersionId, $chatNodeId)

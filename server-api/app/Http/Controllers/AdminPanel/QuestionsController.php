@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\ChatNode;
 use App\Modules\Services\QuestionService;
 
+
 class QuestionsController extends AdminPanelController
 {
     private $questionService = null;
@@ -36,27 +37,35 @@ class QuestionsController extends AdminPanelController
     public function destroy($chatVersion, $questionId)
     {
         $this->questionService->delete($questionId);
-        return $this->_composeResponse(null, null);
+        return $this->_successResult();
     }
 
     private function _save($chatVersion, $questionId, Request $request)
     {
+        $errors = $this->_validate($request, [
+            'question_text' => 'string|required',
+            'user_variable_id' => 'integer',
+            'not_recognized_chat_node_id' => 'integer|required',
+            'is_start_node' => 'boolean|required',
+        ]);
+
+        if ($errors) {
+            return $errors;
+        }
+
         $chatNode = $questionId > 0
             ? ChatNode::find($questionId)
             : new ChatNode();
 
         $chatNode->chat_version_id = $chatVersion;
         $chatNode->question_text = $request->input('question_text');
-        $chatNode->user_variable_id = $request->input('user_variable_id');
+        $chatNode->user_variable_id = $request->input('user_variable_id') > 0
+            ? $request->input('user_variable_id')
+            : null;
         $chatNode->not_recognized_chat_node_id = $request->input('not_recognized_chat_node_id');
         $chatNode->is_start_node = $request->input('is_start_node');
 
-        $result = $this->questionService->save($chatNode);
-
-        if ($result['success']) {
-            return $this->_composeResponse($result['id'], "");
-        }
-
-        return $this->_composeResponse(null, $result['error_text']);
+        $id = $this->questionService->save($chatNode);
+        return $this->_successResult($id);
     }
 }
