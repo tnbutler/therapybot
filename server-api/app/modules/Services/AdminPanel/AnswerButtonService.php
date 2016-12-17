@@ -7,7 +7,7 @@
  * @deprecated Class is not deprecated
  */
 
-namespace App\Modules\Services;
+namespace App\Modules\Services\AdminPanel;
 
 use App\Models\AnswerButton;
 use App\Models\ChatNode;

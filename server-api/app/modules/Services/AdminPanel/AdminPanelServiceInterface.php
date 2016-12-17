@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Services;
+namespace App\Modules\Services\AdminPanel;
 
 interface AdminPanelServiceInterface
 {

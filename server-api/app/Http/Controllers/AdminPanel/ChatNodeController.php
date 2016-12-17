@@ -5,7 +5,7 @@ namespace App\Http\Controllers\AdminPanel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\ChatNode;
-use App\Modules\Services\ChatNodeService;
+use App\Modules\Services\AdminPanel\ChatNodeService;
 
 class ChatNodeController extends AdminPanelController
 {

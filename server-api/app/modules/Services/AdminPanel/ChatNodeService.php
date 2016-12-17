@@ -7,7 +7,7 @@
  * @deprecated Class is not deprecated
  */
 
-namespace App\Modules\Services;
+namespace App\Modules\Services\AdminPanel;
 
 use App\Models\ChatNode;
 use Illuminate\Support\Facades\DB;

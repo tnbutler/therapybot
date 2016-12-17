@@ -5,7 +5,7 @@ namespace App\Http\Controllers\AdminPanel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\AnswerButton;
-use App\Modules\Services\AnswerButtonService;
+use App\Modules\Services\AdminPanel\AnswerButtonService;
 
 class AnswerButtonController extends AdminPanelController
 {
