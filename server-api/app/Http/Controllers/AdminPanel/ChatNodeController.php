@@ -22,7 +22,13 @@ class ChatNodeController extends AdminPanelController
         $chatNodesList = $chatNodeId
             ? $this->chatNodeService->get($chatNodeId)
             : $this->chatNodeService->getList();
-        return $chatNodesList->toArray();
+        $result = $chatNodesList->toArray();
+
+        if($chatNodeId) {
+            return $result[0];
+        }
+
+        return $result;
     }
 
     public function create(Request $request)
