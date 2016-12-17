@@ -5,7 +5,7 @@ namespace App\Modules\Services;
 use App\Models\ChatNode;
 use Illuminate\Support\Facades\DB;
 
-class QuestionService
+class QuestionService implements AdminPanelServiceInterface
 {
     public function get($chatVersionId, $chatNodeId)
     {
@@ -16,8 +16,12 @@ class QuestionService
     {
         return $this->_getFromDb($chatVersionId, null);
     }
-
-    public function save(ChatNode $chatNode)
+    
+    /**
+     * @param ChatNode $chatNode
+     * @return array
+     */
+    public function save($chatNode)
     {
         $errorText = $this->_validate($chatNode);
 
@@ -55,7 +59,7 @@ class QuestionService
     private function _validate(ChatNode $chatNode)
     {
         $errorText = "";
-        
+
         if (empty($chatNode->question_text)) {
             $errorText = "'question_text' is empty";
         }

@@ -5,9 +5,9 @@ namespace App\Modules\Services;
 use App\Models\AnswerButton;
 use App\Models\ChatNode;
 
-class RuleService
+class RuleService implements AdminPanelServiceInterface
 {
-    public function get($answerButtonId)
+    public function get($chatVersionId, $answerButtonId)
     {
         return AnswerButton::find($answerButtonId);
     }
@@ -33,7 +33,11 @@ class RuleService
         $answerButton->delete();
     }
 
-    public function save(AnswerButton $answerButton)
+    /**
+     * @param AnswerButton $answerButton
+     * @return array
+     */
+    public function save($answerButton)
     {
         $errorText = $this->_validate($answerButton);
 
