@@ -6,17 +6,20 @@ use App\Models\ChatLogRecord;
 use App\Models\ChatNode;
 use App\Models\BotUser;
 use App\Modules\Api\UserResponse;
+use App\Modules\Services\UserVariablesService;
 use Mockery\CountValidator\Exception;
 
 class ChatFlow
 {
     private $_botUser;
     private $_chatVersionId;
+    private $_userVariablesService;
 
     function __construct(BotUser $botUser, $chat_version_id)
     {
         $this->_botUser = $botUser;
         $this->_chatVersionId = $chat_version_id;
+        $this->_userVariablesService = new UserVariablesService($this->_botUser);
     }
 
     /**
@@ -50,8 +53,7 @@ class ChatFlow
             // Set user variables
             $userVariableId = $chatNode->user_variable_id;
             if (isset($userVariableId)) {
-                $userVariables = new UserVariables($this->_botUser);
-                $userVariables->set($userVariableId, $userResponse->getUserVariableValue());
+                $this->_userVariablesService->set($userVariableId, $userResponse->getUserVariableValue());
             }
 
             // Get the next node, by processing the rules

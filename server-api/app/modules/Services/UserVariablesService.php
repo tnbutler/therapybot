@@ -1,12 +1,19 @@
 <?php
 
-namespace App\Modules\LogicCore;
+/**
+ * The service is responsible for all operations over User Variables.
+ *
+ * @since      Class available since Release 0.1.0
+ * @deprecated Class is not deprecated
+ */
+
+namespace App\Modules\Services;
 
 use App\Models\UserVariableValue;
 use App\Models\BotUser;
 use App\Modules\BotUserProcessing;
 
-class UserVariables
+class UserVariablesService
 {
     private $_botUser;
 

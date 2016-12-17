@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * The service is responsible for CRUD operations over ChatNode objects.
+ *
+ * @since      Class available since Release 0.1.0
+ * @deprecated Class is not deprecated
+ */
+
 namespace App\Modules\Services;
 
 use App\Models\ChatNode;
