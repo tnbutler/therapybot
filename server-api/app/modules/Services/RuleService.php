@@ -39,25 +39,7 @@ class RuleService implements AdminPanelServiceInterface
      */
     public function save($answerButton)
     {
-        $errorText = $this->_validate($answerButton);
-
-        if ($errorText != "") {
-            return array('success' => 'false', 'error_text' => $errorText);
-        }
-
         $answerButton->save();
-
-        return array('success' => 'true', 'id' => $answerButton->id);
-    }
-
-    private function _validate(AnswerButton $answerButton)
-    {
-        $errorText = "";
-
-        if (empty($answerButton->text)) {
-            $errorText = "'text' is empty";
-        }
-
-        return $errorText;
+        return $answerButton->id;
     }
 }

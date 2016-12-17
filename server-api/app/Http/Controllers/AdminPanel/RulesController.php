@@ -27,7 +27,7 @@ class RulesController extends AdminPanelController
     public function destroy($chatVersion, $questionId, $ruleId)
     {
         $this->ruleService->delete($ruleId);
-        return $this->_composeResponse(null, null);
+        return $this->_successResult();
     }
 
     public function update($chatVersion, $questionId, $ruleId, Request $request)
@@ -42,6 +42,17 @@ class RulesController extends AdminPanelController
 
     private function _save($chatVersion, $ruleId, Request $request, $chatNodeId)
     {
+        $errors = $this->_validate($request, [
+            'text' => 'string|required',
+            'child_chat_node_id' => 'integer|required',
+            'dictionary_group_id' => 'integer',
+            'is_visible' => 'boolean|required',
+        ]);
+
+        if ($errors) {
+            return $errors;
+        }
+
         $answerButton = $ruleId > 0
             ? AnswerButton::find($ruleId)
             : new AnswerButton();
@@ -50,14 +61,12 @@ class RulesController extends AdminPanelController
         $answerButton->text = $request->input('text');
         $answerButton->child_chat_node_id = $request->input('child_chat_node_id');
         $answerButton->is_visible = $request->input('is_visible');
-        $answerButton->dictionary_group_id = $request->input('dictionary_group_id');
+        $answerButton->dictionary_group_id = $request->input('dictionary_group_id') > 0
+            ? $request->input('dictionary_group_id')
+            : null;
 
-        $result = $this->ruleService->save($answerButton);
+        $id = $this->ruleService->save($answerButton);
 
-        if ($result['success']) {
-            return $this->_composeResponse($result['id'], "");
-        }
-
-        return $this->_composeResponse(null, $result['error_text']);
+        return $this->_successResult($id);
     }
 }
