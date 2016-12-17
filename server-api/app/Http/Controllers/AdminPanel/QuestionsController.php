@@ -47,9 +47,9 @@ class QuestionsController extends AdminPanelController
 
         $chatNode->chat_version_id = $chatVersion;
         $chatNode->question_text = $request->input('question_text');
-        $user_variable_id = $request->input('user_variable_id');
-        $chatNode->user_variable_id = $user_variable_id;
+        $chatNode->user_variable_id = $request->input('user_variable_id');
         $chatNode->not_recognized_chat_node_id = $request->input('not_recognized_chat_node_id');
+        $chatNode->is_start_node = $request->input('is_start_node');
 
         $result = $this->questionService->save($chatNode);
 
