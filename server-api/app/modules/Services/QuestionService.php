@@ -7,19 +7,34 @@ use Illuminate\Support\Facades\DB;
 
 class QuestionService implements AdminPanelServiceInterface
 {
+    /**
+     * Get by ID single question entity.
+     *
+     * @param integer $chatVersionId Chat version id
+     * @param integer $chatNodeId Chat node id to get
+     * @return ChatNode ChatNode entity
+     */
     public function get($chatVersionId, $chatNodeId)
     {
         return $this->_getFromDb($chatVersionId, $chatNodeId);
     }
 
+    /**
+     * Get list of Chat Nodes for the given chat version.
+     *
+     * @param integer $chatVersionId Chat version id
+     * @return array  Array of ChatNode entities
+     */
     public function getList($chatVersionId)
     {
         return $this->_getFromDb($chatVersionId, null);
     }
 
     /**
-     * @param ChatNode $chatNode
-     * @return array
+     * Save Chat Node record to Database.
+     *
+     * @param ChatNode $chatNode Chat Node entity to save
+     * @return integer Id of the saved entity
      */
     public function save($chatNode)
     {
@@ -28,29 +43,45 @@ class QuestionService implements AdminPanelServiceInterface
         if ($chatNode->is_start_node) {
             $this->_setStartNode($chatNode->id);
         }
-        
+
         return $chatNode->id;
     }
 
+    /**
+     * Delete single Chat Node entity by ID.
+     *
+     * @param integer $chatNodeId Chat node id to delete
+     */
     public function delete($chatNodeId)
     {
         $chatNode = ChatNode::find($chatNodeId);
         $chatNode->delete();
     }
 
+    /**
+     * Set given Chat Node to be the start node.
+     *
+     * @param integer $chatNodeId Chat node id to become the start node
+     */
     private function _setStartNode($chatNodeId)
     {
-        // Set all questions as NOT Start
+        // Reset the flag for all the nodes
         DB::table('chat_nodes')
             ->update(['is_start_node' => 0]);
 
-        // Set this question as Start
+        // Set flag for the given node
         DB::table('chat_nodes')
             ->where('id', $chatNodeId)
             ->update(['is_start_node' => 1]);
     }
 
-    private function _getFromDb($chatVersionId, $chatNodeId)
+    /**
+     * Get one or many Chat Node entities from Database.
+     *
+     * @param integer $chatVersionId Chat version id
+     * @return integer Id of single Chat Node
+     */
+    private function _getFromDb($chatVersionId, $chatNodeId = null)
     {
         $query = ChatNode::where('chat_version_id', $chatVersionId);
 
