@@ -65,7 +65,7 @@ INSERT INTO `answer_buttons` (`id`, `chat_node_id`, `text`, `child_chat_node_id`
 
 CREATE TABLE IF NOT EXISTS `bot_users` (
   `id` int(11) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL,
   `name` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `bot_users` (
 
 CREATE TABLE IF NOT EXISTS `chat_log_records` (
   `id` int(11) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL,
   `bot_users_id` int(11) NOT NULL,
   `is_bot_question` tinyint(1) NOT NULL,
@@ -124,7 +124,7 @@ INSERT INTO `chat_nodes` (`id`, `chat_version_id`, `question_text`, `user_variab
 CREATE TABLE IF NOT EXISTS `chat_versions` (
   `id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
-  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `create_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --

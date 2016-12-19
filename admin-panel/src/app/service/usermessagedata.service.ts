@@ -12,7 +12,7 @@ import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class UserMessageDataService {
-    private messagesUrl = 'http://bot.loc:81/demoApi'; /*'http://therapybot-api.vp-software.com/demoApi'*/
+    private messagesUrl = /*'http://bot.loc:81/demoApi';*/ 'http://therapybot-api.vp-software.com/demoApi';
 
     constructor(private http: Http) {
     }
@@ -24,12 +24,12 @@ export class UserMessageDataService {
             .catch(this.handleError);
     }
 
-    addMessage(user: number, message: string, buttonId: number): Promise<Message> {
+    addMessage(user: number, message: string, buttonID: number): Promise<Message> {
         let headers = new Headers({'Content-Type': 'application/json'});
         let options = new RequestOptions({headers: headers});
-        if(buttonId != 0){
-            console.log('ButtonID: ', buttonId);
-            return this.http.post(this.messagesUrl, {user, message, buttonId}, options)
+        if(buttonID != 0){
+            console.log('ButtonID: ', buttonID);
+            return this.http.post(this.messagesUrl, {user, message, buttonID}, options)
                 .toPromise()
                 .then(this.extractData)
                 .catch(this.handleError);
