@@ -15,6 +15,17 @@ class ChatNode extends Model
         return $this->hasMany('App\Models\AnswerButton');
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::deleting(function ($chatNode) {
+            // Before Chat Node is deleted, we delete all the related Answer Buttons.
+            foreach ($chatNode->answerButtons as $answerButton) {
+                $answerButton->delete();
+            }
+        });
+    }
+
     public function getTextWithUserVariableValues(BotUser $botUser)
     {
         $userVariableValues = UserVariableValue::where('bot_users_id', $botUser->id)->orderBy('updated_at', 'desc')->get();
