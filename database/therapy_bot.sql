@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `answer_buttons` (
   `chat_node_id` int(11) NOT NULL,
   `text` text NOT NULL,
   `child_chat_node_id` int(11) DEFAULT NULL,
-  `display_order` int(11) NOT NULL,
+  `display_order` int(11) NOT NULL DEFAULT '1',
   `is_visible` tinyint(1) NOT NULL DEFAULT '1',
   `dictionary_group_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
