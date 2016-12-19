@@ -56,6 +56,7 @@ class ChatNodeService implements AdminPanelServiceInterface
     public function save($chatNode)
     {
         $chatNode->chat_version_id = $this->_chatVersionId;
+        $chatNode->question_text = $chatNode->getTextWithUserVariableSysNames(true);
         $chatNode->save();
 
         if ($chatNode->is_start_node) {
@@ -111,7 +112,7 @@ class ChatNodeService implements AdminPanelServiceInterface
 
         // Replace system variable IDs with their names - to make it user-readable
         foreach ($chatNodesList as $chatNode) {
-            $chatNode->question_text = $chatNode->getTextWithUserVariableSysNames();
+            $chatNode->question_text = $chatNode->getTextWithUserVariableSysNames(false);
         }
 
         return $chatNodesList;

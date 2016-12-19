@@ -48,7 +48,7 @@ class AnswerButtonService implements AdminPanelServiceInterface
         $results = array();
         foreach ($chatNode->answerButtons as $answerButton) {
             $nextChatNode = ChatNode::find($answerButton->child_chat_node_id);
-            $nextNodeCaption = 'Q' . $nextChatNode->id . ': ' . $nextChatNode->getTextWithUserVariableSysNames();
+            $nextNodeCaption = 'Q' . $nextChatNode->id . ': ' . $nextChatNode->getTextWithUserVariableSysNames(false);
             $results[] = array(
                 'id' => $answerButton->id,
                 'button_caption' => $answerButton->text,
