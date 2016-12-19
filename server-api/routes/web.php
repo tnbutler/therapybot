@@ -19,39 +19,41 @@ Route::get('/', function () {
 Route::match(['get', 'post'], 'demoApi', 'ApiAdapters\DemoController@processWebHookCall');
 
 // Admin panel API requests
-Route::group(['prefix' => 'admin/v{chatVersionId}', 'namespace' => 'AdminPanel'], function () {
-    Route::group(['prefix' => 'questions'], function () {
-        Route::get('{_chatNodeId?}', function ($chatVersionId, $chatNodeId = null) {
-            return App::make('App\Http\Controllers\AdminPanel\ChatNodeController')->show($chatNodeId);
-        });
-        Route::post('', function ($chatVersionId) {
-            $request = Request::instance();
-            return App::make('App\Http\Controllers\AdminPanel\ChatNodeController')->create($request);
-        });
-        Route::put('{_chatNodeId}', function ($chatVersionId, $chatNodeId) {
-            $request = Request::instance();
-            return App::make('App\Http\Controllers\AdminPanel\ChatNodeController')->update($chatNodeId, $request);
-        });
-        Route::delete('{_chatNodeId}', function ($chatVersionId, $chatNodeId = null) {
-            return App::make('App\Http\Controllers\AdminPanel\ChatNodeController')->delete($chatNodeId);
-        });
-        Route::group(['prefix' => '{chatNodeId}/rules'], function () {
-            Route::get('{answerButtonId?}', function ($chatVersionId, $chatNodeId, $answerButtonId = null) {
-                return App::make('App\Http\Controllers\AdminPanel\AnswerButtonController')->index($answerButtonId);
+Route::group(['prefix' => 'admin', 'namespace' => 'AdminPanel'], function () {
+    Route::group(['prefix' => 'v{chatVersionId}'], function () {
+        Route::group(['prefix' => 'questions'], function () {
+            Route::get('{_chatNodeId?}', function ($chatVersionId, $chatNodeId = null) {
+                return App::make('App\Http\Controllers\AdminPanel\ChatNodeController')->show($chatNodeId);
             });
-            Route::post('', function ($chatVersionId, $chatNodeId) {
+            Route::post('', function ($chatVersionId) {
                 $request = Request::instance();
-                return App::make('App\Http\Controllers\AdminPanel\AnswerButtonController')->create($request);
+                return App::make('App\Http\Controllers\AdminPanel\ChatNodeController')->create($request);
             });
-            Route::put('{answerButtonId}', function ($chatVersionId, $chatNodeId, $answerButtonId) {
+            Route::put('{_chatNodeId}', function ($chatVersionId, $chatNodeId) {
                 $request = Request::instance();
-                return App::make('App\Http\Controllers\AdminPanel\AnswerButtonController')->update($answerButtonId, $request);
+                return App::make('App\Http\Controllers\AdminPanel\ChatNodeController')->update($chatNodeId, $request);
             });
-            Route::delete('{answerButtonId}', function ($chatVersionId, $chatNodeId, $answerButtonId) {
-                return App::make('App\Http\Controllers\AdminPanel\AnswerButtonController')->delete($answerButtonId);
+            Route::delete('{_chatNodeId}', function ($chatVersionId, $chatNodeId = null) {
+                return App::make('App\Http\Controllers\AdminPanel\ChatNodeController')->delete($chatNodeId);
+            });
+            Route::group(['prefix' => '{chatNodeId}/rules'], function () {
+                Route::get('{answerButtonId?}', function ($chatVersionId, $chatNodeId, $answerButtonId = null) {
+                    return App::make('App\Http\Controllers\AdminPanel\AnswerButtonController')->index($answerButtonId);
+                });
+                Route::post('', function ($chatVersionId, $chatNodeId) {
+                    $request = Request::instance();
+                    return App::make('App\Http\Controllers\AdminPanel\AnswerButtonController')->create($request);
+                });
+                Route::put('{answerButtonId}', function ($chatVersionId, $chatNodeId, $answerButtonId) {
+                    $request = Request::instance();
+                    return App::make('App\Http\Controllers\AdminPanel\AnswerButtonController')->update($answerButtonId, $request);
+                });
+                Route::delete('{answerButtonId}', function ($chatVersionId, $chatNodeId, $answerButtonId) {
+                    return App::make('App\Http\Controllers\AdminPanel\AnswerButtonController')->delete($answerButtonId);
+                });
             });
         });
+        Route::get('uservars', 'UserVarsController@index');
+        Route::get('dictionaries', 'DictionaryGroupsController@index');
     });
-    Route::get('uservars', 'UserVarsController@index');
-    Route::get('dictionaries', 'DictionaryGroupsController@index');
 });
