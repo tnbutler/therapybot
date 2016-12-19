@@ -18,7 +18,7 @@ class DemoController extends Controller
     {
         $userId = $request->input('user');
         $message = $request->input('message');
-        $buttonId = $request->input('buttonId') == '' ? null : intval($request->input('buttonId'));
+        $buttonId = $request->input('buttonID') == '' ? null : intval($request->input('buttonID'));
 
         // Get user for this connection
         $botUserProcessing = new BotUserProcessing();

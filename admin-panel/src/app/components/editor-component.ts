@@ -23,6 +23,9 @@ export class EditorComponent implements OnInit {
     rulesList: Rules[];
     rule: RuleData = new RuleData();
     question: QuestionData = new QuestionData();
+    new_fallbackQuestion: any = null;
+    new_target_id: any = null;
+    newIsVisible = 1;
 
     selectedQuestion: QuestionList;
     selectedRule: Rules;
@@ -45,11 +48,11 @@ export class EditorComponent implements OnInit {
 
     Color(state: string, id: number) {
         if (state == '1')
-            return "green";//"CBF08B";
+            return "#b8f3b8";//"CBF08B";
         if (this.selectedQuestion) {
             if (id == this.selectedQuestion.id)
                 if (!this.hiddenRule)
-                    return "grey"
+                    return "#e4e4e4"
         }
     }
 
@@ -79,6 +82,7 @@ export class EditorComponent implements OnInit {
                     console.log('Received questions: ', questions);
                     this.len = questions.length;
                     this.questionList = questions;
+                    this.new_fallbackQuestion = questions[0].id;
                     this.Loaded();
                 },
                 error => this.errorMessage = <any>error
@@ -128,6 +132,8 @@ export class EditorComponent implements OnInit {
                     console.log('Received rules: ', rules);
                     this.rulesList = rules;
                     this.rulesListLen = rules.length;
+                    this.new_target_id = this.questionList[0].id;
+                    this.newIsVisible = 1;
                     this.Loaded();
                 },
                 error => this.errorMessage = <any>error);
@@ -149,9 +155,11 @@ export class EditorComponent implements OnInit {
     }
 
     addNewRule(rule_text: string, child_chat_node_id: number, is_visible: number, dictionary_id: number) {
+        is_visible = is_visible ? 1 : 0;
         this.Loading();
         if (is_visible == null)
             is_visible = 0;
+        console.log(rule_text, child_chat_node_id, is_visible, dictionary_id);
         this._editorService.addNewRule(this.selectedQuestion.id, rule_text, child_chat_node_id, is_visible, dictionary_id)
             .then(
                 fallback => {
@@ -171,6 +179,8 @@ export class EditorComponent implements OnInit {
             dictionary_id = this.rule.dictionary_group_id;
         if (is_visible == null)
             is_visible = this.rule.is_visible;
+        if (dictionary_id == null)
+            dictionary_id = 0;
         console.log(this.selectedQuestion.id, this.selectedRule.id, rule_text, child_chat_node_id, is_visible, dictionary_id);
         this._editorService.updateRule(this.selectedQuestion.id, this.selectedRule.id, rule_text, child_chat_node_id, is_visible, dictionary_id)
             .then(
@@ -202,8 +212,11 @@ export class EditorComponent implements OnInit {
             node_id = this.question.not_recognized_chat_node_id;
         if (!this.userVarChange)
             user_variable_id = this.question.user_variable_id;
+        if(user_variable_id == null)
+            user_variable_id = 0;
         if (start == null)
             start = this.question.is_start_node;
+        console.log(user_variable_id)
         this._editorService.updateQuestion(this.selectedQuestion.id, text, user_variable_id, node_id, start)
             .then(
                 fallback => {

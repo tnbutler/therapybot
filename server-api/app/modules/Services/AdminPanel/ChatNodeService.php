@@ -107,7 +107,7 @@ class ChatNodeService implements AdminPanelServiceInterface
             $query->where('id', $chatNodeId);
         }
 
-        $chatNodesList = $query->orderBy('id', 'asc')->get();
+        $chatNodesList = $query->orderBy('display_order', 'asc')->orderBy('id', 'asc')->get();
 
         // Replace system variable IDs with their names - to make it user-readable
         foreach ($chatNodesList as $chatNode) {

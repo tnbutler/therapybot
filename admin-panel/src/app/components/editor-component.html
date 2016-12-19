@@ -5,9 +5,9 @@
     <script src="../../assets/js/bootstrap.min.js"></script>
     <title>Editor</title>
 </head>
-<body class="bodyEditor">
+<body class="bodyEditor" style="overflow-y: visible">
 <div id="loader" style="display: none"></div>
-<div id="main" style="overflow: auto">
+<div id="main">
     <div class="row-fluid">
         <button class="btn btn-primary btn-lg newQuestionBtn pointer" data-toggle="modal"
                 data-target="#newQuestionDetails"
@@ -31,7 +31,7 @@
                             View rules
                         </button>
                         <button class="btn btn-primary" data-toggle="modal" data-target="#questionDetails"
-                                (click)="selectedQuestion = list; getQuestion();">
+                                (click)="selectedQuestion = list; getQuestion(); hiddenRule = false; getRules(list.id);">
                             Edit
                         </button>
                         <button class="btn btn-primary" data-toggle="modal" data-target="#deleteQuestionModal"
@@ -44,7 +44,7 @@
     </div>
     <div *ngIf="checkRulesList">
         <div class="column-right column-rightPadding" [hidden]="hiddenRule">
-            <div class="panel panel-default rulePanel" style="width: auto">
+            <div class="panel panel-default rulePanel" [style.margin-top]="" style="width: auto;">
                 <div class="row-fluid">
                     <button class="btn btn-primary btn-lg ruleBtn boxMrg" data-toggle="modal"
                             data-target="#newRuleDetails"
@@ -78,7 +78,7 @@
     </div>
 
 
-    <!-- Question details-->
+    <!-- New question details-->
     <div class="modal fade" id="newQuestionDetails" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
@@ -302,14 +302,14 @@
                             </div>
 
                             <label class="pull-left">Target Question</label><br/>
-                            <select class="form-control boxMrg set-width" [(ngModel)]="target_idd">
+                            <select class="form-control boxMrg set-width" [(ngModel)]="new_target_id">
                                 <option *ngFor="let target of questionList" [ngValue]=target.id>
                                     Q{{target.id}}: {{target.question_text}}
                                 </option>
                             </select>
 
                             <label>Related keywords dictionary</label><br/>
-                            <select class="form-control boxMrg set-width" [(ngModel)]="dictionary_idd">
+                            <select class="form-control boxMrg set-width" [(ngModel)]="new_dictionary_id">
                                 <option></option>
                                 <option *ngFor="let dict of dictList" [ngValue]="dict.id"> {{dict.name}}</option>
                             </select>
@@ -324,7 +324,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                         <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="addNewRule(buttonCaption.value,
-                    target_idd,newIsVisible,dictionary_idd); buttonCaption.value = ''; target_idd = 0; dictionary_idd = 0; newIsVisible = 0">
+                    new_target_id,newIsVisible,new_dictionary_id); buttonCaption.value = ''; new_dictionary_id = 0;">
                             Add
                         </button>
                     </div>
