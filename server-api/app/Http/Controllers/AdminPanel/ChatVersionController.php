@@ -57,6 +57,7 @@ class ChatVersionController extends AdminPanelController
             : new ChatVersion();
 
         $chatVersion->name = $request->input('name');
+        $chatVersion->is_active = $request->input('is_active');
         $id = $this->_chatVersionService->save($chatVersion);
 
         return $this->_successResult($id);

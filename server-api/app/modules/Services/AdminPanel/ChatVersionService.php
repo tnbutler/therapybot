@@ -10,6 +10,7 @@
 namespace App\Modules\Services\AdminPanel;
 
 use App\Models\ChatVersion;
+use Illuminate\Support\Facades\DB;
 
 class ChatVersionService implements AdminPanelServiceInterface
 {
@@ -32,6 +33,11 @@ class ChatVersionService implements AdminPanelServiceInterface
     public function save($chatVersion)
     {
         $chatVersion->save();
+
+        if ($chatVersion->is_active) {
+            $this->_setActive($chatVersion->id);
+        }
+
         return $chatVersion->id;
     }
 
@@ -39,5 +45,16 @@ class ChatVersionService implements AdminPanelServiceInterface
     {
         $chatVersion = ChatVersion::find($chatVersionId);
         $chatVersion->delete();
+    }
+
+    private function _setActive($chatVersionId)
+    {
+        // Reset the flag for all the versions
+        DB::table('chat_versions')->update(['is_active' => 0]);
+
+        // Set flag for the given version
+        DB::table('chat_versions')
+            ->where('id', $chatVersionId)
+            ->update(['is_active' => 1]);
     }
 }
