@@ -31,6 +31,17 @@ class UserVariablesService
     }
 
     /**
+     * Get list of user variable's values set for the user.
+     *
+     * @return array List of key/value pairs
+     */
+    public function getValues()
+    {
+        $userVariableValues = $this->_getVariable();
+        return $userVariableValues;
+    }
+
+    /**
      * Set value of the given variable.
      *
      * @param integer $userVariableId User variable ID
@@ -39,11 +50,7 @@ class UserVariablesService
     public function set($userVariableId, $value)
     {
         // Try to find
-        $userVariableValue = UserVariableValue::where([
-            ['bot_users_id', '=', $this->_botUser->id],
-            ['user_variable_id', '=', $userVariableId]])
-            ->orderBy('updated_at', 'desc')
-            ->first();
+        $userVariableValue = $this->_getVariable($userVariableId);
 
         // Create, if not found
         if (!$userVariableValue) {
@@ -58,6 +65,17 @@ class UserVariablesService
 
         // Custom processing rules for some variables
         $this->_performCustomProcessing($userVariableId, $value);
+    }
+
+    private function _getVariable($userVariableId = null)
+    {
+        $query = UserVariableValue::where('bot_users_id', $this->_botUser->id);
+
+        if ($userVariableId) {
+            $query->where('user_variable_id', $userVariableId);
+        }
+
+        return $query->orderBy('updated_at', 'desc')->get();
     }
 
     private function _performCustomProcessing($userVariableId, $value)
