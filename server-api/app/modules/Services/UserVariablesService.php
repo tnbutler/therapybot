@@ -11,11 +11,12 @@ namespace App\Modules\Services;
 
 use App\Models\UserVariableValue;
 use App\Models\BotUser;
-use App\Modules\BotUserProcessing;
 
 class UserVariablesService
 {
     private $_botUser;
+    private $_botUsersService;
+
     const USER_NAME_VARIABLE_ID = 1;
 
     /**
@@ -26,6 +27,7 @@ class UserVariablesService
     function __construct(BotUser $botUser)
     {
         $this->_botUser = $botUser;
+        $this->_botUsersService = new BotUsersService();
     }
 
     /**
@@ -61,8 +63,7 @@ class UserVariablesService
     private function _performCustomProcessing($userVariableId, $value)
     {
         if ($userVariableId == self::USER_NAME_VARIABLE_ID) {
-            $botUserProcessing = new BotUserProcessing();
-            $botUserProcessing->setName($this->_botUser->id, $value);
+            $this->_botUsersService->setName($this->_botUser->id, $value);
         }
     }
 }

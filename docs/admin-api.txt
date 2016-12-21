@@ -20,6 +20,7 @@ Chat Versions
     OPTIONS
     {
         "name" - name of the new chat version
+        "is_active" - flag saying ig this chat version will be connected to the demo interface.
     }
 
 ** Update existing chat version

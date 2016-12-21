@@ -7,7 +7,7 @@ use App\Modules\Api\ApiRequestProcessor;
 use App\Modules\Api\ApiResponse;
 use App\Modules\Api\UserResponse;
 use Illuminate\Http\Request;
-use App\Modules\BotUserProcessing;
+use App\Modules\Services\BotUsersService;
 
 class DemoController extends Controller
 {
@@ -21,8 +21,8 @@ class DemoController extends Controller
         $buttonId = $request->input('buttonID') == '' ? null : intval($request->input('buttonID'));
 
         // Get user for this connection
-        $botUserProcessing = new BotUserProcessing();
-        $user = $botUserProcessing->getOrCreate($userId);
+        $botUsersService = new BotUsersService();
+        $user = $botUsersService->getOrCreate($userId);
 
         // Create user response & process it
         $userResponse = new UserResponse($message, $buttonId, self::CHAT_VERSION);

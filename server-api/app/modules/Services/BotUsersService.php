@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Modules;
+namespace App\Modules\Services;
 
 use App\Models\BotUser;
 
-class BotUserProcessing
+class BotUsersService
 {
     public function getOrCreate($userId)
     {

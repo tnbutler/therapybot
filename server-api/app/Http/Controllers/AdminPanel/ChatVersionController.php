@@ -44,7 +44,8 @@ class ChatVersionController extends AdminPanelController
     private function _save($chatVersionId, Request $request)
     {
         $errors = $this->_validate($request, [
-            'name' => 'string|required'
+            'name' => 'string|required',
+            'is_active' => 'boolean|required',
         ]);
 
         if ($errors) {
