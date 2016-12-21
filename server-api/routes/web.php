@@ -28,7 +28,11 @@ Route::group(['prefix' => 'admin', 'namespace' => 'AdminPanel'], function () {
         Route::put('{chatVersionId}', 'ChatVersionController@update');
         Route::delete('{chatVersionId}', 'ChatVersionController@delete');
     });
-    
+
+    Route::group(['prefix' => 'reports'], function () {
+        Route::get('moodCheckReport', 'ReportsController@moodCheckReport');
+    });
+
     Route::group(['prefix' => 'v{chatVersionId}'], function () {
         Route::group(['prefix' => 'questions'], function () {
             Route::get('{chatNodeId?}', function ($chatVersionId, $chatNodeId = null) {

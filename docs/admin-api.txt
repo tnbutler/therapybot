@@ -37,6 +37,13 @@ Chat Versions
 
 ------------------------------------------------------------------------------
 
+Get Mood Check report:
+
+GET /reports/moodCheckReport
+
+
+------------------------------------------------------------------------------
+
 All requests to the Admin Editor API should start with:
 
 /admin/v{chatVersion}/
