@@ -1,4 +1,42 @@
-All requests to the Admin API should start with:
+------------------------------------------------------------------------------
+
+All requests to the Chat Versions Editor should start with
+
+/admin
+
+Chat Versions
+
+** Get list of all chat versions
+    GET /versions
+    EXAMPLE: GET /admin/versions
+
+** Get single chat version details
+    GET /versions/{chatVersionId}
+    EXAMPLE: GET /admin/versions/1
+
+** Create new chat version
+    POST /versions
+    EXAMPLE: POST /admin/versions
+    OPTIONS
+    {
+        "name" - name of the new chat version
+    }
+
+** Update existing chat version
+    PUT /versions/{chatVersionId}
+    EXAMPLE: PUT /admin/versions/2
+    OPTIONS
+    {
+        "name" - name of the new chat version
+    }
+
+** Delete existing chat version
+    DELETE /versions/{chatVersionId}
+    EXAMPLE: DELETE /admin/versions/2
+
+------------------------------------------------------------------------------
+
+All requests to the Admin Editor API should start with:
 
 /admin/v{chatVersion}/
 
@@ -36,7 +74,7 @@ QUESTIONS
 ** Update existing question
 
     PUT []/questions/:QuestionId
-    Example: POST /admin/v1/questions/14
+    Example: PUT /admin/v1/questions/14
 
 ------------------------------------------------------------------------------
 
@@ -60,7 +98,7 @@ All requests to the Admin API should start with:
 
 ** Update existing rule
     PUT /rules/{RuleId}
-    EXAMPLE: POST /admin/v1/questions/14/rules/2
+    EXAMPLE: PUT /admin/v1/questions/14/rules/2
 
 ** Delete existing rule
     DELETE /rules/{RuleId}

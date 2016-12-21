@@ -5,6 +5,7 @@ namespace App\Http\Controllers\AdminPanel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Modules\Services\AdminPanel\ChatVersionService;
+use App\Models\ChatVersion;
 
 class ChatVersionController extends AdminPanelController
 {
@@ -27,5 +28,36 @@ class ChatVersionController extends AdminPanelController
     public function create(Request $request)
     {
         return $this->_save(null, $request);
+    }
+
+    public function update($chatVersionId, Request $request)
+    {
+        return $this->_save($chatVersionId, $request);
+    }
+
+    public function delete($chatVersionId)
+    {
+        $this->_chatVersionService->delete($chatVersionId);
+        return $this->_successResult();
+    }
+
+    private function _save($chatVersionId, Request $request)
+    {
+        $errors = $this->_validate($request, [
+            'name' => 'string|required'
+        ]);
+
+        if ($errors) {
+            return $errors;
+        }
+
+        $chatVersion = $chatVersionId > 0
+            ? ChatVersion::find($chatVersionId)
+            : new ChatVersion();
+
+        $chatVersion->name = $request->input('name');
+        $id = $this->_chatVersionService->save($chatVersion);
+
+        return $this->_successResult($id);
     }
 }

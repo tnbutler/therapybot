@@ -29,11 +29,15 @@ class ChatVersionService implements AdminPanelServiceInterface
         return ChatVersion::all()->toArray();
     }
 
-    public function save($answerButton)
+    public function save($chatVersion)
     {
+        $chatVersion->save();
+        return $chatVersion->id;
     }
 
-    public function delete($answerButtonId)
+    public function delete($chatVersionId)
     {
+        $chatVersion = ChatVersion::find($chatVersionId);
+        $chatVersion->delete();
     }
 }
