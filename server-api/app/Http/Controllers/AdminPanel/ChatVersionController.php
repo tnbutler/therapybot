@@ -13,7 +13,7 @@ class ChatVersionController extends AdminPanelController
 
     function __construct()
     {
-        $this->_chatVersionService = new ChatVersionService(-1);
+        $this->_chatVersionService = new ChatVersionService();
     }
 
     public function index($chatVersionId = null)
@@ -38,6 +38,12 @@ class ChatVersionController extends AdminPanelController
     public function delete($chatVersionId)
     {
         $this->_chatVersionService->delete($chatVersionId);
+        return $this->_successResult();
+    }
+
+    public function copy($chatVersionId)
+    {
+        $this->_chatVersionService->copy($chatVersionId);
         return $this->_successResult();
     }
 

@@ -36,6 +36,10 @@ Chat Version
     DELETE /versions/{chatVersionId}
     EXAMPLE: DELETE /admin/versions/2
 
+** Make a copy of chat including all questions and rules
+    POST /versions/copy/{chatVersionId}
+    EXAMPLE: POST /admin/versions/copy/{chatVersionId}
+
 ------------------------------------------------------------------------------
 
 Get Mood Check report:

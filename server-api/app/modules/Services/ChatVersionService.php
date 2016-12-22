@@ -5,7 +5,7 @@ namespace App\Modules\Services;
 use App\Models\ChatVersion;
 use Illuminate\Support\Facades\DB;
 
-class ChatVersionService 
+class ChatVersionService
 {
     public function get($chatVersionId)
     {
@@ -32,6 +32,20 @@ class ChatVersionService
     {
         $chatVersion = ChatVersion::find($chatVersionId);
         $chatVersion->delete();
+    }
+
+    public function copy($chatVersionId)
+    {
+        // Copy the chat version record
+        $chatVersion = ChatVersion::find($chatVersionId);
+        $newChatVersion = $chatVersion->replicate();
+        $newChatVersion->push();
+
+        // TODO: Set up relationships to replicate the whole thing
+
+        // Copy questions
+
+        // Copy rules
     }
 
     public function getActive()

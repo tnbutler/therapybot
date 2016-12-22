@@ -25,6 +25,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'AdminPanel'], function () {
         Route::get('', 'ChatVersionController@index');
         Route::get('{chatVersionId}', 'ChatVersionController@index');
         Route::post('', 'ChatVersionController@create');
+        Route::post('copy/{chatVersionId}', 'ChatVersionController@copy');
         Route::put('{chatVersionId}', 'ChatVersionController@update');
         Route::delete('{chatVersionId}', 'ChatVersionController@delete');
     });
