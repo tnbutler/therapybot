@@ -21,16 +21,17 @@ import 'rxjs/add/observable/throw';
 @Injectable()
 export class EditorService {
     private chatVersion = 1;
-    //private editorUrl = 'http://therapybot-api.vp-software.com/admin/v' + this.chatVersion;
-    private editorUrl = 'http://bot.loc:81/admin/v' + this.chatVersion;
+    private editorUrl = 'http://therapybot-api.vp-software.com/admin/v' + this.chatVersion;
+    private editorURL = 'http://therapybot-api.vp-software.com/admin/v';
 
     constructor(private http: Http) {
     }
 
-    getQuestions(): Promise<QuestionList[]> {
+    getQuestions(chatVersion: number): Promise<QuestionList[]> {
+        console.log(chatVersion);
         let headers = new Headers({'Content-Type': 'application/json'});
         let options = new RequestOptions({headers: headers});
-        return this.http.get(this.editorUrl + '/questions', options)
+        return this.http.get(this.editorURL + chatVersion + '/questions', options)
             .toPromise()
             .then(this.extractData)
             .catch(this.handleError);

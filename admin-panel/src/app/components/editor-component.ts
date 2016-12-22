@@ -1,7 +1,8 @@
 /**
  * Created by User on 12.12.2016.
  */
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 import {QuestionList} from '../class/questionList'
 import {SysVars} from '../class/sysVars';
 import {Dictionaries} from '../class/dictionaries';
@@ -26,6 +27,8 @@ export class EditorComponent implements OnInit {
     new_fallbackQuestion: any = null;
     new_target_id: any = null;
     newIsVisible = 1;
+    chatVersion: number;
+    private sub: any;
 
     selectedQuestion: QuestionList;
     selectedRule: Rules;
@@ -43,7 +46,8 @@ export class EditorComponent implements OnInit {
     checkQuestionList: boolean = false;
     checkRulesList: boolean = false;
 
-    constructor(private _editorService: EditorService) {
+    constructor(private _editorService: EditorService,
+                private route: ActivatedRoute) {
     }
 
     Color(state: string, id: number) {
@@ -76,7 +80,7 @@ export class EditorComponent implements OnInit {
 
     getQuestionList() {
         this.Loading();
-        this._editorService.getQuestions()
+        this._editorService.getQuestions(this.chatVersion)
             .then(
                 questions => {
                     console.log('Received questions: ', questions);
@@ -159,6 +163,8 @@ export class EditorComponent implements OnInit {
         this.Loading();
         if (is_visible == null)
             is_visible = 0;
+        if (dictionary_id == null)
+            dictionary_id = 0;
         console.log(rule_text, child_chat_node_id, is_visible, dictionary_id);
         this._editorService.addNewRule(this.selectedQuestion.id, rule_text, child_chat_node_id, is_visible, dictionary_id)
             .then(
@@ -212,7 +218,7 @@ export class EditorComponent implements OnInit {
             node_id = this.question.not_recognized_chat_node_id;
         if (!this.userVarChange)
             user_variable_id = this.question.user_variable_id;
-        if(user_variable_id == null)
+        if (user_variable_id == null)
             user_variable_id = 0;
         if (start == null)
             start = this.question.is_start_node;
@@ -257,11 +263,16 @@ export class EditorComponent implements OnInit {
 
 
     ngOnInit() {
-        this.getQuestionList();
-        if (this.checkQuestionList) {
-            this.getSysVarList();
-            this.getDictList();
+        this.sub = this.route.params.subscribe(params => {
+            this.chatVersion = +params['id']; // (+) converts string 'id' to a number
+
+        });
+        if (this.chatVersion) {
+            this.getQuestionList();
+            if (this.checkQuestionList) {
+                this.getSysVarList();
+                this.getDictList();
+            }
         }
-        console.log();
     }
 }

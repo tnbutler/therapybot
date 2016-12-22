@@ -5,19 +5,20 @@
     <script src="../../assets/js/bootstrap.min.js"></script>
     <title>Editor</title>
 </head>
-<body class="bodyEditor" style="overflow-y: visible">
-<div id="loader" style="display: none"></div>
+<body class="bodyEditor">
+<div class="loader" id="loader"></div>
 <div id="main">
-    <div class="row-fluid">
-        <button class="btn btn-primary btn-lg newQuestionBtn pointer" data-toggle="modal"
-                data-target="#newQuestionDetails"
-                (click)="selectedQuestion = newQuestion">New Question
+    <h1>Chat Editor</h1>
+    <hr>
+    <div class="btn-group-lg">
+        <button class="btn btn-primary" [routerLink]="['/chat-picker']">Back</button>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#newQuestionDetails"
+                (click)="selectedQuestion = newQuestion; questionValue = ''">New Question
         </button>
     </div>
-    <hr>
-
     <div class="column-left">
-        <div *ngFor="let list of questionList; let i = index;">
+        <br/>
+        <div *ngFor="let list of questionList; let i = index;" id="for">
             <div class="panel panel-default questionPanel pull-left" id="questionPanel"
                  [style.background-color]="Color(list.is_start_node,list.id)">
                 <div class="container-fluid">
@@ -43,12 +44,12 @@
         </div>
     </div>
     <div *ngIf="checkRulesList">
+        <br/>
         <div class="column-right column-rightPadding" [hidden]="hiddenRule">
-            <div class="panel panel-default rulePanel" [style.margin-top]="" style="width: auto;">
-                <div class="row-fluid">
-                    <button class="btn btn-primary btn-lg ruleBtn boxMrg" data-toggle="modal"
-                            data-target="#newRuleDetails"
-                            style="margin-bottom: 10px">New Rule
+            <div class="panel panel-default rulePanel" [style.margin-top]="">
+                <div class="row-fluid boxMsg">
+                    <button class="btn btn-primary btn-lg" data-toggle="modal"
+                            data-target="#newRuleDetails" (click)="ruleValue = ''">New Rule
                     </button>
                 </div>
                 <div *ngFor="let rule of rulesList">
@@ -89,9 +90,15 @@
                 </div>
                 <div class="modal-body">
                     <div class="row questionModal">
-                        <label>You can use system variables in the text:</label><br/>
-                        <textarea type="text" class="form-control set-width" value=""
-                                  #text></textarea><br/>
+                        <div class="form-group">
+                            <form #topicForm="ngForm" id="sendEditForm" novalidate autocomplete="off">
+                                <label>You can use system variables in the text:</label><br/>
+                                <textarea type="text" class="form-control set-width" id="addQuestion"
+                                          [(ngModel)]="questionValue"
+                                          name="addQuestion"
+                                          #addQuestion="ngModel" required></textarea><br/>
+                            </form>
+                        </div>
                         <label>Use answer to set system variable</label><br/>
                         <select class="form-control set-width" [(ngModel)]="new_variable_id">
                             <option></option>
@@ -114,10 +121,12 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary"
-                            (click)="addNewQuestion(text.value,new_variable_id,
-                                new_fallbackQuestion,NewisStartValue); text.value = ''; NewisStartValue = false; new_variable_id = 0; new_fallbackQuestion = 0"
-                            data-dismiss="modal">Add
+                    <button type="submit" class="btn btn-primary"
+                            data-dismiss="modal"
+                            [disabled]="!topicForm.form.valid"
+                            (click)="addNewQuestion(questionValue,new_variable_id,
+                                new_fallbackQuestion,NewisStartValue); questionValue = ' '; NewisStartValue = false;
+                                new_variable_id = 0; new_fallbackQuestion = 0">Add
                     </button>
                 </div>
             </div>
@@ -181,11 +190,11 @@
     <div *ngIf="selectedQuestion">
         <div class="modal fade" id="deleteQuestionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
              aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h2 class="modal-title" id="questionLabel">Delete question: Q{{selectedQuestion.id}}</h2>
+                        <h3 class="modal-title" id="questionLabel">Delete question: Q{{selectedQuestion.id}}</h3>
                     </div>
                     <div class="modal-body">
                         <div class="row questionModal">
@@ -207,11 +216,11 @@
     <div *ngIf="selectedRule">
         <div class="modal fade" id="deleteRuleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
              aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h2 class="modal-title" id="ruleLabel">Delete rule</h2>
+                        <h3 class="modal-title" id="ruleLabel">Delete rule</h3>
                     </div>
                     <div class="modal-body">
                         <div class="row questionModal">
@@ -295,12 +304,15 @@
                     </div>
                     <div class="modal-body">
                         <div class="row questionModal">
-                            <div class="form-group btn-editor-mrg">
-                                <label>Button Caption</label>
-                                <input type="text" class="form-control" placeholder="" value=""
-                                       #buttonCaption>
+                            <div class="form-group">
+                                <form #topicForm="ngForm" id="newRule" novalidate autocomplete="off">
+                                    <label>Button Caption</label><br/>
+                                    <input type="text" class="form-control set-width" id="addRule"
+                                           [(ngModel)]="ruleValue"
+                                           name="addRule"
+                                           #buttonCaption="ngModel" required><br/>
+                                </form>
                             </div>
-
                             <label class="pull-left">Target Question</label><br/>
                             <select class="form-control boxMrg set-width" [(ngModel)]="new_target_id">
                                 <option *ngFor="let target of questionList" [ngValue]=target.id>
@@ -323,8 +335,10 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="addNewRule(buttonCaption.value,
-                    new_target_id,newIsVisible,new_dictionary_id); buttonCaption.value = ''; new_dictionary_id = 0;">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                [disabled]="!topicForm.form.valid"
+                                (click)="addNewRule(buttonCaption.value,new_target_id,newIsVisible,new_dictionary_id);
+                                ruleValue = ' '; new_dictionary_id = 0;">
                             Add
                         </button>
                     </div>

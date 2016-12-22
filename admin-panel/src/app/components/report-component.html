@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="../../assets/js/bootstrap.min.js"></script>
+    <title>Report</title>
+</head>
+<body class="bodyEditor">
+<div class="loader" id="loader"></div>
+<div id="main">
+    <div class="column-left">
+        <h1>Reports</h1>
+        <hr>
+        <button class="btn btn-primary btn-lg" [routerLink]="['/main']">Back</button>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Created date</th>
+                <th>Mood intensity</th>
+                <th>User mood</th>
+                <th>User name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let report of reportList">
+                <td>{{report.DATE_CREATED}}</td>
+                <td>{{report.MOOD_INTENSITY}}</td>
+                <td>{{report.USER_MOOD}}</td>
+                <td>{{report.USER_NAME}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

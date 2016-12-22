@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="../../assets/js/bootstrap.min.js"></script>
+    <title>Chat Picker</title>
+</head>
+<body class="bodyEditor">
+<div class="loader" id="loader"></div>
+<div id="main">
+    <div class="column-left">
+        <h1>Chats</h1>
+        <hr>
+        <div class="btn-group-lg">
+            <button class="btn btn-primary" [routerLink]="['/main']">Back</button>
+            <button class="btn btn-primary btn-lg" data-toggle="modal"
+                    data-target="#addChat" (click)="replyValue = ''">Add Chat
+            </button>
+        </div>
+        <br/>
+        <div *ngFor="let list of chatList">
+            <div class="panel panel-default questionPanel pull-left"
+                 [style.background-color]="Color(list.is_active,list.id)">
+                <div class="container-fluid">
+                    <div class="row-fluid">
+                        <label class="lblMrg">{{list.name}}</label>
+                    </div>
+                    <div class="btn-group-sm pull-right ruleBtn">
+                        <button class="btn btn-primary" (click)="selectedChat = list; copyVersion();">
+                            Make copy
+                        </button>
+                        <button class="btn btn-primary"
+                                [routerLink]="['/editor', list.id]"
+                                (click)="selectedChat = list">
+                            Edit chat
+                        </button>
+                        <button class="btn btn-primary" data-toggle="modal"
+                                data-target="#editChat"
+                                (click)="selectedChat = list; getVersion()">
+                            Edit
+                        </button>
+                        <button class="btn btn-primary" data-toggle="modal"
+                                data-target="#deleteModal" (click)="selectedChat = list;">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div>
+                <div class="modal fade" id="deleteModal" tabindex="-1"
+                     role="dialog" aria-labelledby="myModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close"
+                                        data-dismiss="modal"
+                                        aria-hidden="true">&times;</button>
+                                <h2 class="modal-title" id="deleteLabel">
+                                    Delete chat</h2>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row questionModal">
+                                    <h3>Are you sure?</h3>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button"
+                                        class="btn btn-default btn-lg"
+                                        data-dismiss="modal">No
+                                </button>
+                                <button type="button"
+                                        class="btn btn-primary btn-lg"
+                                        data-dismiss="modal"
+                                        (click)="deleteVersion()">
+                                    Yes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="modal fade" id="addChat" tabindex="-1" role="dialog"
+                 aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close"
+                                    data-dismiss="modal"
+                                    aria-hidden="true">&times;</button>
+                            <h2 class="modal-title" id="addChatLabel">Add new
+                                chat</h2>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <form #topicForm="ngForm" id="sendsForm" novalidate autocomplete="off"
+                                      (ngSubmit)="addVersion(replyValue,newIsStartValue); newIsStartValue = 0; replyValue = ''">
+                                    <label>Name: </label>
+                                    <input type="text" id="newName" class="form-control" value=""
+                                           [(ngModel)]="replyValue"
+                                           name="newName"
+                                           #newName="ngModel" required>
+                                </form>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="isActiveCheck" value="option1"
+                                           [(ngModel)]="newIsStartValue">
+                                    This version is active
+                                </label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button"
+                                    class="btn btn-default btn-lg"
+                                    data-dismiss="modal">Cancel
+                            </button>
+                            <button type="submit"
+                                    class="btn btn-primary btn-lg"
+                                    (click)="addVersion(replyValue,newIsStartValue); newIsStartValue = 0; replyValue = ' '"
+                                    data-dismiss="modal" [disabled]="!topicForm.form.valid">Ok
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="selectedChat">
+                <div class="modal fade" id="editChat" tabindex="-1"
+                     role="dialog" aria-labelledby="myModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close"
+                                        data-dismiss="modal"
+                                        aria-hidden="true">&times;</button>
+                                <h2 class="modal-title" id="editChatLabel">
+                                    Edit chat</h2>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <form #topicForm="ngForm" id="sendEditForm" novalidate autocomplete="off"
+                                          (ngSubmit)="updateVersion(chatName.value,isActiveValue); isActiveValue = 0;">
+                                        <label>Name: </label>
+                                        <input type="text" id="editName" class="form-control" value="{{version.name}}"
+                                               name="editName"
+                                               #editName required>
+                                    </form>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="isStartCheckEdit" [(ngModel)]="isActiveValue"
+                                               [checked]="version.is_active == 1">
+                                        This version is active
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button"
+                                        class="btn btn-default btn-lg"
+                                        data-dismiss="modal">Cancel
+                                </button>
+                                <button type="submit"
+                                        class="btn btn-primary btn-lg"
+                                        data-dismiss="modal"
+                                        [disabled]="!topicForm.form.valid"
+                                        (click)="updateVersion(editName.value,isActiveValue); isActiveValue = 0;">
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

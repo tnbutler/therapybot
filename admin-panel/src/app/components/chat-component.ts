@@ -32,7 +32,18 @@ export class ChatComponent implements OnInit {
     constructor(private _userMessageDataService: UserMessageDataService) {
     }
 
+    Loading() {
+        document.getElementById("loader").style.display = "block";
+        document.getElementById("main").style.display = "none";
+    }
+
+    Loaded() {
+        document.getElementById("loader").style.display = "none";
+        document.getElementById("main").style.display = "block";
+    }
+
     Reply(message: string, buttonId: number) {
+        this.Loading();
         this.userMessage = {
             user: this.userId,
             message: message,
@@ -42,14 +53,20 @@ export class ChatComponent implements OnInit {
         this.replyValue = '';
         if(buttonId) {
             this._userMessageDataService.addMessage(this.userMessage.user, message, buttonId)
-                .then(
-                    messages => this.botMessages.push(messages),
+                .then(messages => {
+                    this.botMessages.push(messages);
+                    this.Loaded();
+                },
+
                     error => this.errorMessage = <any>error);
             console.log(buttonId);
         } else {
             this._userMessageDataService.addMessage(this.userMessage.user, message, 0)
                 .then(
-                    messages => this.botMessages.push(messages),
+                    messages => {
+                        this.botMessages.push(messages);
+                        this.Loaded();
+                    },
                     error => this.errorMessage = <any>error);
         }
         this.chatSessionIsStarted = true;
@@ -72,6 +89,7 @@ export class ChatComponent implements OnInit {
     }
 
     StartNewChat() {
+        this.Loading();
         console.log('ChatComponent::StartChatSession() is called');
         this.userMessages = [];
         this.botMessages = [];
@@ -81,6 +99,7 @@ export class ChatComponent implements OnInit {
                     console.log('Received messages: ', messages);
                     this.userId = messages.user;
                     this.botMessages.push(messages);
+                    this.Loaded();
                 },
                 error => this.errorMessage = <any>error);
     }
