@@ -12,7 +12,7 @@ import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class UserMessageDataService {
-    private messagesUrl = /*'http://bot.loc:81/demoApi';*/ 'http://therapybot-api.vp-software.com/demoApi';
+    private messagesUrl = 'http://bot.loc:81/demoApi'; /*'http://therapybot-api.vp-software.com/demoApi';*/
 
     constructor(private http: Http) {
     }

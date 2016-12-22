@@ -21,8 +21,13 @@ import 'rxjs/add/observable/throw';
 @Injectable()
 export class EditorService {
     private chatVersion = 1;
+    private editorUrl = 'http://bot.loc:81/admin/v' + this.chatVersion;
+    private editorURL = 'http://bot.loc:81/admin/v';
+
+    /*
     private editorUrl = 'http://therapybot-api.vp-software.com/admin/v' + this.chatVersion;
     private editorURL = 'http://therapybot-api.vp-software.com/admin/v';
+    */
 
     constructor(private http: Http) {
     }

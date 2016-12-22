@@ -11,7 +11,7 @@ import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class VersionService {
-    private versionUrl = 'http://therapybot-api.vp-software.com/admin/versions';
+    private versionUrl = 'http://bot.loc:81/admin/versions';
 
     constructor(private http: Http) {
     }

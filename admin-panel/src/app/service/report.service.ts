@@ -17,7 +17,8 @@ import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class ReportService {
-    private reportUrl = 'http://therapybot-api.vp-software.com/admin/reports/moodCheckReport';
+    //private reportUrl = 'http://therapybot-api.vp-software.com/admin/reports/moodCheckReport';
+    private reportUrl = 'http://bot.loc:81/admin/reports/moodCheckReport';
 
     constructor(private http: Http) {
     }
