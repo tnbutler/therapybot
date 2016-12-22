@@ -22,6 +22,7 @@ class AdminReportsService
             $userVariableValues = $userVariablesService->getValues();
 
             $reportLine = array('DATE_CREATED' => $botUser->created_at->format('d M Y - H:i:s'));
+
             foreach($userVariableValues as $userVariableValue) {
                 $reportLine[$userVariableValue->userVariable->name] = $userVariableValue->value;
             }

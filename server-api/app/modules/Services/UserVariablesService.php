@@ -75,7 +75,7 @@ class UserVariablesService
             $query->where('user_variable_id', $userVariableId);
         }
 
-        return $query->orderBy('updated_at', 'desc')->first();
+        return $query->orderBy('updated_at', 'desc')->get();
     }
 
     private function _performCustomProcessing($userVariableId, $value)
