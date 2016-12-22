@@ -4,7 +4,7 @@ namespace App\Http\Controllers\AdminPanel;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Modules\Services\AdminPanel\ChatVersionService;
+use App\Modules\Services\ChatVersionService;
 use App\Models\ChatVersion;
 
 class ChatVersionController extends AdminPanelController

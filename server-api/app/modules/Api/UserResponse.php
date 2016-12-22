@@ -3,48 +3,49 @@
 namespace App\Modules\Api;
 
 use App\Models\AnswerButton;
+use App\Models\ChatVersion;
 
 class UserResponse
 {
-    private $message;
-    private $buttonId;
+    private $_message;
+    private $_buttonId;
+    private $_chatVersionId;
 
-    function __construct($message, $buttonId, $chat_version_id)
+    function __construct($message, $buttonId, ChatVersion $activeChatVersion)
     {
-        $this->message = $message;
-        $this->buttonId = $buttonId;
-        $this->chat_version_id = $chat_version_id;
+        $this->_message = $message;
+        $this->_buttonId = $buttonId;
+        $this->_chatVersionId = $activeChatVersion->id;
     }
 
-    public function getChatVersion()
+    public function getChatVersionId()
     {
-        return $this->chat_version_id;
+        return $this->_chatVersionId;
     }
 
     public function getMessage()
     {
-        return $this->message;
+        return $this->_message;
     }
 
     public function getButtonId()
     {
-        return $this->buttonId;
+        return $this->_buttonId;
     }
 
     public function isButtonAnswer()
     {
-        return $this->buttonId != null;
+        return $this->_buttonId != null;
     }
 
     public function getUserVariableValue()
     {
         if ($this->isButtonAnswer()) {
-            $answerButton = AnswerButton::find($this->buttonId);
+            $answerButton = AnswerButton::find($this->_buttonId);
             if ($answerButton) {
                 return $answerButton->text;
             }
         }
-
-        return $this->message;
+        return $this->_message;
     }
 }

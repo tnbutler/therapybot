@@ -4,7 +4,7 @@ All requests to the Chat Versions Editor should start with
 
 /admin
 
-Chat Versions
+Chat Version
 
 ** Get list of all chat versions
     GET /versions
@@ -29,6 +29,7 @@ Chat Versions
     OPTIONS
     {
         "name" - name of the new chat version
+		"is_active"
     }
 
 ** Delete existing chat version

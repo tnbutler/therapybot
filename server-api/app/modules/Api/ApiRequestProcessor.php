@@ -16,7 +16,7 @@ class ApiRequestProcessor
 
     public function processRequest(UserResponse $userResponse)
     {
-        $chatFlow = new ChatFlow($this->botUser, $userResponse->getChatVersion());
+        $chatFlow = new ChatFlow($this->botUser, $userResponse->getChatVersionId());
         $nextChatNode = $chatFlow->processUserAnswer($userResponse);
 
         $responseMessage = $nextChatNode->getTextWithUserVariableValues($this->botUser);

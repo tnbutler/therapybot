@@ -8,6 +8,7 @@ use App\Modules\Api\ApiResponse;
 use App\Modules\Api\UserResponse;
 use Illuminate\Http\Request;
 use App\Modules\Services\BotUsersService;
+use App\Modules\Services\ChatVersionService;
 
 class DemoController extends Controller
 {
@@ -25,7 +26,9 @@ class DemoController extends Controller
         $user = $botUsersService->getOrCreate($userId);
 
         // Create user response & process it
-        $userResponse = new UserResponse($message, $buttonId, self::CHAT_VERSION);
+        $chatVersionService = new ChatVersionService();
+        $activeChatVersion = $chatVersionService->getActive();
+        $userResponse = new UserResponse($message, $buttonId, $activeChatVersion);
         $apiRequestProcessor = new ApiRequestProcessor($user);
         $response = $apiRequestProcessor->processRequest($userResponse, $buttonId);
 
