@@ -32,7 +32,7 @@ class ChatVersionService
         }
 
         if ($chatVersion->is_active) {
-            $this->_setActive($chatVersion->id);
+            $this->_setActive($chatVersion);
         }
 
         return $chatVersion->id;
@@ -41,7 +41,16 @@ class ChatVersionService
     public function delete($chatVersionId)
     {
         $chatVersion = ChatVersion::find($chatVersionId);
+        $wasActive = $chatVersion->is_active;
         $chatVersion->delete();
+
+        // If we just deleted the active chat, set any other chat to be active.
+        if($wasActive) {
+            $anyOtherChatId = ChatVersion::first();
+            if($anyOtherChatId) {
+                $this->_setActive($anyOtherChatId);
+            }
+        }
     }
 
     public function copy($chatVersionId)
@@ -69,14 +78,14 @@ class ChatVersionService
         return ChatVersion::where('is_active', 1)->first();
     }
 
-    private function _setActive($chatVersionId)
+    private function _setActive(ChatVersion $chatVersion)
     {
         // Reset the flag for all the versions
         DB::table('chat_versions')->update(['is_active' => 0]);
 
         // Set flag for the given version
         DB::table('chat_versions')
-            ->where('id', $chatVersionId)
+            ->where('id', $chatVersion->id)
             ->update(['is_active' => 1]);
     }
 }
