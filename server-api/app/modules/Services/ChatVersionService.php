@@ -3,6 +3,8 @@
 namespace App\Modules\Services;
 
 use App\Models\ChatVersion;
+use App\Models\ChatNode;
+use App\Modules\Services\AdminPanel\ChatNodeService;
 use Illuminate\Support\Facades\DB;
 
 class ChatVersionService
@@ -21,7 +23,14 @@ class ChatVersionService
 
     public function save($chatVersion)
     {
+        $isNew = !isset($chatVersion->id);
+
         $chatVersion->save();
+
+        if($isNew) {
+            $chatNodeService = new ChatNodeService($chatVersion->id);
+            $chatNodeService->addFirstQuestion();
+        }
 
         if ($chatVersion->is_active) {
             $this->_setActive($chatVersion->id);

@@ -16,6 +16,8 @@ class ChatNodeService implements AdminPanelServiceInterface
 {
     private $_chatVersionId;
 
+    const FIRST_QUESTION_TEXT = 'Hello! This is my first question: ...';
+
     /**
      * Constructor.
      *
@@ -47,6 +49,14 @@ class ChatNodeService implements AdminPanelServiceInterface
         return $this->_getFromDb(null);
     }
 
+    public function addFirstQuestion()
+    {
+        $chatNode = new ChatNode();
+        $chatNode->question_text = self::FIRST_QUESTION_TEXT;
+        $chatNode->is_start_node = 1;
+        $this->save($chatNode);
+    }
+
     /**
      * Save Chat Node record to Database.
      *
@@ -61,6 +71,12 @@ class ChatNodeService implements AdminPanelServiceInterface
 
         if ($chatNode->is_start_node) {
             $this->_setStartNode($chatNode->id);
+        }
+
+        // If user didn't specify the [not_recognized_chat_node_id], then we automatically loop the question to itself.
+        if(empty($chatNode->not_recognized_chat_node_id)) {
+            $chatNode->not_recognized_chat_node_id = $chatNode->id;
+            $chatNode->save();
         }
 
         return $chatNode->id;
