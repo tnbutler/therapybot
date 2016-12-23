@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 
 class ChatVersionService
 {
+    const COPY_SUFFIX = ' (Copy)';
+
     public function get($chatVersionId)
     {
         return ChatVersion::find($chatVersionId);
@@ -39,6 +41,8 @@ class ChatVersionService
         // Copy the chat version record
         $chatVersion = ChatVersion::find($chatVersionId);
         $newChatVersion = $chatVersion->replicate();
+        $newChatVersion->name = $newChatVersion->name.self::COPY_SUFFIX;
+        $newChatVersion->is_active = false;
         $newChatVersion->push();
 
         // TODO: Set up relationships to replicate the whole thing
