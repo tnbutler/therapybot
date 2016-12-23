@@ -70,7 +70,7 @@ class ChatNodeService implements AdminPanelServiceInterface
         $chatNode->save();
 
         if ($chatNode->is_start_node) {
-            $this->_setStartNode($chatNode->id);
+            $this->_setStartNode($chatNode);
         }
 
         // If user didn't specify the [not_recognized_chat_node_id], then we automatically loop the question to itself.
@@ -90,15 +90,19 @@ class ChatNodeService implements AdminPanelServiceInterface
     public function delete($chatNodeId)
     {
         $chatNode = ChatNode::find($chatNodeId);
+        $wasStart = $chatNode->is_start_node;
         $chatNode->delete();
+
+        // If we just deleted the start chat, set any other chat to be active.
+        if($wasStart) {
+            $anyOtherQuestion = ChatNode::first();
+            if($anyOtherQuestion) {
+                $this->_setStartNode($anyOtherQuestion);
+            }
+        }
     }
 
-    /**
-     * Set given Chat Node to be the start node.
-     *
-     * @param integer $chatNodeId Chat node id to become the start node
-     */
-    private function _setStartNode($chatNodeId)
+    private function _setStartNode(ChatNode $chatNode)
     {
         // Reset the flag for all the nodes
         DB::table('chat_nodes')
@@ -107,7 +111,7 @@ class ChatNodeService implements AdminPanelServiceInterface
 
         // Set flag for the given node
         DB::table('chat_nodes')
-            ->where('id', $chatNodeId)
+            ->where('id', $chatNode->id)
             ->update(['is_start_node' => 1]);
     }
 
