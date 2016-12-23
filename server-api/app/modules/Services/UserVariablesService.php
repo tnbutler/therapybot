@@ -50,7 +50,7 @@ class UserVariablesService
     public function set($userVariableId, $value)
     {
         // Try to find
-        $userVariableValue = $this->_getVariable($userVariableId);
+        $userVariableValue = $this->_getVariable($userVariableId)->first();
 
         // Create, if not found
         if (!$userVariableValue) {

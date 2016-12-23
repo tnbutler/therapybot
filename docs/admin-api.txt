@@ -130,3 +130,18 @@ DICTIONARIES
 
 ** Get list of all the dictionaries
     GET /dictionaries
+	
+------------------------------------------------------------------------------
+
+Demo API
+
+GET/POST /demoApi
+
+options
+{
+	user
+	message
+	buttonID
+}
+
+	
