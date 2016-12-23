@@ -3,7 +3,6 @@
 namespace App\Modules\Services;
 
 use App\Models\ChatVersion;
-use App\Models\ChatNode;
 use App\Modules\Services\AdminPanel\ChatNodeService;
 use Illuminate\Support\Facades\DB;
 
@@ -27,7 +26,7 @@ class ChatVersionService
 
         $chatVersion->save();
 
-        if($isNew) {
+        if ($isNew) {
             $chatNodeService = new ChatNodeService($chatVersion->id);
             $chatNodeService->addFirstQuestion();
         }
@@ -47,18 +46,22 @@ class ChatVersionService
 
     public function copy($chatVersionId)
     {
-        // Copy the chat version record
         $chatVersion = ChatVersion::find($chatVersionId);
         $newChatVersion = $chatVersion->replicate();
-        $newChatVersion->name = $newChatVersion->name.self::COPY_SUFFIX;
+        $newChatVersion->name = $newChatVersion->name . self::COPY_SUFFIX;
         $newChatVersion->is_active = false;
-        $newChatVersion->push();
+        $newChatVersion->save();
 
-        // TODO: Set up relationships to replicate the whole thing
-
-        // Copy questions
-
-        // Copy rules
+        foreach ($chatVersion->chatNodes as $chatNode) {
+            $newChatNode = $chatNode->replicate();
+            $newChatNode->chat_version_id = $newChatVersion->id;
+            $newChatNode->save();
+            foreach ($chatNode->answerButtons as $answerButton) {
+                $newAnswerButton = $answerButton->replicate();
+                $newAnswerButton->chat_node_id = $newChatNode->id;
+                $newAnswerButton->save();
+            }
+        }
     }
 
     public function getActive()
