@@ -45,9 +45,9 @@ class ChatVersionService
         $chatVersion->delete();
 
         // If we just deleted the active chat, set any other chat to be active.
-        if($wasActive) {
+        if ($wasActive) {
             $anyOtherChatId = ChatVersion::first();
-            if($anyOtherChatId) {
+            if ($anyOtherChatId) {
                 $this->_setActive($anyOtherChatId);
             }
         }
@@ -55,20 +55,41 @@ class ChatVersionService
 
     public function copy($chatVersionId)
     {
+        // Copy the parent Chat Version Record
         $chatVersion = ChatVersion::find($chatVersionId);
         $newChatVersion = $chatVersion->replicate();
         $newChatVersion->name = $newChatVersion->name . self::COPY_SUFFIX;
         $newChatVersion->is_active = false;
         $newChatVersion->save();
 
+        // Array of old and new Chat Node IDs
+        $relinkChatNodeIds = array();
+
+        // Copy all related chat nodes
         foreach ($chatVersion->chatNodes as $chatNode) {
             $newChatNode = $chatNode->replicate();
             $newChatNode->chat_version_id = $newChatVersion->id;
             $newChatNode->save();
+
+            // Remember the updates IDs to relink related entities later
+            $relinkChatNodeIds[$chatNode->id] = $newChatNode->id;
+
+            // Copy chat buttons
             foreach ($chatNode->answerButtons as $answerButton) {
                 $newAnswerButton = $answerButton->replicate();
                 $newAnswerButton->chat_node_id = $newChatNode->id;
                 $newAnswerButton->save();
+            }
+        }
+
+        // Relink related items:
+        $newChatVersion = ChatVersion::find($newChatVersion->id);
+        foreach ($newChatVersion->chatNodes as $chatNode) {
+            $chatNode->not_recognized_chat_node_id = $relinkChatNodeIds[$chatNode->not_recognized_chat_node_id];
+            $chatNode->save();
+            foreach ($chatNode->answerButtons as $answerButtons) {
+                $answerButtons->child_chat_node_id = $relinkChatNodeIds[$answerButtons->child_chat_node_id];
+                $answerButtons->save();
             }
         }
     }
