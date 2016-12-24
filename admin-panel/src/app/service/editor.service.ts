@@ -34,6 +34,11 @@ export class EditorService {
 
     getQuestions(chatVersion: number): Promise<QuestionList[]> {
         console.log(chatVersion);
+
+        // TODO: Rework it; it's only a quickfix.
+        this.chatVersion = chatVersion;
+        this.editorUrl = this.editorURL + this.chatVersion;
+
         let headers = new Headers({'Content-Type': 'application/json'});
         let options = new RequestOptions({headers: headers});
         return this.http.get(this.editorURL + chatVersion + '/questions', options)
