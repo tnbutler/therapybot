@@ -1,13 +1,12 @@
 <?php
 
-// Allow CORS
 header("Access-Control-Allow-Origin: *");
 header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Methods: PUT, DELETE, GET, POST, OPTIONS');
 
 // Browsers perform OPTION-calls before every actual call to check if cross-origin requests are allowed.
 // We catch them here, and return nothing.
 Route::options('/{any}', function () {
-    header('Access-Control-Allow-Methods: PUT, DELETE, GET, POST');
     return "";
 })->where('any', '.*');
 
