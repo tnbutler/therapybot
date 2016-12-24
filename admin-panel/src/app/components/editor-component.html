@@ -11,9 +11,9 @@
     <h1>Chat Editor</h1>
     <hr>
     <div class="btn-group-lg">
-        <button class="btn btn-primary" [routerLink]="['/chat-picker']">Back</button>
+        <button class="btn btn-primary" [routerLink]="['/chat-picker']">← Back</button>
         <button class="btn btn-primary" data-toggle="modal" data-target="#newQuestionDetails"
-                (click)="selectedQuestion = newQuestion; questionValue = ''">New Question
+                (click)="selectedQuestion = newQuestion; questionValue = ''">Add question
         </button>
     </div>
     <div class="column-left">
@@ -27,16 +27,16 @@
                             {{list.question_text}}</label>
                     </div>
                     <div class="btn-group-sm pull-right ruleBtn">
-                        <button class="btn btn-primary"
-                                (click)="selectedQuestion = list; hiddenRule = false; getRules(list.id);">
-                            View rules
-                        </button>
                         <button class="btn btn-primary" data-toggle="modal" data-target="#questionDetails"
                                 (click)="selectedQuestion = list; getQuestion(); hiddenRule = false; getRules(list.id);">
                             Edit
                         </button>
                         <button class="btn btn-primary" data-toggle="modal" data-target="#deleteQuestionModal"
                                 (click)="selectedQuestion = list">Delete
+                        </button>
+                        <button class="btn btn-primary"
+                                (click)="selectedQuestion = list; hiddenRule = false; getRules(list.id);">
+                            Buttons →
                         </button>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
             <div class="panel panel-default rulePanel" [style.margin-top]="">
                 <div class="row-fluid boxMsg">
                     <button class="btn btn-primary btn-lg" data-toggle="modal"
-                            data-target="#newRuleDetails" (click)="ruleValue = ''">New Rule
+                            data-target="#newRuleDetails" (click)="ruleValue = ''">Add button
                     </button>
                 </div>
                 <div *ngFor="let rule of rulesList">
@@ -92,19 +92,19 @@
                     <div class="row questionModal">
                         <div class="form-group">
                             <form #topicForm="ngForm" id="sendEditForm" novalidate autocomplete="off">
-                                <label>You can use system variables in the text:</label><br/>
+                                <label>Question text (you can use system variables in the text)</label><br/>
                                 <textarea type="text" class="form-control set-width" id="addQuestion"
                                           [(ngModel)]="questionValue"
                                           name="addQuestion"
                                           #addQuestion="ngModel" required></textarea><br/>
                             </form>
                         </div>
-                        <label>Use answer to set system variable</label><br/>
+                        <label>Use the answer to set system variable</label><br/>
                         <select class="form-control set-width" [(ngModel)]="new_variable_id">
                             <option></option>
                             <option *ngFor="let sysvar of sysVarsList" [ngValue]="sysvar.id"> {{sysvar.name}}</option>
                         </select>
-                        <label>Fallback question</label><br/>
+                        <label>Next question</label><br/>
                         <select class="form-control set-width" [(ngModel)]="new_fallbackQuestion">
                             <option *ngFor="let fb of questionList" [ngValue]="fb.id"> Q{{fb.id}}:
                                 {{fb.question_text}}
@@ -113,8 +113,7 @@
                         <div class="checkbox">
                             <label>
                                 <input type="checkbox" id="isStartCheck" value="option1" [(ngModel)]="NewisStartValue">
-                                This question is the start
-                                question
+                                Is the start question
                             </label>
                         </div>
                     </div>
@@ -145,10 +144,10 @@
                     </div>
                     <div class="modal-body">
                         <div class="row questionModal">
-                            <label>You can use system variables in the text:</label><br/>
+                            <label>Question text (you can use system variables in the text)</label><br/>
                             <textarea type="text" class="form-control set-width" value="{{question.question_text}}"
                                       #text></textarea><br/>
-                            <label>Use answer to set system variable</label><br/>
+                            <label>Use the answer to set system variable</label><br/>
                             <select class="form-control set-width" [(ngModel)]="variable_id"
                                     (ngModelChange)="checkModalChangeUserVars($event)">
                                 <option></option>
@@ -156,7 +155,7 @@
                                         [selected]="question.user_variable_id == sysvar.id"> {{sysvar.name}}
                                 </option>
                             </select>
-                            <label>Fallback question</label><br/>
+                            <label>The next question</label><br/>
                             <select class="form-control set-width" [(ngModel)]="fallbackQuestion">
                                 <option *ngFor="let fb of questionList" [ngValue]="fb.id"
                                         [selected]="question.not_recognized_chat_node_id == fb.id">
@@ -167,8 +166,7 @@
                                 <label>
                                     <input type="checkbox" id="isStartCheckEdit" [(ngModel)]="isStartValue"
                                            [checked]="question.is_start_node == 1">
-                                    This question is the start
-                                    question
+                                    is start question
                                 </label>
                             </div>
                         </div>
@@ -220,7 +218,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h3 class="modal-title" id="ruleLabel">Delete rule</h3>
+                        <h3 class="modal-title" id="ruleLabel">Delete button</h3>
                     </div>
                     <div class="modal-body">
                         <div class="row questionModal">
@@ -245,17 +243,17 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h2 class="modal-title" id="ruleDetailsLabel">Rule details</h2>
+                        <h2 class="modal-title" id="ruleDetailsLabel">Button details</h2>
                     </div>
                     <div class="modal-body">
                         <div class="row questionModal">
                             <div class="form-group btn-editor-mrg">
-                                <label>Button Caption</label>
+                                <label>Caption</label>
                                 <input type="text" class="form-control" placeholder="" value="{{rule.text}}"
                                        #buttonCaption>
                             </div>
 
-                            <label>Target Question</label>
+                            <label>Target question</label>
                             <br/>
                             <select class="form-control boxMrg set-width" [(ngModel)]="target_id" #target="ngModel">
                                 <option *ngFor="let target of questionList; let ind = index;" [ngValue]=target.id
@@ -300,20 +298,20 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h2 class="modal-title" id="newRuleDetailsLabel">New rule details</h2>
+                        <h2 class="modal-title" id="newRuleDetailsLabel">New button details</h2>
                     </div>
                     <div class="modal-body">
                         <div class="row questionModal">
                             <div class="form-group">
                                 <form #topicForm="ngForm" id="newRule" novalidate autocomplete="off">
-                                    <label>Button Caption</label><br/>
+                                    <label>Caption</label><br/>
                                     <input type="text" class="form-control set-width" id="addRule"
                                            [(ngModel)]="ruleValue"
                                            name="addRule"
                                            #buttonCaption="ngModel" required><br/>
                                 </form>
                             </div>
-                            <label class="pull-left">Target Question</label><br/>
+                            <label class="pull-left">Target question</label><br/>
                             <select class="form-control boxMrg set-width" [(ngModel)]="new_target_id">
                                 <option *ngFor="let target of questionList" [ngValue]=target.id>
                                     Q{{target.id}}: {{target.question_text}}
@@ -328,7 +326,7 @@
                             <div class="checkbox pull-right">
                                 <label>
                                     <input type="checkbox" id="isVisibleNew" value="0" [(ngModel)]="newIsVisible">
-                                    Is visible
+                                    is visible
                                 </label>
                             </div>
                         </div>

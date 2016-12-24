@@ -12,7 +12,7 @@
         <h1>Chats</h1>
         <hr>
         <div class="btn-group-lg">
-            <button class="btn btn-primary" [routerLink]="['/main']">Back</button>
+            <button class="btn btn-primary" [routerLink]="['/main']">← Back</button>
             <button class="btn btn-primary btn-lg" data-toggle="modal"
                     data-target="#addChat" (click)="replyValue = ''">Add Chat
             </button>
@@ -27,12 +27,7 @@
                     </div>
                     <div class="btn-group-sm pull-right ruleBtn">
                         <button class="btn btn-primary" (click)="selectedChat = list; copyVersion();">
-                            Make copy
-                        </button>
-                        <button class="btn btn-primary"
-                                [routerLink]="['/editor', list.id]"
-                                (click)="selectedChat = list">
-                            Edit chat
+                            Copy
                         </button>
                         <button class="btn btn-primary" data-toggle="modal"
                                 data-target="#editChat"
@@ -42,6 +37,11 @@
                         <button class="btn btn-primary" data-toggle="modal"
                                 data-target="#deleteModal" (click)="selectedChat = list;">
                             Delete
+                        </button>
+                        <button class="btn btn-primary"
+                                [routerLink]="['/editor', list.id]"
+                                (click)="selectedChat = list">
+                            Questions →
                         </button>
                     </div>
                 </div>
