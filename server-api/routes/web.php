@@ -67,6 +67,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'AdminPanel'], function () {
                 });
             });
         });
+
         Route::get('uservars', 'UserVarsController@index');
         Route::get('dictionaries', 'DictionaryGroupsController@index');
     });
