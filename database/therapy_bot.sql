@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 19, 2016 at 09:23 AM
+-- Generation Time: Dec 24, 2016 at 01:20 PM
 -- Server version: 5.6.26-log
 -- PHP Version: 5.6.12
 
@@ -56,7 +56,7 @@ INSERT INTO `answer_buttons` (`id`, `chat_node_id`, `text`, `child_chat_node_id`
 (18, 6, 'Yes', 7, 1, 1, 1),
 (19, 6, 'No', 3, 2, 1, 2),
 (20, 2, 'HELP', 3, 6, 0, 3),
-(21, 9, 'About me', 8, 1, 0, NULL),
+(21, 9, 'About me', 8, 1, 1, NULL),
 (22, 9, 'What can I help with?', 10, 1, 1, NULL),
 (23, 9, 'Let''s get started!', 1, 1, 1, NULL),
 (24, 10, 'MOOD CHECK MODULE', 1, 1, 1, NULL);
@@ -119,7 +119,7 @@ INSERT INTO `chat_nodes` (`id`, `chat_version_id`, `display_order`, `question_te
 (5, 1, 999, 'Cool - and on a scale from 1 to 5, how intensely are you feeling [@2@]?', 3, 0, 10),
 (6, 1, 999, 'So, you are feeling [@2@] at an intensity of [@3@] out of 5?', NULL, 0, 10),
 (7, 1, 999, 'Thanks [@1@]! You''ve now completed your MOOD CHECK. Tracking your mood over time can be a powerful tool to help improve your mood.', NULL, 0, 9),
-(8, 1, 2, 'Here will be so brief information about me. But now it''s not.', NULL, 0, 9),
+(8, 1, 2, 'Here will be brief information about me. But now it''s not.', NULL, 0, 9),
 (9, 1, 1, 'Hi, I''m TherapyBot!', NULL, 1, 9),
 (10, 1, 3, 'Here is list of modules. And we have only one for now!', NULL, 0, 10);
 
@@ -131,16 +131,18 @@ INSERT INTO `chat_nodes` (`id`, `chat_version_id`, `display_order`, `question_te
 
 CREATE TABLE IF NOT EXISTS `chat_versions` (
   `id` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `create_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `name` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `is_active` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `chat_versions`
 --
 
-INSERT INTO `chat_versions` (`id`, `title`, `create_at`) VALUES
-(1, 'Initial MOOD CHECK MODULE.', '2016-12-09 10:07:16');
+INSERT INTO `chat_versions` (`id`, `name`, `created_at`, `updated_at`, `is_active`) VALUES
+(1, 'MOOD CHECK MODULE', '2016-12-09 10:07:16', '2016-12-24 09:17:33', 1);
 
 -- --------------------------------------------------------
 
