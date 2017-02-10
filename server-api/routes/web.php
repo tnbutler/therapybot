@@ -3,6 +3,8 @@
 header("Access-Control-Allow-Origin: *");
 header('Access-Control-Allow-Headers: Content-Type');
 header('Access-Control-Allow-Methods: PUT, DELETE, GET, POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, X-Auth-Token, Authorization, X-CSRF-TOKEN , Origin, Accept ' );  //X-CSRF-TOKEN: ��. VerifyCsrfToken
+
 
 // Browsers perform OPTION-calls before every actual call to check if cross-origin requests are allowed.
 // We catch them here, and return nothing.
@@ -17,16 +19,24 @@ Route::get('/', function () {
 // Demo interface API requests
 Route::match(['get', 'post'], 'demoApi', 'ApiAdapters\DemoController@processWebHookCall');
 
+// Facebook messenger
+Route::match(['get', 'post'], 'fb', 'FbController@messenger');
+
+// Twilio sms client
+
+Route::match(['get', 'post'], 'twilio', 'TwilioController@messenger');
+
+
 // Admin panel API requests
 Route::group(['prefix' => 'admin', 'namespace' => 'AdminPanel'], function () {
 
     Route::group(['prefix' => 'versions'], function () {
-        Route::get('', 'ChatVersionController@index');
-        Route::get('{chatVersionId}', 'ChatVersionController@index');
-        Route::post('', 'ChatVersionController@create');
-        Route::post('copy/{chatVersionId}', 'ChatVersionController@copy');
-        Route::put('{chatVersionId}', 'ChatVersionController@update');
-        Route::delete('{chatVersionId}', 'ChatVersionController@delete');
+//        Route::get('', 'ChatVersionController@index');
+//        Route::get('{chatVersionId}', 'ChatVersionController@index');
+//        Route::post('', 'ChatVersionController@create');
+        Route::post('copy/{chatVersionId}', 'ChatVersionControllerObj@copy');
+//        Route::put('{chatVersionId}', 'ChatVersionController@update');
+//        Route::delete('{chatVersionId}', 'ChatVersionController@delete');
     });
 
     Route::group(['prefix' => 'reports'], function () {

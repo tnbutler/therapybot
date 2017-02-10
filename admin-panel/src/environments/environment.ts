@@ -4,5 +4,13 @@
 // The list of which env maps to which file can be found in `angular-cli.json`.
 
 export const environment = {
-  production: false
+  
+  production: false,
+
+  API_URL: "https://api.therapybot.io",
+  API_REMEMBER_ME: true,
+
+  API_NOTIFICATION: false, // true;
+  API_NOTIFICATION_INTERVAL: 30,    // sec
+
 };

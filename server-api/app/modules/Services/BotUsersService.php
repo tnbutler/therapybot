@@ -18,6 +18,19 @@ class BotUsersService
         return $botUser;
     }
 
+    public function getOrCreateFbUser($fb_id)
+    {
+        $user = BotUser::where('fb_id',$fb_id)->first();
+        if ($user) {
+            return $user;
+        }
+
+        $botUser = new BotUser;
+        $botUser->fb_id = $fb_id;
+        $botUser->save();
+        return $botUser;
+    }
+
     public function setName($userId, $name)
     {
         $user = BotUser::find($userId);

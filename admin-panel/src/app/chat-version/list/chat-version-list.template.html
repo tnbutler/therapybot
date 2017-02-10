@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="../../../assets/js/bootstrap.min.js"></script>
+    <title>Chat Editor</title>
+</head>
+<body class="bodyEditor">
+<div id="main">
+    <div class="column-left">
+        <h1>Chats</h1>
+        <hr>
+        <div class="btn-group-lg">
+            <button class="btn btn-primary" [routerLink]="['../chat_dashboard']">← Back</button>
+            <button class="btn btn-primary btn-lg" (click)="addChat()">Add Chat
+            </button>
+            <button class="btn btn-primary btn-lg" [routerLink]="['../global_variable']">Global variables
+            </button>
+        </div>
+        <br/>
+        <div class="btn-group pull-xs-left pull-md-right">
+            <input class="form-control form-control-sm width-200 " [formControl]="searchControl" type="text" placeholder="Search ...">
+        </div>
+        <header id="widget-email-header" class="pull-left">
+
+            <div class="pagination-legend">{{showFromTo()}} chats</div>
+            <pagination *ngIf="serviceItems.paging"
+                        class="pagination-sm pagination-list pull-right"
+                        [(ngModel)]="serviceItems.page"
+                        [totalItems]="serviceItems.total"
+                        [itemsPerPage]="serviceItems.per_page"
+                        [maxSize]="serviceItems.maxSize"
+                        [boundaryLinks]="true"
+                        [rotate]="false"
+                        (pageChanged)="onPageChange(serviceItems, $event)"
+                        (numPages)="numPages = $event"
+                        pageBtnClass="page-item">
+            </pagination>
+        </header>
+        <br/>
+        <div *ngFor="let list of data">
+            <div class="panel panel-default questionPanel pull-left"
+                 [style.background-color]="selectedColor(list.is_active)">
+                <div class="container-fluid">
+                    <div class="row-fluid">
+                        <label class="lblMrg">{{list.name}}</label>
+                    </div>
+                    <div class="btn-group-sm pull-right ruleBtn">
+                        <button class="btn btn-primary" (click)="copy(list.id)">
+                            Copy
+                        </button>
+                        <button class="btn btn-primary" [routerLink]="[list.id]" (click)="clickItem(list);">
+                            Edit
+                        </button>
+                        <button class="btn btn-primary" (click)="deleteItem(list.id)">
+                            Delete
+                        </button>
+                        <button class="btn btn-primary" [routerLink]="['../question_editor',list.id]" (click)="selectChat(list.name)">
+                            Questions →
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

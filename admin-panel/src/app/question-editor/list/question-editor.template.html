@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="../../../assets/js/bootstrap.min.js"></script>
+    <title>Editor</title>
+</head>
+<body class="bodyEditor">
+<div class="loader" id="loader"></div>
+<div id="main">
+    <h1>Chat Editor - {{chatName}}</h1>
+    <hr>
+    <div class="btn-group-lg">
+        <button class="btn btn-primary" [routerLink]="['../../chat_version']">← Back</button>
+        <button class="btn btn-primary" [routerLink]="['../../question_detail','new']">Add question</button>
+        <button class="btn btn-primary" [routerLink]="['../../local_variable']">Local variables</button>
+        <!-- <button class="btn btn-primary btn-lg" [routerLink]="['../../dictionaries']">Dictionaries
+         </button> -->
+    </div>
+    <div class="column-left">
+        <br/>
+        <div *ngFor="let list of questionList; let i = index;" id="for">
+            <div class="panel panel-default questionPanel pull-left" id="questionPanel"
+                 [style.background-color]="Color(list.is_start_node,list.id)">
+                <div class="container-fluid">
+                    <div class="row-fluid">
+                        <label class="lblMrg">Q{{list.id}}:
+                            {{list.question_text}}</label>
+                    </div>
+                    <div class="btn-group-sm pull-right ruleBtn">
+                        <button class="btn btn-primary" [routerLink]="['../../question_detail',list.id]">
+                            Edit
+                        </button>
+                        <button class="btn btn-primary"
+                                (click)="selectedQuestion = list; deleteQuestion();">Delete
+                        </button>
+                        <button class="btn btn-primary"
+                                (click)="selectedQuestion = list; hiddenRule = false; selectQuestion(); ">
+                            Buttons →
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <rules-editor *ngIf="selectedQuestion" [selectQuestion]="selectedQuestion.id"></rules-editor>
+</div>
+</body>

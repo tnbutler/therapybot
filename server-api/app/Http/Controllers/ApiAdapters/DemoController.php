@@ -29,9 +29,13 @@ class DemoController extends Controller
         $chatVersionService = new ChatVersionService();
         $activeChatVersion = $chatVersionService->getActive();
         $userResponse = new UserResponse($message, $buttonId, $activeChatVersion);
+
+
+
         $apiRequestProcessor = new ApiRequestProcessor($user);
         $response = $apiRequestProcessor->processRequest($userResponse, $buttonId);
 
+        $response->photo = $activeChatVersion->photo;
         // Send bot's answer
         return $this->_formatResponse($response);
     }
@@ -47,7 +51,8 @@ class DemoController extends Controller
         }
 
         $dataToOutput = array(
-            'user' => $apiResponse->getUser(),
+            'user' => $apiResponse->getUser()->id,
+            'photo' => $apiResponse->photo,
             'message' => $apiResponse->getMessage(),
             'buttons' => $answerButtonsFormatted);
 

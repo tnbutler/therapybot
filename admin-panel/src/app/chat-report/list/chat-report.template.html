@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="../../../assets/js/bootstrap.min.js"></script>
+    <title>Report</title>
+</head>
+<body class="bodyEditor">
+<div class="loader" id="loader"></div>
+<div id="main">
+    <div class="column-left">
+        <h1>Report</h1>
+        <hr>
+        <button class="btn btn-primary btn-lg" [routerLink]="['../chat_dashboard']">← Back</button>
+        <table class="table" style="text-align: left;">
+            <thead class="text-center">
+            <tr>
+                <th>Date</th>
+                <th>User name</th>
+                <th>&#64;Variable&#64;</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let report of reportList;">
+                <td>{{report.DATE_CREATED}}</td>
+                <td>{{report.USER_NAME}}</td>
+
+                <td>
+                    <table style="width: 200px;">
+                        <tbody>
+                        <tr *ngFor="let VAR of report.VARS | keys">
+                            <td style="text-align: left">{{VAR}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td>
+                    <table style="width: 200px;">
+                        <tbody>
+                        <tr *ngFor="let VAR of report.VARS | keys">
+                            <td style="text-align: left">{{report.VARS[VAR]}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

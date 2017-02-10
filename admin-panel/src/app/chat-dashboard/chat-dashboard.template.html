@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+</head>
+<body class="bodyEditor">
+<div class="loader" id="loader"></div>
+<div id="main">
+    <div class="column-left">
+        <h1>Dashboard</h1>
+        <hr>
+        <div class="btn-group-lg">
+            <button class="btn btn-primary" [routerLink]="['../chat']">
+                Run chat
+            </button>
+            <button class="btn btn-primary" [routerLink]="['../chat_version']">
+                Chat editor
+            </button>
+            <button class="btn btn-primary" [routerLink]="['../chat_report']">
+                Report
+            </button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

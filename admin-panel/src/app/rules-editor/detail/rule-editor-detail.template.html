@@ -1,0 +1,50 @@
+<div class="loader" id="loader"></div>
+<div class="pad" id="main">
+
+    <h2>Button details</h2>
+    <div class="row questionModal">
+        <div class="form-group btn-editor-mrg">
+            <label>Caption</label>
+            <input type="text" class="form-control" placeholder="" value="{{rule.text}}"
+                   #buttonCaption>
+        </div>
+
+        <label>Target question</label>
+        <br/>
+        <select class="form-control boxMrg set-width" [(ngModel)]="target_id" #target="ngModel">
+            <option *ngFor="let target of questionList; let ind = index;" [ngValue]=target.id
+                    [selected]="target.id == rule.child_chat_node_id">
+                {{rule.child_chat_node_id}}
+                Q{{target.id}}: {{target.question_text}}
+            </option>
+        </select>
+
+        <label>Related keywords dictionary</label><br/>
+        <select class="form-control boxMrg set-width" [(ngModel)]="dictionary_id"
+                (ngModelChange)="checkModalChangeDict($event)">
+            <option></option>
+            <option *ngFor="let dict of dictList" [ngValue]="dict.id"
+                    [selected]="rule.dictionary_group_id == dict.id"> {{dict.name}}
+            </option>
+        </select>
+        <div class="checkbox pull-right">
+            <label>
+                <input type="checkbox" id="isVisible" value="" [(ngModel)]="isVisible"
+                       [checked]="rule.is_visible == 1">
+                Is visible
+            </label>
+        </div>
+    </div>
+    <div *ngIf="newRule">
+        <button type="button" class="btn btn-primary pull-right" (click)="addNewRule(buttonCaption.value,
+                    target_id,isVisible,dictionary_id);">Add
+        </button>
+        <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px" (click)="onBack()">Cancel</button>
+    </div>
+    <div *ngIf="!newRule">
+        <button type="button" class="btn btn-primary pull-right" (click)="updateRule(buttonCaption.value,
+                    target_id,isVisible,dictionary_id);">Save
+        </button>
+        <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px" (click)="onBack()">Cancel</button>
+    </div>
+</div>

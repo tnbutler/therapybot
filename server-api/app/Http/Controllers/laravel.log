@@ -1,0 +1,339 @@
+[2017-02-05 11:02:56] local.INFO: message: Array
+(
+    [sender] => Array
+        (
+            [id] => 1199031033545339
+        )
+
+    [recipient] => Array
+        (
+            [id] => 183246065485521
+        )
+
+    [timestamp] => 1486292575854
+    [message] => Array
+        (
+            [quick_reply] => Array
+                (
+                    [payload] => 21
+                )
+
+            [mid] => mid.1486292575854:60d3d9d253
+            [seq] => 309
+            [text] => About me
+        )
+
+)
+  
+[2017-02-05 11:36:16] local.INFO: message: Array
+(
+    [sender] => Array
+        (
+            [id] => 1199031033545339
+        )
+
+    [recipient] => Array
+        (
+            [id] => 183246065485521
+        )
+
+    [timestamp] => 1486294576160
+    [message] => Array
+        (
+            [mid] => mid.1486294576160:89e4fc7d85
+            [seq] => 313
+            [text] => 123
+        )
+
+)
+  
+[2017-02-05 11:42:24] local.INFO: message: Array
+(
+    [sender] => Array
+        (
+            [id] => 1199031033545339
+        )
+
+    [recipient] => Array
+        (
+            [id] => 183246065485521
+        )
+
+    [timestamp] => 1486294943527
+    [message] => Array
+        (
+            [quick_reply] => Array
+                (
+                    [payload] => 21
+                )
+
+            [mid] => mid.1486294943527:bf6b37e163
+            [seq] => 317
+            [text] => About me
+        )
+
+)
+  
+[2017-02-05 11:42:24] local.INFO: quick reply: 21  
+[2017-02-05 11:42:36] local.INFO: message: Array
+(
+    [sender] => Array
+        (
+            [id] => 1199031033545339
+        )
+
+    [recipient] => Array
+        (
+            [id] => 183246065485521
+        )
+
+    [timestamp] => 1486294955841
+    [message] => Array
+        (
+            [mid] => mid.1486294955841:b9093c5557
+            [seq] => 321
+            [text] => test
+        )
+
+)
+  
+[2017-02-05 11:42:41] local.INFO: message: Array
+(
+    [sender] => Array
+        (
+            [id] => 1199031033545339
+        )
+
+    [recipient] => Array
+        (
+            [id] => 183246065485521
+        )
+
+    [timestamp] => 1486294960939
+    [message] => Array
+        (
+            [quick_reply] => Array
+                (
+                    [payload] => 22
+                )
+
+            [mid] => mid.1486294960939:30e0872247
+            [seq] => 325
+            [text] => What can I help with...
+        )
+
+)
+  
+[2017-02-05 11:42:41] local.INFO: quick reply: 22  
+[2017-02-05 11:42:51] local.INFO: message: Array
+(
+    [sender] => Array
+        (
+            [id] => 1199031033545339
+        )
+
+    [recipient] => Array
+        (
+            [id] => 183246065485521
+        )
+
+    [timestamp] => 1486294970913
+    [message] => Array
+        (
+            [quick_reply] => Array
+                (
+                    [payload] => 24
+                )
+
+            [mid] => mid.1486294970913:7fcb24ce33
+            [seq] => 329
+            [text] => MOOD CHECK MODULE
+        )
+
+)
+  
+[2017-02-05 11:42:51] local.INFO: quick reply: 24  
+[2017-02-05 11:43:11] local.INFO: message: Array
+(
+    [sender] => Array
+        (
+            [id] => 1199031033545339
+        )
+
+    [recipient] => Array
+        (
+            [id] => 183246065485521
+        )
+
+    [timestamp] => 1486294983297
+    [message] => Array
+        (
+            [mid] => mid.1486294983297:809a8e4a81
+            [seq] => 333
+            [text] => Leon
+        )
+
+)
+  
+[2017-02-05 11:43:23] local.INFO: message: Array
+(
+    [sender] => Array
+        (
+            [id] => 1199031033545339
+        )
+
+    [recipient] => Array
+        (
+            [id] => 183246065485521
+        )
+
+    [timestamp] => 1486295002777
+    [message] => Array
+        (
+            [quick_reply] => Array
+                (
+                    [payload] => 5
+                )
+
+            [mid] => mid.1486295002777:cfa701f192
+            [seq] => 337
+            [text] => anxious
+        )
+
+)
+  
+[2017-02-05 11:43:23] local.INFO: quick reply: 5  
+[2017-02-05 11:43:29] local.INFO: message: Array
+(
+    [sender] => Array
+        (
+            [id] => 1199031033545339
+        )
+
+    [recipient] => Array
+        (
+            [id] => 183246065485521
+        )
+
+    [timestamp] => 1486295008905
+    [message] => Array
+        (
+            [quick_reply] => Array
+                (
+                    [payload] => 6
+                )
+
+            [mid] => mid.1486295008905:160b10a745
+            [seq] => 341
+            [text] => Yes
+        )
+
+)
+  
+[2017-02-05 11:43:29] local.INFO: quick reply: 6  
+[2017-02-05 11:43:36] local.INFO: message: Array
+(
+    [sender] => Array
+        (
+            [id] => 1199031033545339
+        )
+
+    [recipient] => Array
+        (
+            [id] => 183246065485521
+        )
+
+    [timestamp] => 1486295015406
+    [message] => Array
+        (
+            [quick_reply] => Array
+                (
+                    [payload] => 12
+                )
+
+            [mid] => mid.1486295015406:bf95704d85
+            [seq] => 345
+            [text] => 5
+        )
+
+)
+  
+[2017-02-05 11:43:36] local.INFO: quick reply: 12  
+[2017-02-05 11:43:40] local.INFO: message: Array
+(
+    [sender] => Array
+        (
+            [id] => 1199031033545339
+        )
+
+    [recipient] => Array
+        (
+            [id] => 183246065485521
+        )
+
+    [timestamp] => 1486295019816
+    [message] => Array
+        (
+            [quick_reply] => Array
+                (
+                    [payload] => 18
+                )
+
+            [mid] => mid.1486295019816:0cbf7c9040
+            [seq] => 349
+            [text] => Yes
+        )
+
+)
+  
+[2017-02-05 11:43:40] local.INFO: quick reply: 18  
+[2017-02-05 11:43:57] local.INFO: message: Array
+(
+    [sender] => Array
+        (
+            [id] => 1199031033545339
+        )
+
+    [recipient] => Array
+        (
+            [id] => 183246065485521
+        )
+
+    [timestamp] => 1486295037238
+    [message] => Array
+        (
+            [mid] => mid.1486295037238:9d2930bc40
+            [seq] => 353
+            [text] => 123
+        )
+
+)
+  
+[2017-02-05 11:44:18] local.INFO: message: Array
+(
+    [sender] => Array
+        (
+            [id] => 1199031033545339
+        )
+
+    [recipient] => Array
+        (
+            [id] => 183246065485521
+        )
+
+    [timestamp] => 1486295058671
+    [message] => Array
+        (
+            [quick_reply] => Array
+                (
+                    [payload] => 23
+                )
+
+            [mid] => mid.1486295058671:ce35d22986
+            [seq] => 357
+            [text] => Let's get started!
+        )
+
+)
+  
+[2017-02-05 11:44:18] local.INFO: quick reply: 23  

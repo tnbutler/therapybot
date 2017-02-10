@@ -22,6 +22,6 @@ class ApiRequestProcessor
         $responseMessage = $nextChatNode->getTextWithUserVariableValues($this->botUser);
         $answerButtons = $nextChatNode->answerButtons->where("is_visible", "1");
 
-        return new ApiResponse($this->botUser->id, $responseMessage, $answerButtons);
+        return new ApiResponse($this->botUser, $responseMessage, $answerButtons);
     }
 }

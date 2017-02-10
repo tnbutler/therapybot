@@ -1,0 +1,31 @@
+<br/>
+<div class="column-right column-rightPadding" [hidden]="hiddenRule">
+    <div class="panel panel-default rulePanel" [style.margin-top]="">
+        <div class="row-fluid boxMsg">
+            <button class="btn btn-primary btn-lg" [routerLink]="['../../rule_detail','new']">Add button
+            </button>
+        </div>
+        <div *ngFor="let rule of rulesList">
+            <div class="panel panel-default questionPadding">
+                <div class="container-fluid">
+                    <div class="row-fluid">
+                        <div class="col-md-3">
+                            <label class="btn-caption">{{rule.button_caption}} </label>
+                        </div>
+                        <div class="col-md-5">
+                            <label> {{rule.target_question_caption}} </label>
+                        </div>
+                        <div class="btn-group-sm pull-right">
+                            <button class="btn btn-primary" [routerLink]="['../../rule_detail',rule.id]"
+                                    (click)="selectedRule = rule;">Edit
+                            </button>
+                            <button class="btn btn-primary"
+                                    (click)="selectedRule = rule; deleteRule();">Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

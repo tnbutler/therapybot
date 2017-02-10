@@ -1,10 +1,10 @@
-import { TherapybotAdminPage } from './app.po';
+import { TpaPage } from './app.po';
 
-describe('therapybot-admin App', function() {
-  let page: TherapybotAdminPage;
+describe('tpa App', function() {
+  let page: TpaPage;
 
   beforeEach(() => {
-    page = new TherapybotAdminPage();
+    page = new TpaPage();
   });
 
   it('should display message saying app works', () => {

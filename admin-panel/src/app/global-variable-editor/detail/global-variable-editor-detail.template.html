@@ -1,0 +1,43 @@
+<div class="pad">
+<h1>Global user variable detail</h1>
+<form #form="ngForm"
+      data-parsley-required-message="Required field"
+      class="form-horizontal form-label-left parsleyjs"
+      data-parsley-priority-enabled="false"
+      data-parsley-focus="first"
+      novalidate="novalidate">
+    <div class="tab-content mb-lg" id="myTabContent">
+        <!--  data-parsley-required-message="Required field"  -->
+        <!-- FIRST PANE -->
+        <div role="tabpanel" class="tab-pane active in clearfix" id="record" aria-labelledby="record-tab" aria-expanded="true">
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <section class="widget bg-body-light" widget>
+                        <fieldset>
+                            <legend></legend>
+                            <div class="form-group row">
+                                <label for="name" class="col-sm-1 col-md-1  col-form-label text-md-right">Name</label>
+                                <div class="col-sm-11 col-md-11">
+                                    <input type="text" id="name" class="form-control form-control-sm  pull-xs-left" name="name"
+                                           placeholder="" [(ngModel)]="item.name"
+                                           required="required"
+                                           data-parsley-maxlength="50"
+                                           data-parsley-trigger="change">
+                                </div>
+                            </div>
+                        </fieldset>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <!-- BUTTON FOOTER  -->
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn-rounded pull-right" (click)="onSubmitAndBack()">
+                &nbsp;&nbsp;Save&nbsp;&nbsp;</button>
+                <button type="button" class="btn btn-primary btn-rounded pull-right" style="margin-right: 5px" (click)="onBack()">
+                    &nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;&nbsp;</button>
+        </div>
+
+    </div>
+</form>
+</div>

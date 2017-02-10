@@ -1,6 +1,6 @@
 import { browser, element, by } from 'protractor';
 
-export class TherapybotAdminPage {
+export class TpaPage {
   navigateTo() {
     return browser.get('/');
   }

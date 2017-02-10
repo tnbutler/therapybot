@@ -1,0 +1,51 @@
+<div class="pad">
+    <div class="loader" id="loader"></div>
+    <div id="main">
+        <h1>Question {{question.id}}</h1>
+
+        <div class="row questionModal">
+            <label>Question text (to use variable in the text - use @VARIABLE_NAME@ syntax)</label><br/>
+            <textarea type="text" class="form-control set-width" value="{{question.question_text}}"
+                      #text></textarea><br/>
+            <label>Use the answer to set system variable</label><br/>
+            <select class="form-control set-width" [(ngModel)]="variable_id"
+                    (ngModelChange)="checkModalChangeUserVars($event)">
+                <option></option>
+                <option *ngFor="let sysvar of sysVarsList" [ngValue]="sysvar.id"
+                        [selected]="question.user_variable_id == sysvar.id"> {{sysvar.name}}
+                </option>
+            </select>
+            <label>The next question</label><br/>
+
+
+            <select class="form-control set-width" [(ngModel)]="fallbackQuestion">
+                <option *ngFor="let fb of questionList" [ngValue]="fb.id"
+                        [selected]="fb.id == question.not_recognized_chat_node_id">
+                    Q{{fb.id}}: {{fb.question_text}}
+                </option>
+            </select>
+
+
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="isStartCheckEdit" [(ngModel)]="isStartValue"
+                           [checked]="question.is_start_node == 1">
+                    is start question
+                </label>
+            </div>
+        </div>
+
+        <div *ngIf="newQuestion">
+            <button type="button" class="btn btn-primary pull-right"
+                    (click)="addNewQuestion(text.value,variable_id,fallbackQuestion,isStartValue);">Add
+            </button>
+            <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px" (click)="onBack()">Cancel</button>
+        </div>
+        <div *ngIf="!newQuestion">
+            <button type="button" class="btn btn-primary pull-right"
+                    (click)="updateQuestion(text.value,variable_id,fallbackQuestion,isStartValue);">Save
+            </button>
+            <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px" (click)="onBack()">Cancel</button>
+        </div>
+    </div>
+</div>

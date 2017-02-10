@@ -28,7 +28,10 @@ class ChatNode extends Model
 
     public function getTextWithUserVariableValues(BotUser $botUser)
     {
-        $userVariableValues = UserVariableValue::where('bot_users_id', $botUser->id)->orderBy('updated_at', 'desc')->get();
+//        $userVariableValues = UserVariableValue::where('bot_users_id', $botUser->id)->orderBy('updated_at', 'desc')->get();
+        $userVariableValues = UserVariableValue::where('bot_users_id', $botUser->id)
+            //->orWhere('')
+            ->orderBy('updated_at', 'desc')->get();
         $replaces = array();
         foreach ($userVariableValues as $userVariableValue) {
             $key =  self::SYS_VAR_PREFIX . $userVariableValue->user_variable_id . self::SYS_VAR_POSTFIX;
@@ -39,7 +42,9 @@ class ChatNode extends Model
 
     public function getTextWithUserVariableSysNames($reverseReplace)
     {
-        $userVariables = UserVariable::where('chat_version_id', $this->chat_version_id)->get();
+        $userVariables = UserVariable::where('chat_version_id', $this->chat_version_id)
+            ->orWhereNull('chat_version_id')  // global variables s
+            ->get();
         $replaces = array();
         foreach ($userVariables as $userVariable) {
             $friendlyValue = '@' . $userVariable->name . '@';

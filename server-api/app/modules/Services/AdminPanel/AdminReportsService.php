@@ -21,11 +21,23 @@ class AdminReportsService
             $userVariablesService = new UserVariablesService($botUser);
             $userVariableValues = $userVariablesService->getValues();
 
-            $reportLine = array('DATE_CREATED' => $botUser->created_at->format('d M Y - H:i:s'));
 
+            $reportVars = array();
             foreach($userVariableValues as $userVariableValue) {
-                $reportLine[$userVariableValue->userVariable->name] = $userVariableValue->value;
+                if ($userVariableValue->userVariable->id != $userVariablesService::USER_NAME_VARIABLE_ID) {
+                    $reportVars[$userVariableValue->userVariable->name] = $userVariableValue->value;
+                }
             }
+
+            $reportLine = array(
+                'DATE_CREATED' => $botUser->created_at->format('d M Y - H:i:s'),
+                'USER_NAME' => $botUser->name,
+                'VARS' => $reportVars
+                );
+
+            //foreach($userVariableValues as $userVariableValue) {
+            //    $reportLine[$userVariableValue->userVariable->name] = $userVariableValue->value;
+            //}
 
             $result[] = $reportLine;
         }

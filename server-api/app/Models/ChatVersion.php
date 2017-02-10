@@ -11,6 +11,11 @@ class ChatVersion extends Model
         return $this->hasMany('App\Models\ChatNode');
     }
 
+    public function localVariables()
+    {
+        return $this->hasMany('App\LocalVariable');
+    }
+
     protected static function boot()
     {
         parent::boot();

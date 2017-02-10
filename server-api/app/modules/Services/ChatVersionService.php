@@ -6,6 +6,8 @@ use App\Models\ChatVersion;
 use App\Modules\Services\AdminPanel\ChatNodeService;
 use Illuminate\Support\Facades\DB;
 
+
+
 class ChatVersionService
 {
     const COPY_SUFFIX = ' (Copy)';
@@ -84,6 +86,7 @@ class ChatVersionService
 
         // Relink related items:
         $newChatVersion = ChatVersion::find($newChatVersion->id);
+
         foreach ($newChatVersion->chatNodes as $chatNode) {
             $chatNode->not_recognized_chat_node_id = $relinkChatNodeIds[$chatNode->not_recognized_chat_node_id];
             $chatNode->save();
@@ -92,14 +95,23 @@ class ChatVersionService
                 $answerButtons->save();
             }
         }
-    }
 
+        // copy all local variables ++
+        foreach ($chatVersion->localVariables as $localVariable) {
+            $newLocalVariable = $localVariable->replicate();
+            $newLocalVariable->chat_version_id = $newChatVersion->id;
+            $newLocalVariable->is_system = false;
+            $newLocalVariable->save();
+        }
+    }
+    
     public function getActive()
     {
         return ChatVersion::where('is_active', 1)->first();
     }
 
-    private function _setActive(ChatVersion $chatVersion)
+//    private function _setActive(ChatVersion $chatVersion)
+    private function _setActive($chatVersion)
     {
         // Reset the flag for all the versions
         DB::table('chat_versions')->update(['is_active' => 0]);
@@ -108,5 +120,9 @@ class ChatVersionService
         DB::table('chat_versions')
             ->where('id', $chatVersion->id)
             ->update(['is_active' => 1]);
+    }
+    
+    public function setActiveVersion($chatVersion) {
+        $this->_setActive($chatVersion);
     }
 }

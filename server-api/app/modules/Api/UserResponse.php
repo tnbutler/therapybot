@@ -10,12 +10,14 @@ class UserResponse
     private $_message;
     private $_buttonId;
     private $_chatVersionId;
+    private $_photo;
 
     function __construct($message, $buttonId, ChatVersion $activeChatVersion)
     {
         $this->_message = $message;
         $this->_buttonId = $buttonId;
         $this->_chatVersionId = $activeChatVersion->id;
+        $this->_photo = $activeChatVersion->photo;
     }
 
     public function getChatVersionId()
@@ -27,6 +29,12 @@ class UserResponse
     {
         return $this->_message;
     }
+
+    public function getPhoto()
+    {
+        return $this->_photo;
+    }
+
 
     public function getButtonId()
     {

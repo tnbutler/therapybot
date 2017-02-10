@@ -1,7 +1,7 @@
 {
   "project": {
-    "version": "1.0.0-beta.21",
-    "name": "therapybot-admin"
+    "version": "1.0.0-beta.26",
+    "name": "tpa"
   },
   "apps": [
     {
@@ -18,10 +18,13 @@
       "prefix": "app",
       "mobile": false,
       "styles": [
-        "styles.css",
-	"../node_modules/bootstrap/dist/css/bootstrap.min.css"
+        "styles.scss",
+        "../node_modules/bootstrap/dist/css/bootstrap.min.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/jquery/dist/jquery.min.js",
+        "../node_modules/parsleyjs/dist/parsley.min.js"
+      ],
       "environments": {
         "source": "environments/environment.ts",
         "dev": "environments/environment.ts",
@@ -29,8 +32,6 @@
       }
     }
   ],
-  "addons": [],
-  "packages": [],
   "e2e": {
     "protractor": {
       "config": "./protractor.conf.js"
@@ -42,7 +43,7 @@
     }
   },
   "defaults": {
-    "styleExt": "css",
+    "styleExt": "scss",
     "prefixInterfaces": false,
     "inline": {
       "style": false,

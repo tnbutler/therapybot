@@ -1,15 +1,9 @@
 import { Component } from '@angular/core';
 
-import { UserMessageDataService } from './service/usermessagedata.service'
-import './rxjs-operators';
-
 @Component({
-  selector: 'my-app',
-  template: `
-
-	<router-outlet></router-outlet>
-  `,
-  providers: [UserMessageDataService]
+  selector: 'app-root',
+  templateUrl: 'app.component.html',
 })
-export class AppComponent  {
+export class AppComponent {
+
 }
